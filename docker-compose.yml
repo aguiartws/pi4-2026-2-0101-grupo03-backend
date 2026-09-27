@@ -1,0 +1,6 @@
+services:
+  server:
+    build: .
+    container_name: projeto-server
+    ports:
+      - "12345:12345"
