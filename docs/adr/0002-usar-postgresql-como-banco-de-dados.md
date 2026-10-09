@@ -8,6 +8,7 @@
 
 **Alternativas consideradas:**
 - MySQL: descartado por não trazer vantagem clara sobre o PostgreSQL para este projeto, que se beneficia de um banco com SQL mais completo e recursos avançados.
+- Banco em memória (H2) ou SQLite: descartado porque são pensados para testes ou uso local, e não representam bem um banco de servidor.
 - Banco NoSQL (por exemplo, MongoDB): descartado porque os dados do projeto tendem a ser relacionais e o grupo já trabalha com modelagem relacional.
 
 **Consequências:**

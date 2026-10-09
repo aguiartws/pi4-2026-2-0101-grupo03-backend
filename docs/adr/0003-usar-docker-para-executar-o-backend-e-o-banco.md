@@ -6,15 +6,11 @@
 
 **Decisão:** Usar o Docker para empacotar e executar o backend e o PostgreSQL em contêineres, orquestrados localmente com Docker Compose.
 
-
 **Alternativas consideradas:**
 - Instalar Java e PostgreSQL diretamente em cada máquina: descartado porque as versões e configurações divergem entre os integrantes e o passo a passo de instalação é longo e propenso a erro.
-- Máquina virtual: descartada por ser mais pesada, mais lenta para iniciar e mais difícil de versionar do que arquivos de configuração de contêiner.
-
+- Máquina virtual (por exemplo, VirtualBox): descartada por ser mais pesada, mais lenta para iniciar e mais difícil de versionar do que arquivos de configuração de contêiner.
 - Banco hospedado na nuvem compartilhado entre o grupo: descartado porque todos passariam a depender da mesma instância, com risco de um integrante sobrescrever os dados do outro e de dependência de internet.
 
 **Consequências:**
 - Positivas: todos executam o mesmo ambiente (mesma versão de Java e de PostgreSQL) a partir de arquivos versionados no repositório; subir o sistema completo passa a ser um único comando (`docker compose up`); um integrante novo começa a trabalhar sem instalar o banco manualmente.
-- Negativas: todos precisam instalar o Docker, que consome memória e disco e pode dar problemas em máquinas mais fracas ou em alguns sistemas operacionais; o grupo precisa aprender Dockerfile, Compose, volumes e redes; depurar dentro de contêineres é menos direto; é preciso configurar volumes para que os dados do banco não se percam ao acessar o docker novamente
-
-
+- Negativas: todos precisam instalar o Docker, que consome memória e disco e pode dar problemas em máquinas mais fracas ou em alguns sistemas operacionais; o grupo precisa aprender Dockerfile, Compose, volumes e redes; depurar dentro de contêineres é menos direto; é preciso configurar volumes para que os dados do banco não se percam ao recriar o contêiner.
