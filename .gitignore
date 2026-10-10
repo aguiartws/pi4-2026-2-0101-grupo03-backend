@@ -1,0 +1,22 @@
+# Build
+target/
+
+# Variáveis de ambiente locais (o modelo é o .env)
+.env
+
+# IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
