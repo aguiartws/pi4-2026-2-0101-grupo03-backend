@@ -1,30 +1,30 @@
 services:
   server:
     build: .
-    container_name: projeto-server
+    container_name: finduhouse-server
     ports:
-      - "12345:8080"
+      - "${API_PORT:-8081}:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/finduhouse
-      SPRING_DATASOURCE_USERNAME: finduhouse
-      SPRING_DATASOURCE_PASSWORD: finduhouse
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/${DB_NAME:-finduhouse}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-finduhouse}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-finduhouse}
     depends_on:
       database:
         condition: service_healthy
 
   database:
     image: postgres:16-alpine
-    container_name: projeto-database
+    container_name: finduhouse-database
     environment:
-      POSTGRES_DB: finduhouse
-      POSTGRES_USER: finduhouse
-      POSTGRES_PASSWORD: finduhouse
+      POSTGRES_DB: ${DB_NAME:-finduhouse}
+      POSTGRES_USER: ${DB_USER:-finduhouse}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-finduhouse}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U finduhouse -d finduhouse"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-finduhouse} -d ${DB_NAME:-finduhouse}"]
       interval: 5s
       timeout: 5s
       retries: 10
