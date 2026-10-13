@@ -24,7 +24,7 @@
 | :--- | :--- | :--- | :--- |
 | token | texto | sim | eyJhbGciOiJIUzI1NiJ9.exemplo |
 | usuarioId | inteiro | sim | 42 |
-| perfil | texto | sim | estudante |
+| perfil | um de: estudante, responsavel, admin | sim | estudante |
 
 ## Erros
 

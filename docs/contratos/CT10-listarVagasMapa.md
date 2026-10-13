@@ -28,7 +28,7 @@ Cada objeto `vaga` contém os seguintes campos:
 | `id` | inteiro | Sim | `1` |
 | `titulo` | texto | Sim | `Kitnet próxima à universidade` |
 | `endereco` | texto | Sim | `Rua das Flores, 100, Campinas` |
-| `preco` | decimal | Sim | `1200.00` |
+| `valorAluguel` | decimal | Sim | `1200.00` |
 | `latitude` | decimal | Sim | `-22.83365` |
 | `longitude` | decimal | Sim | `-47.05197` |
 

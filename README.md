@@ -10,3 +10,7 @@ Plataforma web que conecta estudantes universitários a moradias compatíveis �
 - Luis Filippi Aguiar da Rocha— @aguiartws
 - Maria Júlia Hofstetter Trevisan Pereira — @m7julia
 
+## Documentação
+- Visão geral e fluxos (repositório do frontend): https://github.com/aguiartws/pi4-2026-2-0101-grupo03-frontend/tree/main/docs/fluxos
+- Contratos: pasta docs/contratos deste repositório
+

@@ -4,11 +4,12 @@
 
 | Linha | Valor |
 | :--- | :--- |
+| **ID e nome** | CT5 - listarMinhasVagas |
 | **Fronteira** | HTTP |
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E3 |
-| **Como chamar** | GET /responsaveis/{responsavelId}/vagas |
+| **Como chamar** | GET /api/responsaveis/{responsavelId}/vagas |
 
 ## Entrada
 

@@ -4,6 +4,7 @@
 
 | Linha | Valor |
 | :--- | :--- |
+| **ID e nome** | CT4 - vaga |
 | **Fronteira** | Banco |
 | **Quem chama** | Backend |
 | **Quem responde** | Banco |
@@ -32,5 +33,5 @@
 
 | Quando | O que volta |
 | :--- | :--- |
-| responsavel_id não existe na tabela estudante | O banco recusa a gravação |
+| responsavel_id não existe na tabela usuario | O banco recusa a gravação |
 | Campos nulos | O banco recusa a gravação |

@@ -9,13 +9,13 @@
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E5 |
-| **Como chamar** | `GET /api/vagas?precoMaximo=1500&distanciaMaxima=5` |
+| **Como chamar** | `GET /api/vagas?valorAluguelMaximo=1500&distanciaMaxima=5` |
 
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| precoMaximo | decimal | sim | 1500.00 |
+| valorAluguelMaximo | decimal | sim | 1500.00 |
 | distanciaMaxima | decimal | sim | 5.0 |
 
 ## Saída
@@ -33,6 +33,8 @@
 | valorAluguel | decimal | sim | 1200.00 |
 | distanciaCampus | decimal | sim | 3.5 |
 | descricao | texto | não | Kitnet mobiliada para estudante |
+
+**Cálculo:** distanciaCampus é a distância em quilômetros entre a latitude/longitude da vaga (CT4) e o campus, calculada pelo Backend no momento da busca.
 
 ## Erros
 

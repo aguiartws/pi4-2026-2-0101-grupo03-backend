@@ -19,14 +19,14 @@ A entrada varia de acordo com a operação realizada.
 
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
-| `estudanteId` | inteiro | Sim | `42` |
-| `vagaId` | inteiro | Sim | `15` |
+| `estudante_id` | inteiro | Sim | `42` |
+| `vaga_id` | inteiro | Sim | `15` |
 
 **Operação 2 - Consultar favoritos**
 
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
-| `estudanteId` | inteiro | Sim | `42` |
+| `estudante_id` | inteiro | Sim | `42` |
 
 ## Saída
 
@@ -34,14 +34,14 @@ A entrada varia de acordo com a operação realizada.
 
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
-| `estudanteId` | inteiro | Sim | `42` |
-| `vagaId` | inteiro | Sim | `15` |
+| `estudante_id` | inteiro | Sim | `42` |
+| `vaga_id` | inteiro | Sim | `15` |
 
 **Operação 2 - Consultar favoritos**
 
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
-| `favoritos` | lista de (objeto vaga) | Sim | Lista de vagas favor itadas pelo estudante |
+| `favoritos` | lista de (objeto vaga) | Sim | Lista de vagas favoritadas pelo estudante |
 
 Cada objeto `vaga` pode conter:
 
@@ -50,7 +50,7 @@ Cada objeto `vaga` pode conter:
 | `id` | inteiro | Sim | `15` |
 | `titulo` | texto | Sim | `Kitnet próxima à universidade` |
 | `endereco` | texto | Sim | `Rua das Flores, 100, Campinas` |
-| `preco` | decimal | Sim | `1200.00` |
+| `valor_aluguel` | decimal | Sim | `1200.00` |
 
 ## Erros
 

@@ -4,11 +4,12 @@
 
 | Linha | Valor |
 | :--- | :--- |
+| **ID e nome** | CT1 - cadastrarPerfil |
 | **Fronteira** | HTTP |
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E1 |
-| **Como chamar** | POST /estudantes |
+| **Como chamar** | POST /api/estudantes |
 
 ## Entrada
 
@@ -17,6 +18,7 @@
 | nome | texto | sim | Ana Souza |
 | email | texto | sim | ana@puc-campinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
+| senha | texto | sim | MinhaSenha123 |
 | curso | texto | sim | Engenharia de Software |
 | orcamentoMin | decimal | sim | 800.00 |
 | orcamentoMax | decimal | sim | 1500.00 |
@@ -26,7 +28,7 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| idEstudante | inteiro | sim | 42 |
+| estudanteId | inteiro | sim | 42 |
 | nome | texto | sim | Ana Souza |
 | email | texto | sim | ana@puc-campinas.edu.br |
 | telefone | texto | sim | +5519999990000 |

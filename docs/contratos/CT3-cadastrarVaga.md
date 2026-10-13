@@ -4,11 +4,12 @@
 
 | Linha | Valor |
 | :--- | :--- |
+| **ID e nome** | CT3 - cadastrarVaga |
 | **Fronteira** | HTTP |
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E2 |
-| **Como chamar** | POST /vagas |
+| **Como chamar** | POST /api/vagas |
 
 ## Entrada
 

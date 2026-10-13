@@ -4,6 +4,7 @@
 
 | Linha | Valor |
 | :--- | :--- |
+| **ID e nome** | CT2 - estudante |
 | **Fronteira** | Banco |
 | **Quem chama** | Backend |
 | **Quem responde** | Banco |

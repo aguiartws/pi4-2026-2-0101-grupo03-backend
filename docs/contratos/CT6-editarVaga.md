@@ -4,24 +4,25 @@
 
 | Linha | Valor |
 | :--- | :--- |
+| **ID e nome** | CT6 - editarVaga |
 | **Fronteira** | HTTP |
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E3 |
-| **Como chamar** | PATCH /vagas/{idVaga} |
+| **Como chamar** | PATCH /api/vagas/{vagaId} |
 
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-|vagaId | inteiro | sim | 101 |
+| vagaId | inteiro | sim | 101 |
 | valorAluguel | decimal | sim | 1300.00 |
 
 ## Saída
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-|vagaId | inteiro | sim | 101 |
+| vagaId | inteiro | sim | 101 |
 | valorAluguel | decimal | sim | 1300.00 |
 | atualizadoEm | data e hora | sim | 2026-10-13T19:20:00 |
 
