@@ -14,14 +14,14 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| idVaga | inteiro | sim | 101 |
+|vagaId | inteiro | sim | 101 |
 | valorAluguel | decimal | sim | 1300.00 |
 
 ## Saída
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| idVaga | inteiro | sim | 101 |
+|vagaId | inteiro | sim | 101 |
 | valorAluguel | decimal | sim | 1300.00 |
 | atualizadoEm | data e hora | sim | 2026-10-13T19:20:00 |
 

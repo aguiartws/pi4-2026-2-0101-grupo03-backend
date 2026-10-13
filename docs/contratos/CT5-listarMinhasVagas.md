@@ -8,13 +8,13 @@
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E3 |
-| **Como chamar** | GET /responsaveis/{idResponsavel}/vagas |
+| **Como chamar** | GET /responsaveis/{responsavelId}/vagas |
 
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| idResponsavel | inteiro | sim | 7 |
+| responsavelId | inteiro | sim | 7 |
 
 ## Saída
 

@@ -23,7 +23,7 @@ Os campos gravados são os mesmos campos lidos.
 | `motivo` | um de: `informacao_falsa`, `golpe_financeiro`, `conteudo_inadequado`, `imovel_inexistente`, `outro` | Sim | `golpe_financeiro` |
 | `descricao` | texto | Sim | `O anúncio pede depósito de R$ 500 antes da visita` |
 | `status` | um de: `pendente`, `em_analise`, `revisada` | Sim | `pendente` |
-| `criada_em` | data e hora | Sim | `2026-10-13T19:20:00` |
+| `criado_em` | data e hora | Sim | `2026-10-13T19:20:00` |
 
 ## Saída
 

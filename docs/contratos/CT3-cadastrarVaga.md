@@ -14,7 +14,7 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| idResponsavel | inteiro | sim | 7 |
+| responsavelId | inteiro | sim | 7 |
 | titulo | texto | sim | Quarto individual próximo ao campus |
 | descricao | texto | sim | Quarto mobiliado, banheiro compartilhado |
 | endereco | texto | sim | Rua das Acácias, 123 |
@@ -28,7 +28,7 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| idVaga | inteiro | sim | 101 |
+|vagaId | inteiro | sim | 101 |
 | status | um de: ativa, em_analise, inativa | sim | ativa |
 | criadoEm | data e hora | sim | 2026-10-13T19:20:00 |
 
