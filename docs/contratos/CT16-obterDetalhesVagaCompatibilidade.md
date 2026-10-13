@@ -24,7 +24,7 @@
 |---|---|---|---|
 | `vagaId` | inteiro | Sim | `17` |
 | `nota` | inteiro | Sim | `85` |
-| `dimensoes` | lista de (objeto Dimensao) | Sim | Ver tabela abaixo |
+| `dimensoes` | lista de objeto Dimensao | Sim | Ver tabela abaixo |
 
 Cada objeto `Dimensao` contém os seguintes campos:
 

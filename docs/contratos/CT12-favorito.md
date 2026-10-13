@@ -41,7 +41,7 @@ A entrada varia de acordo com a operação realizada.
 
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
-| `favoritos` | lista de (objeto vaga) | Sim | Lista de vagas favoritadas pelo estudante |
+| `favoritos` | lista de objeto Vaga | Sim | Lista de vagas favoritadas pelo estudante |
 
 Cada objeto `vaga` pode conter:
 

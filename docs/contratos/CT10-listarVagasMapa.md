@@ -19,7 +19,7 @@ Não tem.
 
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
-| `vagas` | lista de (objeto vaga) | Sim | Lista de vagas disponíveis |
+| `vagas` | lista de objeto Vaga | Sim | Lista de vagas disponíveis |
 
 Cada objeto `vaga` contém os seguintes campos:
 

@@ -21,7 +21,7 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
-| `favoritos` | lista de (objeto vaga) | Sim | Lista de vagas salvas pelo estudante |
+| `favoritos` | lista de objeto Vaga | Sim | Lista de vagas salvas pelo estudante |
 
 Cada objeto `vaga` pode conter:
 

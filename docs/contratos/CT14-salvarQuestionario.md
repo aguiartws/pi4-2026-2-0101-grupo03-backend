@@ -16,7 +16,7 @@
 | Campo | Tipo | Obrigatório | Exemplo |
 |---|---|---|---|
 | `estudanteId` | inteiro | Sim | `42` |
-| `respostas` | objeto (Questionario) | Sim | Ver tabela abaixo |
+| `respostas` | objeto Questionario | Sim | Ver tabela abaixo |
 
 Cada objeto `Questionario` contém os seguintes campos:
 
