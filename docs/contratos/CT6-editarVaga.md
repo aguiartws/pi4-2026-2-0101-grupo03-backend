@@ -16,6 +16,7 @@
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
 | vagaId | inteiro | sim | 101 |
+| responsavelId | inteiro | sim | 7 |
 | valorAluguel | decimal | sim | 1300.00 |
 
 ## Saída

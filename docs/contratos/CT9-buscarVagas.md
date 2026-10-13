@@ -9,7 +9,7 @@
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E5 |
-| **Como chamar** | `GET /api/vagas?valorAluguelMaximo=1500&distanciaMaxima=5` |
+| **Como chamar** | GET /api/vagas?valorAluguelMaximo=1500&distanciaMaxima=5 (apenas vagas ativas) |
 
 ## Entrada
 
@@ -34,13 +34,13 @@
 | distanciaCampus | decimal | sim | 3.5 |
 | descricao | texto | não | Kitnet mobiliada para estudante |
 
-**Cálculo:** distanciaCampus é a distância em quilômetros entre a latitude/longitude da vaga (CT4) e o campus, calculada pelo Backend no momento da busca.
+**Cálculo:** distanciaCampus é a distância em quilômetros entre a latitude/longitude da vaga (CT4) e o campus, calculada pelo Backend no momento da busca. Apenas vagas com status `ativa` são consideradas.
 
 ## Erros
 
 | Quando | O que volta |
 | :--- | :--- |
-| Preço máximo ou distância máxima não informado | Erro `DADOS_OBRIGATORIOS` |
-| Preço máximo ou distância máxima com valor inválido ou negativo | Erro `FILTROS_INVALIDOS` |
+| Preço máximo ou distância máxima não informado | Erro DADOS_OBRIGATORIOS |
+| Preço máximo ou distância máxima com valor inválido ou negativo | Erro FILTROS_INVALIDOS |
 | Nenhuma vaga atende aos dois filtros | Lista vazia de vagas |
-| Falha interna durante a busca | Erro `ERRO_INTERNO` |
+| Falha interna durante a busca | Erro ERRO_INTERNO |
