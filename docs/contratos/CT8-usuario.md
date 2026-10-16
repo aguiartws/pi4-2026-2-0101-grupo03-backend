@@ -20,7 +20,7 @@
 | email | texto | sim | aluno@puc-campinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
 | senha_hash | texto | sim | $2b$12$exemploHash |
-| perfil | um de: estudante, responsavel, admin | sim | estudante |
+| perfil | um de: estudante, proprietario | sim | estudante |
 
 ## Erros
 

@@ -40,4 +40,4 @@
 | Campos obrigatórios não preenchidos | Erro DADOS_OBRIGATORIOS |
 | E-mail já cadastrado | Erro EMAIL_JA_EXISTE |
 | E-mail fora do domínio institucional | Erro EMAIL_INSTITUCIONAL_INVALIDO |
-| Valores negativos para orçamento ou distância | Erro VALOR_INVALIDO |
+
