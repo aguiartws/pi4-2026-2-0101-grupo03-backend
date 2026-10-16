@@ -20,9 +20,7 @@
 | telefone | texto | sim | +5519999990000 |
 | senha | texto | sim | MinhaSenha123 |
 | curso | texto | sim | Engenharia de Software |
-| orcamentoMin | decimal | sim | 800.00 |
-| orcamentoMax | decimal | sim | 1500.00 |
-| distanciaMaxima | decimal | sim | 5.5 |
+
 
 ## Saída
 
@@ -33,9 +31,6 @@
 | email | texto | sim | ana@puc-campinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
 | curso | texto | sim | Engenharia de Software |
-| orcamentoMin | decimal | sim | 800.00 |
-| orcamentoMax | decimal | sim | 1500.00 |
-| distanciaMaxima | decimal | sim | 5.5 |
 | criadoEm | data e hora | sim | 2026-10-13T19:20:00 |
 
 ## Erros
