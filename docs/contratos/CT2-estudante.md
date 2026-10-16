@@ -20,9 +20,6 @@
 | email | texto | sim | ana@puc-campinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
 | curso | texto | sim | Engenharia de Software |
-| orcamento_min | decimal | sim | 800.00 |
-| orcamento_max | decimal | sim | 1500.00 |
-| distancia_maxima | decimal | sim | 5.5 |
 | criado_em | data e hora | sim | 2026-10-13T19:20:00 |
 | atualizado_em | data e hora | sim | 2026-10-13T19:20:00 |
 
