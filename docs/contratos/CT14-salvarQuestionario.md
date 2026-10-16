@@ -9,7 +9,7 @@
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E8 |
-| **Como chamar** | POST /api/estudantes/{estudanteId}/questionario |
+| **Como chamar** | POST /api/questionario/questionario |
 
 ## Entrada
 
