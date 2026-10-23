@@ -1,6 +1,8 @@
 services:
-  server:
-    build: .
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: finduhouse-server
     ports:
       - "${API_PORT:-8081}:8080"
@@ -8,9 +10,21 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/${DB_NAME:-finduhouse}
       SPRING_DATASOURCE_USERNAME: ${DB_USER:-finduhouse}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-finduhouse}
+      SPRING_MAIL_HOST: servidor-email
+      SPRING_MAIL_PORT: 25
     depends_on:
       database:
         condition: service_healthy
+      servidor-email:
+        condition: service_started
+
+  servidor-email:
+    build:
+      context: ./servidor-email
+      dockerfile: Dockerfile
+    container_name: finduhouse-servidor-email
+    ports:
+      - "${MAIL_PORT:-2525}:25"
 
   database:
     image: postgres:16-alpine
