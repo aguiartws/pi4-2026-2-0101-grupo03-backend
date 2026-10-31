@@ -1,6 +1,7 @@
 package br.com.finduhouse.service;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,6 +19,11 @@ public class TokenServiceImpl implements TokenService {
         return token;
     }
 
-    private record TokenData(long usuarioId, String perfil) {
+    @Override
+    public Optional<TokenData> validar(String token) {
+        if (token == null || token.isBlank()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(tokens.get(token));
     }
 }

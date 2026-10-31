@@ -58,7 +58,7 @@ class VagaServiceImplTest {
             return vaga;
         });
 
-        var response = service.cadastrar(request());
+        var response = service.cadastrar(request(), 7L);
 
         assertEquals(101L, response.vagaId());
         assertEquals(VagaDtos.Status.ATIVA, response.status());
@@ -72,10 +72,32 @@ class VagaServiceImplTest {
 
         BusinessException exception = assertThrows(
                 BusinessException.class,
-                () -> service.cadastrar(request()));
+                () -> service.cadastrar(request(), 7L));
 
         assertEquals(ErrorCode.RESPONSAVEL_NAO_ENCONTRADO, exception.getCodigo());
         verify(vagaRepository, never()).save(any(Vaga.class));
+    }
+
+    @Test
+    void deveRejeitarCadastroEmNomeDeOutroUsuario() {
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> service.cadastrar(request(), 8L));
+
+        assertEquals(ErrorCode.ACESSO_NEGADO, exception.getCodigo());
+        verify(usuarioRepository, never())
+                .findByIdAndPerfil(any(Long.class), any(Usuario.Perfil.class));
+        verify(vagaRepository, never()).save(any(Vaga.class));
+    }
+
+    @Test
+    void deveRejeitarListagemDeVagasDeOutroResponsavel() {
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> service.listarPorResponsavel(7L, 8L));
+
+        assertEquals(ErrorCode.ACESSO_NEGADO, exception.getCodigo());
+        verify(vagaRepository, never()).findByResponsavelId(any(Long.class));
     }
 
     private VagaDtos.CadastroRequest request() {

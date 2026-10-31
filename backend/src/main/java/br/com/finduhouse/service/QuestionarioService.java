@@ -4,5 +4,8 @@ import br.com.finduhouse.dto.QuestionarioDtos;
 
 public interface QuestionarioService {
 
-    QuestionarioDtos.SalvarResponse salvar(QuestionarioDtos.SalvarRequest request);
+    QuestionarioDtos.SalvarResponse salvar(
+            QuestionarioDtos.SalvarRequest request,
+            long estudanteAutenticadoId,
+            String perfilAutenticado);
 }
