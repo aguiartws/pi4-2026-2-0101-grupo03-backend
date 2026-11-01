@@ -1,6 +1,7 @@
 package br.com.finduhouse.controller;
 
 import br.com.finduhouse.dto.VagaDtos;
+import br.com.finduhouse.service.VagaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
@@ -21,10 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/vagas")
 public class VagaController {
 
+    private final VagaService vagaService;
+
+    public VagaController(VagaService vagaService) {
+        this.vagaService = vagaService;
+    }
+
     @PostMapping
-    public ResponseEntity<Void> cadastrar(
+    public ResponseEntity<VagaDtos.CadastroResponse> cadastrar(
             @Valid @RequestBody VagaDtos.CadastroRequest request) {
-        return notImplemented();
+        return ResponseEntity.status(HttpStatus.CREATED).body(vagaService.cadastrar(request));
     }
 
     @GetMapping
