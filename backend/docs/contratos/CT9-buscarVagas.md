@@ -9,7 +9,7 @@
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E5 |
-| **Como chamar** | GET /api/vagas?valorAluguelMaximo=1500&distanciaMaxima=5 (apenas vagas ativas) |
+| **Como chamar** | `GET /api/vagas?valorAluguelMaximo=1500&distanciaMaxima=5` |
 
 ## Entrada
 
@@ -33,14 +33,17 @@
 | valorAluguel | decimal | sim | 1200.00 |
 | distanciaCampus | decimal | sim | 3.5 |
 | descricao | texto | não | Kitnet mobiliada para estudante |
+| endereco | texto | sim | Rua das Flores, 100, Campinas |
+| latitude | decimal | sim | -22.83365 |
+| longitude | decimal | sim | -47.05197 |
 
-**Cálculo:** distanciaCampus é a distância em quilômetros entre a latitude/longitude da vaga (CT4) e o campus, calculada pelo Backend no momento da busca. Apenas vagas com status `ativa` são consideradas.
+**Cálculo:** `distanciaCampus` é a distância em quilômetros entre a latitude/longitude da vaga (CT4) e as coordenadas fixas do campus (latitude `-22.83365`, longitude `-47.05197`), calculada pelo Backend no momento da busca. Apenas vagas com status `ativa` são consideradas.
 
 ## Erros
 
 | Quando | O que volta |
 | :--- | :--- |
-| Preço máximo ou distância máxima não informado | Erro DADOS_OBRIGATORIOS |
-| Preço máximo ou distância máxima com valor inválido ou negativo | Erro FILTROS_INVALIDOS |
+| Preço máximo ou distância máxima não informado | Erro `DADOS_OBRIGATORIOS` |
+| Preço máximo ou distância máxima com valor inválido ou negativo | Erro `FILTROS_INVALIDOS` |
 | Nenhuma vaga atende aos dois filtros | Lista vazia de vagas |
-| Falha interna durante a busca | Erro ERRO_INTERNO |
+| Falha interna durante a busca | Erro `ERRO_INTERNO` |
