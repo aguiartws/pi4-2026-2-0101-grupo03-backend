@@ -2,7 +2,10 @@ package br.com.finduhouse.controller;
 
 import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.service.VagaService;
+import br.com.finduhouse.config.TokenAuthenticationFilter;
+import br.com.finduhouse.service.AuthenticatedUser;
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
@@ -30,8 +33,11 @@ public class VagaController {
 
     @PostMapping
     public ResponseEntity<VagaDtos.CadastroResponse> cadastrar(
-            @Valid @RequestBody VagaDtos.CadastroRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(vagaService.cadastrar(request));
+            @Valid @RequestBody VagaDtos.CadastroRequest request,
+            HttpServletRequest httpRequest) {
+        AuthenticatedUser usuario = usuarioAutenticado(httpRequest);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(vagaService.cadastrar(request, usuario.usuarioId()));
     }
 
     @GetMapping
@@ -47,10 +53,13 @@ public class VagaController {
     }
 
     @PatchMapping("/{vagaId}")
-    public ResponseEntity<Void> editar(
+    public ResponseEntity<VagaDtos.EdicaoResponse> editar(
             @PathVariable long vagaId,
-            @Valid @RequestBody VagaDtos.EdicaoRequest request) {
-        return notImplemented();
+            @Valid @RequestBody VagaDtos.EdicaoRequest request,
+            HttpServletRequest httpRequest) {
+        AuthenticatedUser usuario = usuarioAutenticado(httpRequest);
+        return ResponseEntity.ok()
+                .body(vagaService.editar(vagaId, request, usuario.usuarioId()));
     }
 
     @GetMapping("/{vagaId}/compatibilidade")
@@ -62,5 +71,10 @@ public class VagaController {
 
     private ResponseEntity<Void> notImplemented() {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    }
+
+    private AuthenticatedUser usuarioAutenticado(HttpServletRequest request) {
+        return (AuthenticatedUser) request.getAttribute(
+                TokenAuthenticationFilter.AUTHENTICATED_USER_ATTRIBUTE);
     }
 }

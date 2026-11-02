@@ -166,4 +166,32 @@ public class Vaga {
     public LocalDateTime getCriadoEm() {
         return criadoEm;
     }
+
+    public Usuario getResponsavel() {
+        return responsavel;
+    }
+
+    public BigDecimal getValorAluguel() {
+        return valorAluguel;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public LocalDateTime getAtualizadoEm() {
+        return atualizadoEm;
+    }
+
+    public void atualizarValorAluguel(BigDecimal novoValor) {
+        valorAluguel = novoValor;
+    }
 }

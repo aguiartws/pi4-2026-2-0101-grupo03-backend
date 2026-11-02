@@ -4,7 +4,9 @@ import br.com.finduhouse.dto.FavoritoDtos;
 
 public interface FavoritoService {
 
-    FavoritoDtos.CriacaoResponse favoritar(FavoritoDtos.CriacaoRequest request);
+    FavoritoDtos.CriacaoResponse favoritar(
+            FavoritoDtos.CriacaoRequest request,
+            long estudanteAutenticadoId);
 
-    FavoritoDtos.ListaResponse listar(long estudanteId);
+    FavoritoDtos.ListaResponse listar(long estudanteId, long estudanteAutenticadoId);
 }

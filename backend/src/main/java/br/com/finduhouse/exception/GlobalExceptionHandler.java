@@ -104,7 +104,7 @@ public class GlobalExceptionHandler {
                     RESPOSTA_INVALIDA,
                     MOTIVO_INVALIDO,
                     DESCRICAO_OBRIGATORIA -> HttpStatus.BAD_REQUEST;
-            case CREDENCIAIS_INVALIDAS -> HttpStatus.UNAUTHORIZED;
+            case CREDENCIAIS_INVALIDAS, TOKEN_INVALIDO -> HttpStatus.UNAUTHORIZED;
             case ACESSO_NEGADO -> HttpStatus.FORBIDDEN;
             case RESPONSAVEL_NAO_ENCONTRADO,
                     VAGA_NAO_ENCONTRADA,
