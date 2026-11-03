@@ -1,5 +1,5 @@
 CREATE TABLE usuario (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE estudante (
-    id INT PRIMARY KEY REFERENCES usuario(id),
+    id BIGINT PRIMARY KEY REFERENCES usuario(id),
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE estudante (
 );
 
 CREATE TABLE proprietario (
-    id INT PRIMARY KEY REFERENCES usuario(id),
+    id BIGINT PRIMARY KEY REFERENCES usuario(id),
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
@@ -27,8 +27,8 @@ CREATE TABLE proprietario (
 );
 
 CREATE TABLE vaga (
-    id SERIAL PRIMARY KEY,
-    responsavel_id INT NOT NULL REFERENCES usuario(id),
+    id BIGSERIAL PRIMARY KEY,
+    responsavel_id BIGINT NOT NULL REFERENCES usuario(id),
     titulo VARCHAR(255) NOT NULL,
     descricao TEXT NOT NULL,
     endereco VARCHAR(255) NOT NULL,
@@ -55,14 +55,14 @@ CREATE TABLE vaga (
 );
 
 CREATE TABLE favorito (
-    estudante_id INT NOT NULL REFERENCES estudante(id),
-    vaga_id INT NOT NULL REFERENCES vaga(id),
+    estudante_id BIGINT NOT NULL REFERENCES estudante(id),
+    vaga_id BIGINT NOT NULL REFERENCES vaga(id),
     PRIMARY KEY (estudante_id, vaga_id)
 );
 
 CREATE TABLE questionario_estudante (
-    id SERIAL PRIMARY KEY,
-    estudante_id INT NOT NULL UNIQUE REFERENCES estudante(id),
+    id BIGSERIAL PRIMARY KEY,
+    estudante_id BIGINT NOT NULL UNIQUE REFERENCES estudante(id),
     horario_dormir_semana VARCHAR(50) NOT NULL,
     horario_dormir_fim_semana VARCHAR(50) NOT NULL,
     horario_acordar_semana VARCHAR(50) NOT NULL,
@@ -77,9 +77,9 @@ CREATE TABLE questionario_estudante (
 );
 
 CREATE TABLE denuncia (
-    id SERIAL PRIMARY KEY,
-    vaga_id INT NOT NULL REFERENCES vaga(id),
-    estudante_id INT NOT NULL REFERENCES estudante(id),
+    id BIGSERIAL PRIMARY KEY,
+    vaga_id BIGINT NOT NULL REFERENCES vaga(id),
+    estudante_id BIGINT NOT NULL REFERENCES estudante(id),
     motivo VARCHAR(100) NOT NULL,
     descricao TEXT NOT NULL,
     status VARCHAR(50) NOT NULL CHECK (status IN ('pendente', 'em_analise', 'revisada')),
