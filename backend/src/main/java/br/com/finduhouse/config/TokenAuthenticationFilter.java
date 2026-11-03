@@ -62,7 +62,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private boolean isPublic(HttpServletRequest request) {
         String path = request.getRequestURI();
         String method = request.getMethod();
-        return "/api/health".equals(path)
+        return "OPTIONS".equals(method)
+                || "/api/health".equals(path)
                 || ("POST".equals(method) && "/api/auth/login".equals(path))
                 || ("POST".equals(method) && "/api/estudantes".equals(path))
                 || ("POST".equals(method) && "/api/proprietarios".equals(path))
