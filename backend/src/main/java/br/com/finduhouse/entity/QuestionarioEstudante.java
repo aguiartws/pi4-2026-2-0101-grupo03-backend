@@ -95,6 +95,46 @@ public class QuestionarioEstudante {
         return atualizadoEm;
     }
 
+    public String getHorarioDormirSemana() {
+        return horarioDormirSemana;
+    }
+
+    public String getHorarioDormirFimSemana() {
+        return horarioDormirFimSemana;
+    }
+
+    public String getHorarioAcordarSemana() {
+        return horarioAcordarSemana;
+    }
+
+    public String getHorarioAcordarFimSemana() {
+        return horarioAcordarFimSemana;
+    }
+
+    public String getNivelLimpeza() {
+        return nivelLimpeza;
+    }
+
+    public String getNivelOrganizacao() {
+        return nivelOrganizacao;
+    }
+
+    public String getToleranciaRuido() {
+        return toleranciaRuido;
+    }
+
+    public String getFrequenciaVisitas() {
+        return frequenciaVisitas;
+    }
+
+    public String getFrequenciaFestas() {
+        return frequenciaFestas;
+    }
+
+    public Boolean getTemPet() {
+        return temPet;
+    }
+
     public record Dados(
             String horarioDormirSemana,
             String horarioDormirFimSemana,

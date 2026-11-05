@@ -2,6 +2,8 @@ package br.com.finduhouse.service;
 
 import java.util.Locale;
 import java.util.List;
+import java.math.BigDecimal;
+import java.util.Comparator;
 
 import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Usuario;
@@ -18,12 +20,15 @@ public class VagaServiceImpl implements VagaService {
 
     private final UsuarioRepository usuarioRepository;
     private final VagaRepository vagaRepository;
+    private final CalculadoraDistancia calculadoraDistancia;
 
     public VagaServiceImpl(
             UsuarioRepository usuarioRepository,
-            VagaRepository vagaRepository) {
+            VagaRepository vagaRepository,
+            CalculadoraDistancia calculadoraDistancia) {
         this.usuarioRepository = usuarioRepository;
         this.vagaRepository = vagaRepository;
+        this.calculadoraDistancia = calculadoraDistancia;
     }
 
     @Override
@@ -106,14 +111,74 @@ public class VagaServiceImpl implements VagaService {
 
     @Override
     public VagaDtos.BuscaResponse buscar(
-            java.math.BigDecimal valorAluguelMaximo,
-            java.math.BigDecimal distanciaMaxima) {
-        throw new UnsupportedOperationException("Busca de vagas ainda não implementada");
+            BigDecimal valorAluguelMaximo,
+            BigDecimal distanciaMaxima) {
+        if (valorAluguelMaximo == null
+                || distanciaMaxima == null
+                || valorAluguelMaximo.signum() < 0
+                || distanciaMaxima.signum() < 0) {
+            throw new BusinessException(
+                    ErrorCode.FILTROS_INVALIDOS,
+                    "Os filtros devem ser números não negativos");
+        }
+
+        List<VagaComDistancia> vagas = vagaRepository
+                .findByStatusAndValorAluguelLessThanEqual(Vaga.Status.ATIVA, valorAluguelMaximo)
+                .stream()
+                .map(vaga -> new VagaComDistancia(
+                        vaga,
+                        calculadoraDistancia.calcular(vaga.getLatitude(), vaga.getLongitude())))
+                .filter(vaga -> vaga.distancia().compareTo(distanciaMaxima) <= 0)
+                .sorted(Comparator.comparing(VagaComDistancia::distancia)
+                        .thenComparing(vaga -> vaga.vaga().getId()))
+                .toList();
+
+        return new VagaDtos.BuscaResponse(vagas.stream()
+                .map(vaga -> new VagaDtos.BuscaItem(
+                        vaga.vaga().getId(),
+                        vaga.vaga().getTitulo(),
+                        vaga.vaga().getValorAluguel(),
+                        vaga.distancia(),
+                        vaga.vaga().getDescricao(),
+                        vaga.vaga().getEndereco(),
+                        vaga.vaga().getLatitude(),
+                        vaga.vaga().getLongitude()))
+                .toList());
     }
 
     @Override
     public VagaDtos.MapaResponse listarMapa() {
-        throw new UnsupportedOperationException("Listagem de vagas no mapa ainda não implementada");
+        return new VagaDtos.MapaResponse(vagaRepository.findByStatus(Vaga.Status.ATIVA)
+                .stream()
+                .map(vaga -> new VagaDtos.MapaItem(
+                        vaga.getId(),
+                        vaga.getTitulo(),
+                        vaga.getEndereco(),
+                        vaga.getValorAluguel(),
+                        vaga.getLatitude(),
+                        vaga.getLongitude()))
+                .toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public VagaDtos.DetalheResponse obterDetalhes(long vagaId) {
+        Vaga vaga = vagaRepository.findById(vagaId)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.VAGA_NAO_ENCONTRADA,
+                        "Vaga não encontrada"));
+        return new VagaDtos.DetalheResponse(
+                vaga.getId(),
+                vaga.getTitulo(),
+                vaga.getDescricao(),
+                vaga.getEndereco(),
+                vaga.getValorAluguel(),
+                vaga.getNumeroMoradores(),
+                vaga.getRegrasCasa(),
+                vaga.getLatitude(),
+                vaga.getLongitude(),
+                VagaDtos.Status.valueOf(vaga.getStatus().name()),
+                RegrasConverter.regras(vaga));
     }
 
     @Override
@@ -143,5 +208,8 @@ public class VagaServiceImpl implements VagaService {
                         vaga.getCriadoEm()))
                 .toList();
         return new VagaDtos.ListaResponsavelResponse(vagas);
+    }
+
+    private record VagaComDistancia(Vaga vaga, BigDecimal distancia) {
     }
 }
