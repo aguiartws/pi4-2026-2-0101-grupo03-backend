@@ -1,10 +1,10 @@
-
 package com.finduhouse.servidor_email;
+
+import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
-
-import java.util.concurrent.CountDownLatch;
 
 public class ServidorEmailApplication {
 
@@ -44,6 +44,18 @@ public class ServidorEmailApplication {
                         System.out.println(
                             "Remetente: " + email.getFrom()[0]
                         );
+
+                        // NOVO: destinatários
+                        System.out.println(
+                            "Destinatários: " +
+                            Arrays.toString(email.getAllRecipients())
+                        );
+
+                        // NOVO: corpo
+                        System.out.println("Conteúdo:");
+                        System.out.println(email.getContent());
+
+                        System.out.println("----------------------");
                     }
 
                 } catch (InterruptedException e) {

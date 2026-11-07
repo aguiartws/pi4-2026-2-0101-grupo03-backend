@@ -30,6 +30,8 @@
         <artifactId>slf4j-simple</artifactId>
         <version>2.0.17</version>
     </dependency>
+
+    
 </dependencies>
 
 
@@ -42,7 +44,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.finduhouse.servidor_email.ServidorEmailApplication</mainClass>
+                           <mainClass>com.finduhouse.servidor_email.ServidorEmailApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
