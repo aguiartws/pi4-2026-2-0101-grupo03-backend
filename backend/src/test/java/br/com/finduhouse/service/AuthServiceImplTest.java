@@ -40,14 +40,14 @@ class AuthServiceImplTest {
                 usuarioRepository,
                 passwordService,
                 tokenService,
-                "puc-campinas.edu.br");
+                "puccampinas.edu.br");
     }
 
     @Test
     void deveAutenticarEstudanteEEmitirToken() {
-        Usuario usuario = usuario("ana@puc-campinas.edu.br", Usuario.Perfil.ESTUDANTE);
+        Usuario usuario = usuario("ana@puccampinas.edu.br", Usuario.Perfil.ESTUDANTE);
         var request = new AuthDtos.LoginRequest(
-                "ANA@PUC-CAMPINAS.EDU.BR",
+                "ANA@PUCCAMPINAS.EDU.BR",
                 "MinhaSenha123");
 
         when(usuarioRepository.findByEmail(request.email().toLowerCase()))
@@ -78,15 +78,15 @@ class AuthServiceImplTest {
 
     @Test
     void deveRejeitarSenhaIncorreta() {
-        Usuario usuario = usuario("ana@puc-campinas.edu.br", Usuario.Perfil.ESTUDANTE);
-        when(usuarioRepository.findByEmail("ana@puc-campinas.edu.br"))
+        Usuario usuario = usuario("ana@puccampinas.edu.br", Usuario.Perfil.ESTUDANTE);
+        when(usuarioRepository.findByEmail("ana@puccampinas.edu.br"))
                 .thenReturn(Optional.of(usuario));
         when(passwordService.matches("errada", "hash")).thenReturn(false);
 
         BusinessException exception = assertThrows(
                 BusinessException.class,
                 () -> service.autenticar(new AuthDtos.LoginRequest(
-                        "ana@puc-campinas.edu.br",
+                        "ana@puccampinas.edu.br",
                         "errada")));
 
         assertEquals(ErrorCode.CREDENCIAIS_INVALIDAS, exception.getCodigo());

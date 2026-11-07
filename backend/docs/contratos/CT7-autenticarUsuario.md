@@ -15,7 +15,7 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| email | texto | sim | aluno@puc-campinas.edu.br |
+| email | texto | sim | aluno@puccampinas.edu.br |
 | senha | texto | sim | MinhaSenha123 |
 
 ## Saída

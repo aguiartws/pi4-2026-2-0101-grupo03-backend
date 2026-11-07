@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.Locale;
+import java.util.Optional;
 
 import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Usuario;
@@ -37,7 +38,7 @@ class VagaServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        service = new VagaServiceImpl(usuarioRepository, vagaRepository);
+        service = new VagaServiceImpl(usuarioRepository, vagaRepository, new CalculadoraDistanciaImpl());
     }
 
     @Test
@@ -98,6 +99,66 @@ class VagaServiceImplTest {
 
         assertEquals(ErrorCode.ACESSO_NEGADO, exception.getCodigo());
         verify(vagaRepository, never()).findByResponsavelId(any(Long.class));
+    }
+
+    @Test
+    void deveObterDetalhesDeVagaInativa() {
+        Vaga vaga = new Vaga(
+                null,
+                "Quarto",
+                "Descricao",
+                "Endereco",
+                new BigDecimal("1200.00"),
+                3,
+                "Sem festas",
+                new BigDecimal("-22.905"),
+                new BigDecimal("-47.060"),
+                "entre_22_e_0",
+                "depois_da_0",
+                "entre_6_e_8",
+                "depois_das_8",
+                "alto",
+                "medio",
+                "media",
+                "as_vezes",
+                "nunca",
+                false);
+        ReflectionTestUtils.setField(vaga, "id", 101L);
+        ReflectionTestUtils.setField(vaga, "status", Vaga.Status.INATIVA);
+        when(vagaRepository.findById(101L)).thenReturn(Optional.of(vaga));
+
+        VagaDtos.DetalheResponse response = service.obterDetalhes(101L);
+
+        assertEquals(101L, response.id());
+        assertEquals(VagaDtos.Status.INATIVA, response.status());
+        assertEquals(VagaDtos.HorarioDormir.ENTRE_22_E_0,
+                response.regrasConvivencia().horarioDormirSemana());
+        assertEquals(VagaDtos.Frequencia.NUNCA,
+                response.regrasConvivencia().frequenciaFestas());
+    }
+
+    @Test
+    void deveRejeitarVagaInexistenteAoObterDetalhes() {
+        when(vagaRepository.findById(101L)).thenReturn(Optional.empty());
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> service.obterDetalhes(101L));
+
+        assertEquals(ErrorCode.VAGA_NAO_ENCONTRADA, exception.getCodigo());
+    }
+
+    @Test
+    void deveFalharComRegraDesconhecidaAoObterDetalhes() {
+        Vaga vaga = new Vaga(
+                null, "Quarto", "Descricao", "Endereco", new BigDecimal("1200.00"), 3,
+                "Sem festas", new BigDecimal("-22.905"), new BigDecimal("-47.060"),
+                "horario_invalido", "depois_da_0", "entre_6_e_8", "depois_das_8",
+                "alto", "medio", "media", "as_vezes", "nunca", false);
+        ReflectionTestUtils.setField(vaga, "id", 101L);
+        when(vagaRepository.findById(101L)).thenReturn(Optional.of(vaga));
+
+        assertThrows(IllegalStateException.class, () -> service.obterDetalhes(101L));
     }
 
     private VagaDtos.CadastroRequest request() {

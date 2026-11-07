@@ -20,7 +20,7 @@ public class AuthServiceImpl implements AuthService {
             UsuarioRepository usuarioRepository,
             PasswordService passwordService,
             TokenService tokenService,
-            @Value("${finduhouse.email.institutional-domain:puc-campinas.edu.br}")
+            @Value("${finduhouse.email.institutional-domain:puccampinas.edu.br}")
             String institutionalDomain) {
         this.usuarioRepository = usuarioRepository;
         this.passwordService = passwordService;

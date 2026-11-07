@@ -17,5 +17,7 @@ public interface VagaService {
 
     VagaDtos.MapaResponse listarMapa();
 
+    VagaDtos.DetalheResponse obterDetalhes(long vagaId);
+
     VagaDtos.ListaResponsavelResponse listarPorResponsavel(long responsavelId, long usuarioAutenticadoId);
 }

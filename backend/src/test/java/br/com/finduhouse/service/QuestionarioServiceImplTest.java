@@ -131,6 +131,33 @@ class QuestionarioServiceImplTest {
         verify(questionarioRepository, never()).save(any(QuestionarioEstudante.class));
     }
 
+    @Test
+    void deveObterQuestionarioConvertendoRespostas() {
+        Estudante estudante = estudante(42L);
+        QuestionarioEstudante questionario = new QuestionarioEstudante(estudante, dados());
+        when(estudanteRepository.findById(42L)).thenReturn(Optional.of(estudante));
+        when(questionarioRepository.findByEstudanteId(42L)).thenReturn(Optional.of(questionario));
+
+        QuestionarioDtos.Respostas response = service.obter(42L, 42L, "estudante");
+
+        assertEquals(VagaDtos.HorarioDormir.ENTRE_22_E_0, response.horarioDormirSemana());
+        assertEquals(VagaDtos.HorarioAcordar.DEPOIS_DAS_8, response.horarioAcordarFimSemana());
+        assertEquals(VagaDtos.Nivel.ALTO, response.nivelLimpeza());
+        assertEquals(false, response.temPet());
+    }
+
+    @Test
+    void deveRejeitarQuestionarioAusenteAoObter() {
+        when(estudanteRepository.findById(42L)).thenReturn(Optional.of(estudante(42L)));
+        when(questionarioRepository.findByEstudanteId(42L)).thenReturn(Optional.empty());
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> service.obter(42L, 42L, "estudante"));
+
+        assertEquals(ErrorCode.QUESTIONARIO_NAO_PREENCHIDO, exception.getCodigo());
+    }
+
     private QuestionarioDtos.SalvarRequest request() {
         return new QuestionarioDtos.SalvarRequest(42L, respostas());
     }
@@ -166,7 +193,7 @@ class QuestionarioServiceImplTest {
     private Estudante estudante(long id) {
         Usuario usuario = new Usuario(
                 "Ana",
-                "ana@puc-campinas.edu.br",
+                "ana@puccampinas.edu.br",
                 "telefone",
                 "hash",
                 Usuario.Perfil.ESTUDANTE);
@@ -174,7 +201,7 @@ class QuestionarioServiceImplTest {
         Estudante estudante = new Estudante(
                 usuario,
                 "Ana",
-                "ana@puc-campinas.edu.br",
+                "ana@puccampinas.edu.br",
                 "telefone",
                 "Engenharia");
         ReflectionTestUtils.setField(estudante, "id", id);

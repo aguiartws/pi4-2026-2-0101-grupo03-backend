@@ -1,13 +1,13 @@
 package br.com.finduhouse.controller;
 
 import br.com.finduhouse.dto.VagaDtos;
+import br.com.finduhouse.dto.QuestionarioDtos;
 import br.com.finduhouse.service.VagaService;
 import br.com.finduhouse.config.TokenAuthenticationFilter;
 import br.com.finduhouse.service.AuthenticatedUser;
+import br.com.finduhouse.service.CompatibilidadeService;
 import jakarta.validation.Valid;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,9 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class VagaController {
 
     private final VagaService vagaService;
+    private final CompatibilidadeService compatibilidadeService;
 
-    public VagaController(VagaService vagaService) {
+    public VagaController(
+            VagaService vagaService,
+            CompatibilidadeService compatibilidadeService) {
         this.vagaService = vagaService;
+        this.compatibilidadeService = compatibilidadeService;
     }
 
     @PostMapping
@@ -41,15 +45,21 @@ public class VagaController {
     }
 
     @GetMapping
-    public ResponseEntity<Void> buscar(
-            @RequestParam @NotNull @DecimalMin("0.0") Double valorAluguelMaximo,
-            @RequestParam @NotNull @DecimalMin("0.0") Double distanciaMaxima) {
-        return notImplemented();
+    public ResponseEntity<VagaDtos.BuscaResponse> buscar(
+            @RequestParam java.math.BigDecimal valorAluguelMaximo,
+            @RequestParam java.math.BigDecimal distanciaMaxima) {
+        return ResponseEntity.ok(vagaService.buscar(valorAluguelMaximo, distanciaMaxima));
     }
 
     @GetMapping("/mapa")
-    public ResponseEntity<Void> listarMapa() {
-        return notImplemented();
+    public ResponseEntity<VagaDtos.MapaResponse> listarMapa() {
+        return ResponseEntity.ok(vagaService.listarMapa());
+    }
+
+    // O mapeamento literal /mapa continua tendo prioridade sobre esta rota variável.
+    @GetMapping("/{vagaId}")
+    public ResponseEntity<VagaDtos.DetalheResponse> obterDetalhes(@PathVariable long vagaId) {
+        return ResponseEntity.ok(vagaService.obterDetalhes(vagaId));
     }
 
     @PatchMapping("/{vagaId}")
@@ -63,14 +73,13 @@ public class VagaController {
     }
 
     @GetMapping("/{vagaId}/compatibilidade")
-    public ResponseEntity<Void> obterCompatibilidade(
+    public ResponseEntity<QuestionarioDtos.CompatibilidadeResponse> obterCompatibilidade(
             @PathVariable long vagaId,
-            @RequestParam long estudanteId) {
-        return notImplemented();
-    }
-
-    private ResponseEntity<Void> notImplemented() {
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+            @RequestParam long estudanteId,
+            HttpServletRequest httpRequest) {
+        AuthenticatedUser usuario = usuarioAutenticado(httpRequest);
+        return ResponseEntity.ok(compatibilidadeService.obter(
+                vagaId, estudanteId, usuario.usuarioId(), usuario.perfil()));
     }
 
     private AuthenticatedUser usuarioAutenticado(HttpServletRequest request) {

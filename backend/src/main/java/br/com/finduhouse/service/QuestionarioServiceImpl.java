@@ -3,6 +3,7 @@ package br.com.finduhouse.service;
 import java.util.Locale;
 
 import br.com.finduhouse.dto.QuestionarioDtos;
+import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Estudante;
 import br.com.finduhouse.entity.QuestionarioEstudante;
 import br.com.finduhouse.exception.BusinessException;
@@ -49,6 +50,38 @@ public class QuestionarioServiceImpl implements QuestionarioService {
 
         QuestionarioEstudante salvo = questionarioRepository.save(questionario);
         return new QuestionarioDtos.SalvarResponse(true, salvo.getAtualizadoEm());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public QuestionarioDtos.Respostas obter(
+            long estudanteId,
+            long usuarioAutenticadoId,
+            String perfilAutenticado) {
+        validarAcesso(estudanteId, usuarioAutenticadoId, perfilAutenticado);
+
+        estudanteRepository.findById(estudanteId)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.ESTUDANTE_NAO_ENCONTRADO,
+                        "Estudante não encontrado"));
+        QuestionarioEstudante questionario = questionarioRepository
+                .findByEstudanteId(estudanteId)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.QUESTIONARIO_NAO_PREENCHIDO,
+                        "O estudante ainda não respondeu o questionário"));
+
+        VagaDtos.Regras regras = RegrasConverter.respostas(questionario);
+        return new QuestionarioDtos.Respostas(
+                regras.horarioDormirSemana(),
+                regras.horarioDormirFimSemana(),
+                regras.horarioAcordarSemana(),
+                regras.horarioAcordarFimSemana(),
+                regras.nivelLimpeza(),
+                regras.nivelOrganizacao(),
+                regras.toleranciaRuido(),
+                regras.frequenciaVisitas(),
+                regras.frequenciaFestas(),
+                regras.temPet());
     }
 
     private void validarAcesso(long estudanteId, long autenticadoId, String perfil) {

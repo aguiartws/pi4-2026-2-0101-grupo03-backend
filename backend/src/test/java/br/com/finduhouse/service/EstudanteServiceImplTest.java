@@ -42,19 +42,19 @@ class EstudanteServiceImplTest {
                 usuarioRepository,
                 estudanteRepository,
                 passwordService,
-                "puc-campinas.edu.br");
+                "puccampinas.edu.br");
     }
 
     @Test
     void devePersistirUsuarioEEstudanteComSenhaHash() {
         var request = new EstudanteDtos.CadastroRequest(
                 "Ana Souza",
-                "ANA@PUC-CAMPINAS.EDU.BR",
+                "ANA@PUCCAMPINAS.EDU.BR",
                 "+5519999990000",
                 "MinhaSenha123",
                 "Engenharia de Software");
 
-        when(usuarioRepository.existsByEmail("ana@puc-campinas.edu.br")).thenReturn(false);
+        when(usuarioRepository.existsByEmail("ana@puccampinas.edu.br")).thenReturn(false);
         when(passwordService.hash("MinhaSenha123")).thenReturn("hash");
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> {
             Usuario usuario = invocation.getArgument(0);
@@ -71,7 +71,7 @@ class EstudanteServiceImplTest {
         var response = service.cadastrar(request);
 
         assertEquals(42L, response.estudanteId());
-        assertEquals("ana@puc-campinas.edu.br", response.email());
+        assertEquals("ana@puccampinas.edu.br", response.email());
         assertEquals("Ana Souza", response.nome());
 
         var usuarioCaptor = ArgumentCaptor.forClass(Usuario.class);
@@ -86,7 +86,7 @@ class EstudanteServiceImplTest {
     void deveRejeitarEmailDuplicado() {
         var request = new EstudanteDtos.CadastroRequest(
                 "Ana Souza",
-                "ana@puc-campinas.edu.br",
+                "ana@puccampinas.edu.br",
                 "+5519999990000",
                 "MinhaSenha123",
                 "Engenharia de Software");
