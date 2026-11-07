@@ -36,7 +36,11 @@ public class GlobalExceptionHandler {
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.joining("; "));
 
-        return response(HttpStatus.BAD_REQUEST, ErrorCode.DADOS_OBRIGATORIOS, message);
+        ErrorCode codigo = message.contains("valorAluguelMaximo")
+                || message.contains("distanciaMaxima")
+                ? ErrorCode.FILTROS_INVALIDOS
+                : ErrorCode.DADOS_OBRIGATORIOS;
+        return response(HttpStatus.BAD_REQUEST, codigo, message);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -71,9 +75,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleTypeMismatch(
             MethodArgumentTypeMismatchException exception) {
+        ErrorCode codigo = "valorAluguelMaximo".equals(exception.getName())
+                || "distanciaMaxima".equals(exception.getName())
+                ? ErrorCode.FILTROS_INVALIDOS
+                : ErrorCode.DADOS_OBRIGATORIOS;
         return response(
                 HttpStatus.BAD_REQUEST,
-                ErrorCode.DADOS_OBRIGATORIOS,
+                codigo,
                 "Parâmetro inválido: " + exception.getName());
     }
 

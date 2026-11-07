@@ -65,7 +65,10 @@ public final class VagaDtos {
             String titulo,
             BigDecimal valorAluguel,
             BigDecimal distanciaCampus,
-            String descricao) {
+            String descricao,
+            String endereco,
+            BigDecimal latitude,
+            BigDecimal longitude) {
     }
 
     public record BuscaResponse(
@@ -83,6 +86,20 @@ public final class VagaDtos {
 
     public record MapaResponse(
             List<MapaItem> vagas) {
+    }
+
+    public record DetalheResponse(
+            long id,
+            String titulo,
+            String descricao,
+            String endereco,
+            BigDecimal valorAluguel,
+            Integer numeroMoradores,
+            String regrasCasa,
+            BigDecimal latitude,
+            BigDecimal longitude,
+            Status status,
+            Regras regrasConvivencia) {
     }
 
     public record Regras(

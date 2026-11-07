@@ -117,7 +117,7 @@ class FavoritoServiceImplTest {
     private Estudante estudante(long id) {
         Usuario usuario = new Usuario(
                 "Ana",
-                "ana@puc-campinas.edu.br",
+                "ana@puccampinas.edu.br",
                 "telefone",
                 "hash",
                 Usuario.Perfil.ESTUDANTE);
@@ -125,7 +125,7 @@ class FavoritoServiceImplTest {
         Estudante estudante = new Estudante(
                 usuario,
                 "Ana",
-                "ana@puc-campinas.edu.br",
+                "ana@puccampinas.edu.br",
                 "telefone",
                 "Engenharia");
         ReflectionTestUtils.setField(estudante, "id", id);

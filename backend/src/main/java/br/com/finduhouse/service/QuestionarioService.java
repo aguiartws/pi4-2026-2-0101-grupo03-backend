@@ -8,4 +8,9 @@ public interface QuestionarioService {
             QuestionarioDtos.SalvarRequest request,
             long estudanteAutenticadoId,
             String perfilAutenticado);
+
+    QuestionarioDtos.Respostas obter(
+            long estudanteId,
+            long usuarioAutenticadoId,
+            String perfilAutenticado);
 }

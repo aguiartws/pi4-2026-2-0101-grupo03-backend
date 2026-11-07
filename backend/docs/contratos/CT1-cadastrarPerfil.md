@@ -16,7 +16,7 @@
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
 | nome | texto | sim | Ana Souza |
-| email | texto | sim | ana@puc-campinas.edu.br |
+| email | texto | sim | ana@puccampinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
 | senha | texto | sim | MinhaSenha123 |
 | curso | texto | sim | Engenharia de Software |
@@ -28,7 +28,7 @@
 | :--- | :--- | :--- | :--- |
 | estudanteId | inteiro | sim | 42 |
 | nome | texto | sim | Ana Souza |
-| email | texto | sim | ana@puc-campinas.edu.br |
+| email | texto | sim | ana@puccampinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
 | curso | texto | sim | Engenharia de Software |
 | criadoEm | data e hora | sim | 2026-10-13T19:20:00 |
@@ -40,4 +40,3 @@
 | Campos obrigatórios não preenchidos | Erro DADOS_OBRIGATORIOS |
 | E-mail já cadastrado | Erro EMAIL_JA_EXISTE |
 | E-mail fora do domínio institucional | Erro EMAIL_INSTITUCIONAL_INVALIDO |
-

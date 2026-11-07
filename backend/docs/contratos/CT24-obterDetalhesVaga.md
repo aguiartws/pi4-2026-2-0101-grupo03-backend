@@ -28,7 +28,7 @@
 | latitude | decimal | sim | -22.905 |
 | longitude | decimal | sim | -47.060 |
 | status | um de: ativa, em_analise, inativa | sim | ativa |
-| regrasConvivência | objeto RegrasVaga | sim | (As 10 regras do CT4) |
+| regrasConvivencia | objeto RegrasVaga | sim | (As 10 regras do CT4) |
 
 ## Erros
 | Quando | O que volta |

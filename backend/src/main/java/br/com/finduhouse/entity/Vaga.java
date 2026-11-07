@@ -187,6 +187,68 @@ public class Vaga {
         return descricao;
     }
 
+    public Integer getNumeroMoradores() {
+        return numeroMoradores;
+    }
+
+    public String getRegrasCasa() {
+        return regrasCasa;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public String getHorarioDormirSemana() {
+        return horarioDormirSemana;
+    }
+
+    public String getHorarioDormirFimSemana() {
+        return horarioDormirFimSemana;
+    }
+
+    public String getHorarioAcordarSemana() {
+        return horarioAcordarSemana;
+    }
+
+    public String getHorarioAcordarFimSemana() {
+        return horarioAcordarFimSemana;
+    }
+
+    public String getNivelLimpeza() {
+        return nivelLimpeza;
+    }
+
+    public String getNivelOrganizacao() {
+        return nivelOrganizacao;
+    }
+
+    public String getToleranciaRuido() {
+        return toleranciaRuido;
+    }
+
+    public String getFrequenciaVisitas() {
+        return frequenciaVisitas;
+    }
+
+    public String getFrequenciaFestas() {
+        return frequenciaFestas;
+    }
+
+    public Boolean getTemPet() {
+        return temPet;
+    }
+
+    public void marcarEmAnalise() {
+        if (status == Status.ATIVA) {
+            status = Status.EM_ANALISE;
+        }
+    }
+
     public LocalDateTime getAtualizadoEm() {
         return atualizadoEm;
     }
