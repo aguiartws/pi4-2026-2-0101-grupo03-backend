@@ -1,0 +1,5 @@
+From: teste@exemplo.com
+To: destino@exemplo.com
+Subject: Teste GreenMail
+
+Ola! Este e um email de teste do FindUHouse.
