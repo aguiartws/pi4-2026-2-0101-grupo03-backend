@@ -17,7 +17,7 @@
 | :--- | :--- | :--- | :--- |
 | id | inteiro | sim | 42 |
 | nome | texto | sim | Ana Souza |
-| email | texto | sim | ana@puc-campinas.edu.br |
+| email | texto | sim | ana@puccampinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
 | curso | texto | sim | Engenharia de Software |
 | criado_em | data e hora | sim | 2026-10-13T19:20:00 |

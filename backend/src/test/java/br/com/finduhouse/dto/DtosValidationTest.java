@@ -34,7 +34,7 @@ class DtosValidationTest {
     void deveAceitarCadastroDeEstudanteValido() {
         var request = new EstudanteDtos.CadastroRequest(
                 "Ana Souza",
-                "ana@puc-campinas.edu.br",
+                "ana@puccampinas.edu.br",
                 "+5519999990000",
                 "MinhaSenha123",
                 "Engenharia de Software");

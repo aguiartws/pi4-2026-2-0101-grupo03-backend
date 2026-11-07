@@ -83,5 +83,13 @@ CREATE TABLE denuncia (
     motivo VARCHAR(100) NOT NULL,
     descricao TEXT NOT NULL,
     status VARCHAR(50) NOT NULL CHECK (status IN ('pendente', 'em_analise', 'revisada')),
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (vaga_id, estudante_id),
+    CHECK (motivo IN (
+        'informacao_falsa',
+        'golpe_financeiro',
+        'conteudo_inadequado',
+        'imovel_inexistente',
+        'outro'
+    ))
 );

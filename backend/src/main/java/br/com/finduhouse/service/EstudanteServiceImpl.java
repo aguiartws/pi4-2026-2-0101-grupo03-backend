@@ -24,7 +24,7 @@ public class EstudanteServiceImpl implements EstudanteService {
             UsuarioRepository usuarioRepository,
             EstudanteRepository estudanteRepository,
             PasswordService passwordService,
-            @Value("${finduhouse.email.institutional-domain:puc-campinas.edu.br}")
+            @Value("${finduhouse.email.institutional-domain:puccampinas.edu.br}")
             String institutionalDomain) {
         this.usuarioRepository = usuarioRepository;
         this.estudanteRepository = estudanteRepository;

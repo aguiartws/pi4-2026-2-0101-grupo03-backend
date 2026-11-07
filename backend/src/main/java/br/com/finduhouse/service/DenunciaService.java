@@ -6,5 +6,6 @@ public interface DenunciaService {
 
     DenunciaDtos.CriacaoResponse denunciar(
             long vagaId,
-            DenunciaDtos.CriacaoRequest request);
+            DenunciaDtos.CriacaoRequest request,
+            long estudanteAutenticadoId);
 }

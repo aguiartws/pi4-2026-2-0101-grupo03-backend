@@ -243,6 +243,12 @@ public class Vaga {
         return temPet;
     }
 
+    public void marcarEmAnalise() {
+        if (status == Status.ATIVA) {
+            status = Status.EM_ANALISE;
+        }
+    }
+
     public LocalDateTime getAtualizadoEm() {
         return atualizadoEm;
     }
