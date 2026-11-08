@@ -62,35 +62,26 @@ public class Vaga {
     @Column(nullable = false)
     private Status status;
 
-    @Column(name = "horario_dormir_semana", nullable = false)
-    private String horarioDormirSemana;
-
-    @Column(name = "horario_dormir_fim_semana", nullable = false)
-    private String horarioDormirFimSemana;
-
-    @Column(name = "horario_acordar_semana", nullable = false)
-    private String horarioAcordarSemana;
-
-    @Column(name = "horario_acordar_fim_semana", nullable = false)
-    private String horarioAcordarFimSemana;
-
-    @Column(name = "nivel_limpeza", nullable = false)
-    private String nivelLimpeza;
-
-    @Column(name = "nivel_organizacao", nullable = false)
-    private String nivelOrganizacao;
-
-    @Column(name = "tolerancia_ruido", nullable = false)
-    private String toleranciaRuido;
-
-    @Column(name = "frequencia_visitas", nullable = false)
-    private String frequenciaVisitas;
-
-    @Column(name = "frequencia_festas", nullable = false)
-    private String frequenciaFestas;
-
-    @Column(name = "tem_pet", nullable = false)
-    private Boolean temPet;
+    @Column(name = "aceita_barulho_depois_das_22", nullable = false)
+    private Boolean aceitaBarulhoDepoisDas22;
+    @Column(nullable = false)
+    private Boolean fuma;
+    @Column(name = "aceita_animais", nullable = false)
+    private Boolean aceitaAnimais;
+    @Column(name = "gosta_receber_visitas", nullable = false)
+    private Boolean gostaReceberVisitas;
+    @Column(name = "gosta_cozinhar", nullable = false)
+    private Boolean gostaCozinhar;
+    @Column(name = "estuda_em_casa", nullable = false)
+    private Boolean estudaEmCasa;
+    @Column(name = "aceita_dividir_tarefas", nullable = false)
+    private Boolean aceitaDividirTarefas;
+    @Column(name = "aceita_dividir_quarto", nullable = false)
+    private Boolean aceitaDividirQuarto;
+    @Column(name = "aceita_festas", nullable = false)
+    private Boolean aceitaFestas;
+    @Column(nullable = false)
+    private Boolean comunicativo;
 
     @Column(name = "criado_em", nullable = false)
     private LocalDateTime criadoEm;
@@ -111,16 +102,16 @@ public class Vaga {
             String regrasCasa,
             BigDecimal latitude,
             BigDecimal longitude,
-            String horarioDormirSemana,
-            String horarioDormirFimSemana,
-            String horarioAcordarSemana,
-            String horarioAcordarFimSemana,
-            String nivelLimpeza,
-            String nivelOrganizacao,
-            String toleranciaRuido,
-            String frequenciaVisitas,
-            String frequenciaFestas,
-            Boolean temPet) {
+            Boolean aceitaBarulhoDepoisDas22,
+            Boolean fuma,
+            Boolean aceitaAnimais,
+            Boolean gostaReceberVisitas,
+            Boolean gostaCozinhar,
+            Boolean estudaEmCasa,
+            Boolean aceitaDividirTarefas,
+            Boolean aceitaDividirQuarto,
+            Boolean aceitaFestas,
+            Boolean comunicativo) {
         this.responsavel = responsavel;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -130,16 +121,16 @@ public class Vaga {
         this.regrasCasa = regrasCasa;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.horarioDormirSemana = horarioDormirSemana;
-        this.horarioDormirFimSemana = horarioDormirFimSemana;
-        this.horarioAcordarSemana = horarioAcordarSemana;
-        this.horarioAcordarFimSemana = horarioAcordarFimSemana;
-        this.nivelLimpeza = nivelLimpeza;
-        this.nivelOrganizacao = nivelOrganizacao;
-        this.toleranciaRuido = toleranciaRuido;
-        this.frequenciaVisitas = frequenciaVisitas;
-        this.frequenciaFestas = frequenciaFestas;
-        this.temPet = temPet;
+        this.aceitaBarulhoDepoisDas22 = aceitaBarulhoDepoisDas22;
+        this.fuma = fuma;
+        this.aceitaAnimais = aceitaAnimais;
+        this.gostaReceberVisitas = gostaReceberVisitas;
+        this.gostaCozinhar = gostaCozinhar;
+        this.estudaEmCasa = estudaEmCasa;
+        this.aceitaDividirTarefas = aceitaDividirTarefas;
+        this.aceitaDividirQuarto = aceitaDividirQuarto;
+        this.aceitaFestas = aceitaFestas;
+        this.comunicativo = comunicativo;
         this.status = Status.ATIVA;
     }
 
@@ -203,45 +194,16 @@ public class Vaga {
         return longitude;
     }
 
-    public String getHorarioDormirSemana() {
-        return horarioDormirSemana;
-    }
-
-    public String getHorarioDormirFimSemana() {
-        return horarioDormirFimSemana;
-    }
-
-    public String getHorarioAcordarSemana() {
-        return horarioAcordarSemana;
-    }
-
-    public String getHorarioAcordarFimSemana() {
-        return horarioAcordarFimSemana;
-    }
-
-    public String getNivelLimpeza() {
-        return nivelLimpeza;
-    }
-
-    public String getNivelOrganizacao() {
-        return nivelOrganizacao;
-    }
-
-    public String getToleranciaRuido() {
-        return toleranciaRuido;
-    }
-
-    public String getFrequenciaVisitas() {
-        return frequenciaVisitas;
-    }
-
-    public String getFrequenciaFestas() {
-        return frequenciaFestas;
-    }
-
-    public Boolean getTemPet() {
-        return temPet;
-    }
+    public Boolean getAceitaBarulhoDepoisDas22() { return aceitaBarulhoDepoisDas22; }
+    public Boolean getFuma() { return fuma; }
+    public Boolean getAceitaAnimais() { return aceitaAnimais; }
+    public Boolean getGostaReceberVisitas() { return gostaReceberVisitas; }
+    public Boolean getGostaCozinhar() { return gostaCozinhar; }
+    public Boolean getEstudaEmCasa() { return estudaEmCasa; }
+    public Boolean getAceitaDividirTarefas() { return aceitaDividirTarefas; }
+    public Boolean getAceitaDividirQuarto() { return aceitaDividirQuarto; }
+    public Boolean getAceitaFestas() { return aceitaFestas; }
+    public Boolean getComunicativo() { return comunicativo; }
 
     public void marcarEmAnalise() {
         if (status == Status.ATIVA) {

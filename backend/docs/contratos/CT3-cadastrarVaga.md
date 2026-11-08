@@ -30,16 +30,16 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| horarioDormirSemana | um de: antes_das_22, entre_22_e_0, depois_da_0 | sim | entre_22_e_0 |
-| horarioDormirFimSemana | um de: antes_das_22, entre_22_e_0, depois_da_0 | sim | depois_da_0 |
-| horarioAcordarSemana | um de: antes_das_6, entre_6_e_8, depois_das_8 | sim | entre_6_e_8 |
-| horarioAcordarFimSemana | um de: antes_das_6, entre_6_e_8, depois_das_8 | sim | depois_das_8 |
-| nivelLimpeza | um de: baixo, medio, alto | sim | alto |
-| nivelOrganizacao | um de: baixo, medio, alto | sim | medio |
-| toleranciaRuido | um de: baixa, media, alta | sim | media |
-| frequenciaVisitas | um de: nunca, as_vezes, frequentemente | sim | as_vezes |
-| frequenciaFestas | um de: nunca, as_vezes, frequentemente | sim | as_vezes |
-| temPet | booleano | sim | false |
+| aceitaBarulhoDepoisDas22 | booleano | sim | true |
+| fuma | booleano | sim | false |
+| aceitaAnimais | booleano | sim | true |
+| gostaReceberVisitas | booleano | sim | true |
+| gostaCozinhar | booleano | sim | true |
+| estudaEmCasa | booleano | sim | true |
+| aceitaDividirTarefas | booleano | sim | true |
+| aceitaDividirQuarto | booleano | sim | false |
+| aceitaFestas | booleano | sim | true |
+| comunicativo | booleano | sim | true |
 
 ## Saída
 

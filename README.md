@@ -192,7 +192,7 @@ docker exec -it finduhouse-database psql -U finduhouse -d finduhouse -c \
 
 # 3) criar uma vaga (status em minúsculas: 'ativa', 'em_analise', 'inativa')
 docker exec -it finduhouse-database psql -U finduhouse -d finduhouse -c \
-  "INSERT INTO vaga (responsavel_id, titulo, descricao, endereco, valor_aluguel, numero_moradores, regras_casa, latitude, longitude, status, horario_dormir_semana, horario_dormir_fim_semana, horario_acordar_semana, horario_acordar_fim_semana, nivel_limpeza, nivel_organizacao, tolerancia_ruido, frequencia_visitas, frequencia_festas, tem_pet) VALUES (<ID>, 'Quarto perto da PUC', 'Quarto individual, 12m²', 'Rua das Flores, 123', 1200.00, 2, 'Sem festas', -22.9056, -47.0608, 'ativa', '23:00', '00:00', '07:00', '09:00', 'ALTO', 'ALTO', 'BAIXO', 'BAIXA', 'BAIXA', false) RETURNING id;"
+  "INSERT INTO vaga (responsavel_id, titulo, descricao, endereco, valor_aluguel, numero_moradores, regras_casa, latitude, longitude, status, aceita_barulho_depois_das_22, fuma, aceita_animais, gosta_receber_visitas, gosta_cozinhar, estuda_em_casa, aceita_dividir_tarefas, aceita_dividir_quarto, aceita_festas, comunicativo) VALUES (<ID>, 'Quarto perto da PUC', 'Quarto individual, 12m²', 'Rua das Flores, 123', 1200.00, 2, 'Sem festas', -22.9056, -47.0608, 'ativa', true, false, true, true, true, true, true, false, false, true) RETURNING id;"
 ```
 
 ---

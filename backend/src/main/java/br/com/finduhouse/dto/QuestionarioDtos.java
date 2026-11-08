@@ -3,7 +3,6 @@ package br.com.finduhouse.dto;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -24,16 +23,16 @@ public final class QuestionarioDtos {
     }
 
     public record Respostas(
-            @NotNull VagaDtos.HorarioDormir horarioDormirSemana,
-            @NotNull VagaDtos.HorarioDormir horarioDormirFimSemana,
-            @NotNull VagaDtos.HorarioAcordar horarioAcordarSemana,
-            @NotNull VagaDtos.HorarioAcordar horarioAcordarFimSemana,
-            @NotNull VagaDtos.Nivel nivelLimpeza,
-            @NotNull VagaDtos.Nivel nivelOrganizacao,
-            @NotNull VagaDtos.ToleranciaRuido toleranciaRuido,
-            @NotNull VagaDtos.Frequencia frequenciaVisitas,
-            @NotNull VagaDtos.Frequencia frequenciaFestas,
-            @NotNull Boolean temPet) {
+            @NotNull Boolean aceitaBarulhoDepoisDas22,
+            @NotNull Boolean fuma,
+            @NotNull Boolean aceitaAnimais,
+            @NotNull Boolean gostaReceberVisitas,
+            @NotNull Boolean gostaCozinhar,
+            @NotNull Boolean estudaEmCasa,
+            @NotNull Boolean aceitaDividirTarefas,
+            @NotNull Boolean aceitaDividirQuarto,
+            @NotNull Boolean aceitaFestas,
+            @NotNull Boolean comunicativo) {
     }
 
     public record CompatibilidadeResponse(

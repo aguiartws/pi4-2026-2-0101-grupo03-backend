@@ -55,27 +55,27 @@ public class CompatibilidadeServiceImpl implements CompatibilidadeService {
 
         CalculadoraCompatibilidade.Resultado resultado = calculadora.calcular(
                 new CalculadoraCompatibilidade.Respostas(
-                        questionario.getHorarioDormirSemana(),
-                        questionario.getHorarioDormirFimSemana(),
-                        questionario.getHorarioAcordarSemana(),
-                        questionario.getHorarioAcordarFimSemana(),
-                        questionario.getNivelLimpeza(),
-                        questionario.getNivelOrganizacao(),
-                        questionario.getToleranciaRuido(),
-                        questionario.getFrequenciaVisitas(),
-                        questionario.getFrequenciaFestas(),
-                        questionario.getTemPet()),
+                        questionario.getAceitaBarulhoDepoisDas22(),
+                        questionario.getFuma(),
+                        questionario.getAceitaAnimais(),
+                        questionario.getGostaReceberVisitas(),
+                        questionario.getGostaCozinhar(),
+                        questionario.getEstudaEmCasa(),
+                        questionario.getAceitaDividirTarefas(),
+                        questionario.getAceitaDividirQuarto(),
+                        questionario.getAceitaFestas(),
+                        questionario.getComunicativo()),
                 new CalculadoraCompatibilidade.Regras(
-                        vaga.getHorarioDormirSemana(),
-                        vaga.getHorarioDormirFimSemana(),
-                        vaga.getHorarioAcordarSemana(),
-                        vaga.getHorarioAcordarFimSemana(),
-                        vaga.getNivelLimpeza(),
-                        vaga.getNivelOrganizacao(),
-                        vaga.getToleranciaRuido(),
-                        vaga.getFrequenciaVisitas(),
-                        vaga.getFrequenciaFestas(),
-                        vaga.getTemPet()));
+                        vaga.getAceitaBarulhoDepoisDas22(),
+                        vaga.getFuma(),
+                        vaga.getAceitaAnimais(),
+                        vaga.getGostaReceberVisitas(),
+                        vaga.getGostaCozinhar(),
+                        vaga.getEstudaEmCasa(),
+                        vaga.getAceitaDividirTarefas(),
+                        vaga.getAceitaDividirQuarto(),
+                        vaga.getAceitaFestas(),
+                        vaga.getComunicativo()));
         return new QuestionarioDtos.CompatibilidadeResponse(
                 vagaId, resultado.nota(), resultado.dimensoes());
     }

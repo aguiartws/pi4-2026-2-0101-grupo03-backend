@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import br.com.finduhouse.dto.QuestionarioDtos;
-import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Estudante;
 import br.com.finduhouse.entity.QuestionarioEstudante;
 import br.com.finduhouse.entity.Usuario;
@@ -140,10 +139,10 @@ class QuestionarioServiceImplTest {
 
         QuestionarioDtos.Respostas response = service.obter(42L, 42L, "estudante");
 
-        assertEquals(VagaDtos.HorarioDormir.ENTRE_22_E_0, response.horarioDormirSemana());
-        assertEquals(VagaDtos.HorarioAcordar.DEPOIS_DAS_8, response.horarioAcordarFimSemana());
-        assertEquals(VagaDtos.Nivel.ALTO, response.nivelLimpeza());
-        assertEquals(false, response.temPet());
+        assertEquals(true, response.aceitaBarulhoDepoisDas22());
+        assertEquals(false, response.fuma());
+        assertEquals(true, response.aceitaAnimais());
+        assertEquals(false, response.comunicativo());
     }
 
     @Test
@@ -164,30 +163,14 @@ class QuestionarioServiceImplTest {
 
     private QuestionarioDtos.Respostas respostas() {
         return new QuestionarioDtos.Respostas(
-                VagaDtos.HorarioDormir.ENTRE_22_E_0,
-                VagaDtos.HorarioDormir.DEPOIS_DA_0,
-                VagaDtos.HorarioAcordar.ENTRE_6_E_8,
-                VagaDtos.HorarioAcordar.DEPOIS_DAS_8,
-                VagaDtos.Nivel.ALTO,
-                VagaDtos.Nivel.MEDIO,
-                VagaDtos.ToleranciaRuido.MEDIA,
-                VagaDtos.Frequencia.AS_VEZES,
-                VagaDtos.Frequencia.AS_VEZES,
-                false);
+                true, false, true, true, true,
+                true, true, false, true, false);
     }
 
     private QuestionarioEstudante.Dados dados() {
         return new QuestionarioEstudante.Dados(
-                "entre_22_e_0",
-                "depois_da_0",
-                "entre_6_e_8",
-                "depois_das_8",
-                "alto",
-                "medio",
-                "media",
-                "as_vezes",
-                "as_vezes",
-                false);
+                true, false, true, true, true,
+                true, true, false, true, false);
     }
 
     private Estudante estudante(long id) {

@@ -1,6 +1,5 @@
 package br.com.finduhouse.service;
 
-import java.util.Locale;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -57,26 +56,22 @@ public class VagaServiceImpl implements VagaService {
                 request.regrasCasa(),
                 request.latitude(),
                 request.longitude(),
-                valor(request.regras().horarioDormirSemana()),
-                valor(request.regras().horarioDormirFimSemana()),
-                valor(request.regras().horarioAcordarSemana()),
-                valor(request.regras().horarioAcordarFimSemana()),
-                valor(request.regras().nivelLimpeza()),
-                valor(request.regras().nivelOrganizacao()),
-                valor(request.regras().toleranciaRuido()),
-                valor(request.regras().frequenciaVisitas()),
-                valor(request.regras().frequenciaFestas()),
-                request.regras().temPet());
+                request.regras().aceitaBarulhoDepoisDas22(),
+                request.regras().fuma(),
+                request.regras().aceitaAnimais(),
+                request.regras().gostaReceberVisitas(),
+                request.regras().gostaCozinhar(),
+                request.regras().estudaEmCasa(),
+                request.regras().aceitaDividirTarefas(),
+                request.regras().aceitaDividirQuarto(),
+                request.regras().aceitaFestas(),
+                request.regras().comunicativo());
 
         Vaga salva = vagaRepository.save(vaga);
         return new VagaDtos.CadastroResponse(
                 salva.getId(),
                 VagaDtos.Status.valueOf(salva.getStatus().name()),
                 salva.getCriadoEm());
-    }
-
-    private String valor(Enum<?> valor) {
-        return valor.name().toLowerCase(Locale.ROOT);
     }
 
     @Override

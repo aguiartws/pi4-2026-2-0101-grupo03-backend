@@ -148,16 +148,8 @@ class FavoritoServiceImplTest {
                 "Sem festas",
                 new BigDecimal("-22.90"),
                 new BigDecimal("-47.05"),
-                "entre_22_e_0",
-                "depois_da_0",
-                "entre_6_e_8",
-                "depois_das_8",
-                "alto",
-                "medio",
-                "media",
-                "as_vezes",
-                "as_vezes",
-                false);
+                true, false, true, true, true,
+                true, true, false, true, true);
         ReflectionTestUtils.setField(vaga, "id", id);
         return vaga;
     }

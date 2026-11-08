@@ -1,7 +1,5 @@
 package br.com.finduhouse.service;
 
-import java.util.Locale;
-
 import br.com.finduhouse.dto.QuestionarioDtos;
 import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Estudante;
@@ -72,16 +70,16 @@ public class QuestionarioServiceImpl implements QuestionarioService {
 
         VagaDtos.Regras regras = RegrasConverter.respostas(questionario);
         return new QuestionarioDtos.Respostas(
-                regras.horarioDormirSemana(),
-                regras.horarioDormirFimSemana(),
-                regras.horarioAcordarSemana(),
-                regras.horarioAcordarFimSemana(),
-                regras.nivelLimpeza(),
-                regras.nivelOrganizacao(),
-                regras.toleranciaRuido(),
-                regras.frequenciaVisitas(),
-                regras.frequenciaFestas(),
-                regras.temPet());
+                regras.aceitaBarulhoDepoisDas22(),
+                regras.fuma(),
+                regras.aceitaAnimais(),
+                regras.gostaReceberVisitas(),
+                regras.gostaCozinhar(),
+                regras.estudaEmCasa(),
+                regras.aceitaDividirTarefas(),
+                regras.aceitaDividirQuarto(),
+                regras.aceitaFestas(),
+                regras.comunicativo());
     }
 
     private void validarAcesso(long estudanteId, long autenticadoId, String perfil) {
@@ -94,35 +92,31 @@ public class QuestionarioServiceImpl implements QuestionarioService {
 
     private QuestionarioEstudante.Dados dados(QuestionarioDtos.Respostas respostas) {
         if (respostas == null
-                || respostas.horarioDormirSemana() == null
-                || respostas.horarioDormirFimSemana() == null
-                || respostas.horarioAcordarSemana() == null
-                || respostas.horarioAcordarFimSemana() == null
-                || respostas.nivelLimpeza() == null
-                || respostas.nivelOrganizacao() == null
-                || respostas.toleranciaRuido() == null
-                || respostas.frequenciaVisitas() == null
-                || respostas.frequenciaFestas() == null
-                || respostas.temPet() == null) {
+                || respostas.aceitaBarulhoDepoisDas22() == null
+                || respostas.fuma() == null
+                || respostas.aceitaAnimais() == null
+                || respostas.gostaReceberVisitas() == null
+                || respostas.gostaCozinhar() == null
+                || respostas.estudaEmCasa() == null
+                || respostas.aceitaDividirTarefas() == null
+                || respostas.aceitaDividirQuarto() == null
+                || respostas.aceitaFestas() == null
+                || respostas.comunicativo() == null) {
             throw new BusinessException(
                     ErrorCode.QUESTIONARIO_INCOMPLETO,
                     "Todas as respostas do questionário são obrigatórias");
         }
 
         return new QuestionarioEstudante.Dados(
-                valor(respostas.horarioDormirSemana()),
-                valor(respostas.horarioDormirFimSemana()),
-                valor(respostas.horarioAcordarSemana()),
-                valor(respostas.horarioAcordarFimSemana()),
-                valor(respostas.nivelLimpeza()),
-                valor(respostas.nivelOrganizacao()),
-                valor(respostas.toleranciaRuido()),
-                valor(respostas.frequenciaVisitas()),
-                valor(respostas.frequenciaFestas()),
-                respostas.temPet());
-    }
-
-    private String valor(Enum<?> valor) {
-        return valor.name().toLowerCase(Locale.ROOT);
+                respostas.aceitaBarulhoDepoisDas22(),
+                respostas.fuma(),
+                respostas.aceitaAnimais(),
+                respostas.gostaReceberVisitas(),
+                respostas.gostaCozinhar(),
+                respostas.estudaEmCasa(),
+                respostas.aceitaDividirTarefas(),
+                respostas.aceitaDividirQuarto(),
+                respostas.aceitaFestas(),
+                respostas.comunicativo());
     }
 }

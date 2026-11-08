@@ -9,29 +9,29 @@ public interface CalculadoraCompatibilidade {
     Resultado calcular(Respostas respostas, Regras regras);
 
     record Respostas(
-            String horarioDormirSemana,
-            String horarioDormirFimSemana,
-            String horarioAcordarSemana,
-            String horarioAcordarFimSemana,
-            String nivelLimpeza,
-            String nivelOrganizacao,
-            String toleranciaRuido,
-            String frequenciaVisitas,
-            String frequenciaFestas,
-            Boolean temPet) {
+            Boolean aceitaBarulhoDepoisDas22,
+            Boolean fuma,
+            Boolean aceitaAnimais,
+            Boolean gostaReceberVisitas,
+            Boolean gostaCozinhar,
+            Boolean estudaEmCasa,
+            Boolean aceitaDividirTarefas,
+            Boolean aceitaDividirQuarto,
+            Boolean aceitaFestas,
+            Boolean comunicativo) {
     }
 
     record Regras(
-            String horarioDormirSemana,
-            String horarioDormirFimSemana,
-            String horarioAcordarSemana,
-            String horarioAcordarFimSemana,
-            String nivelLimpeza,
-            String nivelOrganizacao,
-            String toleranciaRuido,
-            String frequenciaVisitas,
-            String frequenciaFestas,
-            Boolean temPet) {
+            Boolean aceitaBarulhoDepoisDas22,
+            Boolean fuma,
+            Boolean aceitaAnimais,
+            Boolean gostaReceberVisitas,
+            Boolean gostaCozinhar,
+            Boolean estudaEmCasa,
+            Boolean aceitaDividirTarefas,
+            Boolean aceitaDividirQuarto,
+            Boolean aceitaFestas,
+            Boolean comunicativo) {
     }
 
     record Resultado(int nota, List<QuestionarioDtos.Dimensao> dimensoes) {

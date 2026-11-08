@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
-import java.util.Locale;
 import java.util.Optional;
 
 import br.com.finduhouse.dto.VagaDtos;
@@ -113,16 +112,8 @@ class VagaServiceImplTest {
                 "Sem festas",
                 new BigDecimal("-22.905"),
                 new BigDecimal("-47.060"),
-                "entre_22_e_0",
-                "depois_da_0",
-                "entre_6_e_8",
-                "depois_das_8",
-                "alto",
-                "medio",
-                "media",
-                "as_vezes",
-                "nunca",
-                false);
+                true, false, true, true, true,
+                true, true, false, false, true);
         ReflectionTestUtils.setField(vaga, "id", 101L);
         ReflectionTestUtils.setField(vaga, "status", Vaga.Status.INATIVA);
         when(vagaRepository.findById(101L)).thenReturn(Optional.of(vaga));
@@ -131,10 +122,8 @@ class VagaServiceImplTest {
 
         assertEquals(101L, response.id());
         assertEquals(VagaDtos.Status.INATIVA, response.status());
-        assertEquals(VagaDtos.HorarioDormir.ENTRE_22_E_0,
-                response.regrasConvivencia().horarioDormirSemana());
-        assertEquals(VagaDtos.Frequencia.NUNCA,
-                response.regrasConvivencia().frequenciaFestas());
+        assertEquals(true, response.regrasConvivencia().aceitaBarulhoDepoisDas22());
+        assertEquals(false, response.regrasConvivencia().aceitaFestas());
     }
 
     @Test
@@ -146,19 +135,6 @@ class VagaServiceImplTest {
                 () -> service.obterDetalhes(101L));
 
         assertEquals(ErrorCode.VAGA_NAO_ENCONTRADA, exception.getCodigo());
-    }
-
-    @Test
-    void deveFalharComRegraDesconhecidaAoObterDetalhes() {
-        Vaga vaga = new Vaga(
-                null, "Quarto", "Descricao", "Endereco", new BigDecimal("1200.00"), 3,
-                "Sem festas", new BigDecimal("-22.905"), new BigDecimal("-47.060"),
-                "horario_invalido", "depois_da_0", "entre_6_e_8", "depois_das_8",
-                "alto", "medio", "media", "as_vezes", "nunca", false);
-        ReflectionTestUtils.setField(vaga, "id", 101L);
-        when(vagaRepository.findById(101L)).thenReturn(Optional.of(vaga));
-
-        assertThrows(IllegalStateException.class, () -> service.obterDetalhes(101L));
     }
 
     private VagaDtos.CadastroRequest request() {
@@ -173,15 +149,7 @@ class VagaServiceImplTest {
                 new BigDecimal("-22.905"),
                 new BigDecimal("-47.060"),
                 new VagaDtos.Regras(
-                        VagaDtos.HorarioDormir.ENTRE_22_E_0,
-                        VagaDtos.HorarioDormir.DEPOIS_DA_0,
-                        VagaDtos.HorarioAcordar.ENTRE_6_E_8,
-                        VagaDtos.HorarioAcordar.DEPOIS_DAS_8,
-                        VagaDtos.Nivel.ALTO,
-                        VagaDtos.Nivel.MEDIO,
-                        VagaDtos.ToleranciaRuido.MEDIA,
-                        VagaDtos.Frequencia.AS_VEZES,
-                        VagaDtos.Frequencia.AS_VEZES,
-                        false));
+                        true, false, true, true, true,
+                        true, true, false, true, true));
     }
 }
