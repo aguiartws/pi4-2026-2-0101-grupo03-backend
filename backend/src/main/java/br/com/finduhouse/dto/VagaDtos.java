@@ -103,16 +103,16 @@ public final class VagaDtos {
     }
 
     public record Regras(
-            @NotNull HorarioDormir horarioDormirSemana,
-            @NotNull HorarioDormir horarioDormirFimSemana,
-            @NotNull HorarioAcordar horarioAcordarSemana,
-            @NotNull HorarioAcordar horarioAcordarFimSemana,
-            @NotNull Nivel nivelLimpeza,
-            @NotNull Nivel nivelOrganizacao,
-            @NotNull ToleranciaRuido toleranciaRuido,
-            @NotNull Frequencia frequenciaVisitas,
-            @NotNull Frequencia frequenciaFestas,
-            @NotNull Boolean temPet) {
+            @NotNull Boolean aceitaBarulhoDepoisDas22,
+            @NotNull Boolean fuma,
+            @NotNull Boolean aceitaAnimais,
+            @NotNull Boolean gostaReceberVisitas,
+            @NotNull Boolean gostaCozinhar,
+            @NotNull Boolean estudaEmCasa,
+            @NotNull Boolean aceitaDividirTarefas,
+            @NotNull Boolean aceitaDividirQuarto,
+            @NotNull Boolean aceitaFestas,
+            @NotNull Boolean comunicativo) {
     }
 
     public enum Status {
@@ -122,50 +122,5 @@ public final class VagaDtos {
         EM_ANALISE,
         @JsonProperty("inativa")
         INATIVA
-    }
-
-    public enum HorarioDormir {
-        @JsonProperty("antes_das_22")
-        ANTES_DAS_22,
-        @JsonProperty("entre_22_e_0")
-        ENTRE_22_E_0,
-        @JsonProperty("depois_da_0")
-        DEPOIS_DA_0
-    }
-
-    public enum HorarioAcordar {
-        @JsonProperty("antes_das_6")
-        ANTES_DAS_6,
-        @JsonProperty("entre_6_e_8")
-        ENTRE_6_E_8,
-        @JsonProperty("depois_das_8")
-        DEPOIS_DAS_8
-    }
-
-    public enum Nivel {
-        @JsonProperty("baixo")
-        BAIXO,
-        @JsonProperty("medio")
-        MEDIO,
-        @JsonProperty("alto")
-        ALTO
-    }
-
-    public enum ToleranciaRuido {
-        @JsonProperty("baixa")
-        BAIXA,
-        @JsonProperty("media")
-        MEDIA,
-        @JsonProperty("alta")
-        ALTA
-    }
-
-    public enum Frequencia {
-        @JsonProperty("nunca")
-        NUNCA,
-        @JsonProperty("as_vezes")
-        AS_VEZES,
-        @JsonProperty("frequentemente")
-        FREQUENTEMENTE
     }
 }

@@ -19,16 +19,16 @@ Os campos gravados são os mesmos campos lidos.
 |---|---|---|---|
 | `id` | inteiro | Sim | `1` |
 | `estudante_id` | inteiro | Sim | `42` |
-| `horario_dormir_semana` | um de: `antes_das_22`, `entre_22_e_0`, `depois_da_0` | Sim | `entre_22_e_0` |
-| `horario_dormir_fim_semana` | um de: `antes_das_22`, `entre_22_e_0`, `depois_da_0` | Sim | `depois_da_0` |
-| `horario_acordar_semana` | um de: `antes_das_6`, `entre_6_e_8`, `depois_das_8` | Sim | `entre_6_e_8` |
-| `horario_acordar_fim_semana` | um de: `antes_das_6`, `entre_6_e_8`, `depois_das_8` | Sim | `depois_das_8` |
-| `nivel_limpeza` | um de: `baixo`, `medio`, `alto` | Sim | `alto` |
-| `nivel_organizacao` | um de: `baixo`, `medio`, `alto` | Sim | `medio` |
-| `tolerancia_ruido` | um de: `baixa`, `media`, `alta` | Sim | `media` |
-| `frequencia_visitas` | um de: `nunca`, `as_vezes`, `frequentemente` | Sim | `as_vezes` |
-| `frequencia_festas` | um de: `nunca`, `as_vezes`, `frequentemente` | Sim | `as_vezes` |
-| `tem_pet` | booleano | Sim | `false` |
+| `aceita_barulho_depois_das_22` | booleano | Sim | `true` |
+| `fuma` | booleano | Sim | `false` |
+| `aceita_animais` | booleano | Sim | `true` |
+| `gosta_receber_visitas` | booleano | Sim | `true` |
+| `gosta_cozinhar` | booleano | Sim | `true` |
+| `estuda_em_casa` | booleano | Sim | `true` |
+| `aceita_dividir_tarefas` | booleano | Sim | `true` |
+| `aceita_dividir_quarto` | booleano | Sim | `false` |
+| `aceita_festas` | booleano | Sim | `true` |
+| `comunicativo` | booleano | Sim | `true` |
 | `atualizado_em` | data e hora | Sim | `2026-10-13T19:20:00` |
 
 ## Saída

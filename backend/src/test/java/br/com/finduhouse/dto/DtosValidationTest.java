@@ -176,30 +176,14 @@ class DtosValidationTest {
 
     private static VagaDtos.Regras regrasValidas() {
         return new VagaDtos.Regras(
-                VagaDtos.HorarioDormir.ENTRE_22_E_0,
-                VagaDtos.HorarioDormir.DEPOIS_DA_0,
-                VagaDtos.HorarioAcordar.ENTRE_6_E_8,
-                VagaDtos.HorarioAcordar.DEPOIS_DAS_8,
-                VagaDtos.Nivel.ALTO,
-                VagaDtos.Nivel.MEDIO,
-                VagaDtos.ToleranciaRuido.MEDIA,
-                VagaDtos.Frequencia.AS_VEZES,
-                VagaDtos.Frequencia.AS_VEZES,
-                false);
+                true, false, true, true, true,
+                true, true, false, true, true);
     }
 
     private static QuestionarioDtos.Respostas respostasValidas() {
         return new QuestionarioDtos.Respostas(
-                VagaDtos.HorarioDormir.ENTRE_22_E_0,
-                VagaDtos.HorarioDormir.DEPOIS_DA_0,
-                VagaDtos.HorarioAcordar.ENTRE_6_E_8,
-                VagaDtos.HorarioAcordar.DEPOIS_DAS_8,
-                VagaDtos.Nivel.ALTO,
-                VagaDtos.Nivel.MEDIO,
-                VagaDtos.ToleranciaRuido.MEDIA,
-                VagaDtos.Frequencia.AS_VEZES,
-                VagaDtos.Frequencia.AS_VEZES,
-                false);
+                true, false, true, true, true,
+                true, true, false, true, true);
     }
 
     private static void assertValid(Object value) {
