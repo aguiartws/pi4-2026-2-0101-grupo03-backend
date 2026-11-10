@@ -160,16 +160,16 @@ class DenunciaServiceImplTest {
     private Estudante estudante(long id) {
         Usuario usuario = new Usuario(
                 "Ana",
-                "ana@puc-campinas.edu.br",
-                "telefone",
+                        "ana@puccampinas.edu.br",
+                                "telefone",
                 "hash",
                 Usuario.Perfil.ESTUDANTE);
         ReflectionTestUtils.setField(usuario, "id", id);
         Estudante estudante = new Estudante(
                 usuario,
                 "Ana",
-                "ana@puc-campinas.edu.br",
-                "telefone",
+                        "ana@puccampinas.edu.br",
+                                "telefone",
                 "Engenharia");
         ReflectionTestUtils.setField(estudante, "id", id);
         return estudante;

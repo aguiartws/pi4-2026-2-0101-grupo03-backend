@@ -12,7 +12,12 @@ public final class AuthDtos {
 
     public record LoginRequest(
             @NotBlank @Email String email,
-            @NotBlank String senha) {
+            @NotBlank String senha,
+            Boolean lembrar) {
+
+        public LoginRequest(String email, String senha) {
+            this(email, senha, false);
+        }
     }
 
     public record LoginResponse(

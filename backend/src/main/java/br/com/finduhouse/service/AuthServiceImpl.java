@@ -45,7 +45,10 @@ public class AuthServiceImpl implements AuthService {
             throw credenciaisInvalidas();
         }
 
-        String token = tokenService.gerar(usuario.getId(), usuario.getPerfil().name().toLowerCase());
+        String token = tokenService.gerar(
+                usuario.getId(),
+                usuario.getPerfil().name().toLowerCase(),
+                Boolean.TRUE.equals(request.lembrar()));
         return new AuthDtos.LoginResponse(
                 token,
                 usuario.getId(),
