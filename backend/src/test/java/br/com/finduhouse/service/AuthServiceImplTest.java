@@ -53,14 +53,14 @@ class AuthServiceImplTest {
         when(usuarioRepository.findByEmail(request.email().toLowerCase()))
                 .thenReturn(Optional.of(usuario));
         when(passwordService.matches(request.senha(), "hash")).thenReturn(true);
-        when(tokenService.gerar(42L, "estudante")).thenReturn("token");
+        when(tokenService.gerar(42L, "estudante", false)).thenReturn("token");
 
         var response = service.autenticar(request);
 
         assertEquals("token", response.token());
         assertEquals(42L, response.usuarioId());
         assertEquals(AuthDtos.Perfil.ESTUDANTE, response.perfil());
-        verify(tokenService).gerar(42L, "estudante");
+        verify(tokenService).gerar(42L, "estudante", false);
     }
 
     @Test
@@ -68,12 +68,27 @@ class AuthServiceImplTest {
         Usuario usuario = usuario("maria@email.com", Usuario.Perfil.PROPRIETARIO);
         when(usuarioRepository.findByEmail("maria@email.com")).thenReturn(Optional.of(usuario));
         when(passwordService.matches("senha", "hash")).thenReturn(true);
-        when(tokenService.gerar(42L, "proprietario")).thenReturn("token");
+        when(tokenService.gerar(42L, "proprietario", false)).thenReturn("token");
 
         var response = service.autenticar(
                 new AuthDtos.LoginRequest("maria@email.com", "senha"));
 
         assertEquals(AuthDtos.Perfil.PROPRIETARIO, response.perfil());
+        verify(tokenService).gerar(42L, "proprietario", false);
+    }
+
+    @Test
+    void deveGerarTokenComSessaoLembrada() {
+        Usuario usuario = usuario("maria@email.com", Usuario.Perfil.PROPRIETARIO);
+        when(usuarioRepository.findByEmail("maria@email.com")).thenReturn(Optional.of(usuario));
+        when(passwordService.matches("senha", "hash")).thenReturn(true);
+        when(tokenService.gerar(42L, "proprietario", true)).thenReturn("token");
+
+        var response = service.autenticar(
+                new AuthDtos.LoginRequest("maria@email.com", "senha", true));
+
+        assertEquals("token", response.token());
+        verify(tokenService).gerar(42L, "proprietario", true);
     }
 
     @Test
