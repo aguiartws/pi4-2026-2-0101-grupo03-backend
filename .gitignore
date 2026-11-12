@@ -23,4 +23,8 @@ Thumbs.db
 
 # arquivos de teste locais
 backend/src/main/java/*.json
-servidor-email/src/main/java/com/finduhouse/servidor_email/ServidorSmtpSimples.java
+# Java
+*.class
+target/
+out/
+
