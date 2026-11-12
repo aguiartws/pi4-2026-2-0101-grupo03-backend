@@ -59,7 +59,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-        private boolean isPublic(HttpServletRequest request) {
+    private boolean isPublic(HttpServletRequest request) {
         String path = request.getRequestURI();
         String method = request.getMethod();
         return "OPTIONS".equals(method)
@@ -67,8 +67,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 || ("POST".equals(method) && "/api/auth/login".equals(path))
                 || ("POST".equals(method) && "/api/estudantes".equals(path))
                 || ("POST".equals(method) && "/api/proprietarios".equals(path))
-                // ADICIONE ESTA LINHA PARA TESTAR O E-MAIL:
-                || (path.contains("/interesse") && "POST".equals(method)) 
                 || !path.startsWith("/api/");
     }
 
