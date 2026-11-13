@@ -49,6 +49,13 @@ class TokenAuthenticationFilterTest {
     }
 
     @Test
+    void deveRejeitarInteresseSemAutorizacao() throws Exception {
+        MockHttpServletResponse response = executar("POST", "/api/vagas/1/interesse");
+
+        assertEquals(401, response.getStatus());
+    }
+
+    @Test
     void devePermitirLoginPorPost() throws Exception {
         MockHttpServletResponse response = executar("POST", "/api/auth/login");
 

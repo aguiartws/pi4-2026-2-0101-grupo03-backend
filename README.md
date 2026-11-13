@@ -230,37 +230,31 @@ O **servidor de e-mail de teste** é o [GreenMail](https://greenmail-mail-test.g
 - **Mensagens:** ficam **em memória** (não persistem ao reiniciar o container)
 - **Logs:** a cada 10s imprime o total de e-mails e o conteúdo de cada um
 
-### Como testar o envio de dois e-mails (H11.4)
+### Como registrar um interesse
 
 Com os containers no ar:
 
 ```bash
-# 1) acompanhar os e-mails
-docker logs -f finduhouse-servidor-email
+# 1) fazer login com um usuário estudante e obter o token
+curl -X POST "http://localhost:8081/api/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"estudante@puc-campinas.edu.br","senha":"SENHA"}'
 
-# 2) (em outro terminal) solicitar interesse
-curl -X POST "http://localhost:8081/api/vagas/1/interesse?estudanteId=1"
+# 2) registrar o interesse usando o token retornado
+curl -X POST "http://localhost:8081/api/vagas/1/interesse?estudanteId=1" \
+  -H "Authorization: Bearer <TOKEN>"
 ```
 
-**Esperado no log do servidor de e-mail:**
+**Resposta esperada (HTTP 201):**
 
 ```
-Total de emails recebidos: 2
-Assunto: Interesse registrado na vaga: Quarto perto da PUC
-Remetente: nao-responda@finduhouse.com
-Destinatários: [maria.estudante@puc-campinas.edu.br]
-Conteúdo:
-Olá Maria Estudante,
-...
-----------------------
-Assunto: Novo interesse na sua vaga: Quarto perto da PUC
-Remetente: nao-responda@finduhouse.com
-Destinatários: [carlos.proprietario@puc-campinas.edu.br]
-Conteúdo:
-Olá Carlos Proprietario,
-...
-----------------------
+{"sucesso":true,"emailEnviado":false,"mensagem":"Interesse registrado."}
 ```
+
+Possíveis erros: `VAGA_NAO_ENCONTRADA`, `ESTUDANTE_NAO_ENCONTRADO`,
+`INTERESSE_JA_REGISTRADO` e `ACESSO_NEGADO`.
+
+> O envio de e-mail após o registro ainda será integrado ao servidor.
 
 ---
 
@@ -289,7 +283,7 @@ pi4-2026-2-0101-grupo03-backend/
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
 | `POST` | `/api/vagas` | Cadastrar vaga |
-| `POST` | `/api/vagas/{vagaId}/interesse?estudanteId={id}` | Solicitar interesse (envia dois e-mails) |
+| `POST` | `/api/vagas/{vagaId}/interesse?estudanteId={id}` | Solicitar interesse (exige token) |
 | `POST` | `/api/usuarios` | Cadastrar usuário |
 | `POST` | `/api/auth/login` | Autenticar (retorna JWT) |
 

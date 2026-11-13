@@ -93,3 +93,15 @@ CREATE TABLE denuncia (
         'outro'
     ))
 );
+
+CREATE TABLE interesse (
+    id BIGSERIAL PRIMARY KEY,
+    estudante_id BIGINT NOT NULL REFERENCES estudante(id),
+    vaga_id BIGINT NOT NULL REFERENCES vaga(id),
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status_envio_estudante VARCHAR(20) NOT NULL DEFAULT 'pendente'
+        CHECK (status_envio_estudante IN ('pendente', 'enviado', 'falhou')),
+    status_envio_proprietario VARCHAR(20) NOT NULL DEFAULT 'pendente'
+        CHECK (status_envio_proprietario IN ('pendente', 'enviado', 'falhou')),
+    UNIQUE (estudante_id, vaga_id)
+);
