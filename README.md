@@ -69,6 +69,16 @@ xxxxxxxxxxxx   postgres:16-alpine                                   ...   0.0.0.
 
 A API estará disponível em: **http://localhost:8081**
 
+## Usando o banco na nuvem (Neon)
+
+Copie `.env.example` para `.env`, preencha os dados do Neon que o grupo compartilha em canal privado e suba os serviços com:
+
+```bash
+docker-compose up -d --build
+```
+
+Redes que bloqueiam a porta 5432, como algumas redes de faculdade, impedem a conexão com o Neon.
+
 ---
 
 ## 🛠️ 2. Atualizar o código (quando você mudar o Java no VS Code)
