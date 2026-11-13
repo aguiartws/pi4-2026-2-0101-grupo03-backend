@@ -3,6 +3,7 @@ target/
 
 # Variáveis de ambiente locais (o modelo é o .env)
 .env
+!.env.example
 
 # IDEs
 .idea/
