@@ -8,10 +8,7 @@ public interface VagaService {
 
     VagaDtos.CadastroResponse cadastrar(VagaDtos.CadastroRequest request, long usuarioAutenticadoId);
 
-    VagaDtos.EdicaoResponse editar(
-            long vagaId,
-            VagaDtos.EdicaoRequest request,
-            long usuarioAutenticadoId);
+    VagaDtos.EdicaoResponse editar(long vagaId, VagaDtos.EdicaoRequest request, long usuarioAutenticadoId);
 
     VagaDtos.BuscaResponse buscar(BigDecimal valorAluguelMaximo, BigDecimal distanciaMaxima);
 
@@ -20,4 +17,6 @@ public interface VagaService {
     VagaDtos.DetalheResponse obterDetalhes(long vagaId);
 
     VagaDtos.ListaResponsavelResponse listarPorResponsavel(long responsavelId, long usuarioAutenticadoId);
+
+    void excluir(long vagaId, long usuarioAutenticadoId);
 }
