@@ -29,3 +29,12 @@ backend/src/main/java/*.json
 target/
 out/
 
+
+@"
+# Arquivos de teste local com credenciais
+login.json
+login_prop.json
+prop.json
+cadastro.json
+inject.sql
+"@ | Out-File -FilePath .gitignore -Append -Encoding utf8
