@@ -18,33 +18,54 @@ public final class VagaDtos {
     }
 
     public record CadastroRequest(
-            @NotNull @Positive Long responsavelId,
+            @NotNull
+            @Positive Long responsavelId,
             @NotBlank String titulo,
             @NotBlank String descricao,
             @NotBlank String endereco,
-            @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal valorAluguel,
-            @NotNull @Positive Integer numeroMoradores,
+            @NotNull
+            @DecimalMin(value = "0.0", inclusive = false) BigDecimal valorAluguel,
+            @NotNull
+            @Positive Integer numeroMoradores,
             @NotBlank String regrasCasa,
             @NotNull BigDecimal latitude,
             @NotNull BigDecimal longitude,
-            @NotNull @Valid Regras regras) {
+            @NotNull
+            @Valid Regras regras) {
+
     }
 
     public record CadastroResponse(
             long vagaId,
             Status status,
             LocalDateTime criadoEm) {
+
     }
 
     public record EdicaoRequest(
-            @NotNull @Positive Long responsavelId,
-            @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal valorAluguel) {
+            @NotNull
+            @Positive Long responsavelId,
+            @NotBlank String titulo,
+            @NotBlank String descricao,
+            @NotBlank String endereco,
+            @NotNull
+            @DecimalMin(value = "0.0", inclusive = false) BigDecimal valorAluguel,
+            @NotNull
+            @Positive Integer numeroMoradores,
+            @NotBlank String regrasCasa,
+            @NotNull BigDecimal latitude,
+            @NotNull BigDecimal longitude,
+            @NotNull
+            @Valid Regras regrasConvivencia,
+            @NotNull Status status) {
+
     }
 
     public record EdicaoResponse(
             long vagaId,
             BigDecimal valorAluguel,
             LocalDateTime atualizadoEm) {
+
     }
 
     public record ListaResponsavelItem(
@@ -54,10 +75,12 @@ public final class VagaDtos {
             BigDecimal valorAluguel,
             Status status,
             LocalDateTime criadoEm) {
+
     }
 
     public record ListaResponsavelResponse(
             List<ListaResponsavelItem> vagas) {
+
     }
 
     public record BuscaItem(
@@ -69,10 +92,12 @@ public final class VagaDtos {
             String endereco,
             BigDecimal latitude,
             BigDecimal longitude) {
+
     }
 
     public record BuscaResponse(
             List<BuscaItem> vagas) {
+
     }
 
     public record MapaItem(
@@ -82,10 +107,12 @@ public final class VagaDtos {
             BigDecimal valorAluguel,
             BigDecimal latitude,
             BigDecimal longitude) {
+
     }
 
     public record MapaResponse(
             List<MapaItem> vagas) {
+
     }
 
     public record DetalheResponse(
@@ -100,6 +127,7 @@ public final class VagaDtos {
             BigDecimal longitude,
             Status status,
             Regras regrasConvivencia) {
+
     }
 
     public record Regras(
@@ -113,6 +141,7 @@ public final class VagaDtos {
             @NotNull Boolean aceitaDividirQuarto,
             @NotNull Boolean aceitaFestas,
             @NotNull Boolean comunicativo) {
+
     }
 
     public enum Status {
