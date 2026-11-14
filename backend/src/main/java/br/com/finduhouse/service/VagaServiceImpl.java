@@ -1,8 +1,11 @@
 package br.com.finduhouse.service;
 
-import java.util.List;
 import java.math.BigDecimal;
 import java.util.Comparator;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Usuario;
@@ -11,8 +14,6 @@ import br.com.finduhouse.exception.BusinessException;
 import br.com.finduhouse.exception.ErrorCode;
 import br.com.finduhouse.repository.UsuarioRepository;
 import br.com.finduhouse.repository.VagaRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class VagaServiceImpl implements VagaService {
@@ -96,7 +97,29 @@ public class VagaServiceImpl implements VagaService {
                     "A vaga não pertence ao responsável autenticado");
         }
 
-        vaga.atualizarValorAluguel(request.valorAluguel());
+        // ---- AQUI ESTÁ O QUE MUDA TUDO ----
+        VagaDtos.Regras r = request.regrasConvivencia();
+        vaga.atualizarDados(
+                request.titulo(),
+                request.descricao(),
+                request.endereco(),
+                request.valorAluguel(),
+                request.numeroMoradores(),
+                request.regrasCasa(),
+                request.latitude(),
+                request.longitude(),
+                Vaga.Status.valueOf(request.status().name()),
+                r.aceitaBarulhoDepoisDas22(),
+                r.fuma(),
+                r.aceitaAnimais(),
+                r.gostaReceberVisitas(),
+                r.gostaCozinhar(),
+                r.estudaEmCasa(),
+                r.aceitaDividirTarefas(),
+                r.aceitaDividirQuarto(),
+                r.aceitaFestas(),
+                r.comunicativo());
+
         Vaga atualizada = vagaRepository.save(vaga);
         return new VagaDtos.EdicaoResponse(
                 atualizada.getId(),
@@ -206,5 +229,6 @@ public class VagaServiceImpl implements VagaService {
     }
 
     private record VagaComDistancia(Vaga vaga, BigDecimal distancia) {
+
     }
 }

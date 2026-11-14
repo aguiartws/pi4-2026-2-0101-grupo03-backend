@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -194,21 +194,91 @@ public class Vaga {
         return longitude;
     }
 
-    public Boolean getAceitaBarulhoDepoisDas22() { return aceitaBarulhoDepoisDas22; }
-    public Boolean getFuma() { return fuma; }
-    public Boolean getAceitaAnimais() { return aceitaAnimais; }
-    public Boolean getGostaReceberVisitas() { return gostaReceberVisitas; }
-    public Boolean getGostaCozinhar() { return gostaCozinhar; }
-    public Boolean getEstudaEmCasa() { return estudaEmCasa; }
-    public Boolean getAceitaDividirTarefas() { return aceitaDividirTarefas; }
-    public Boolean getAceitaDividirQuarto() { return aceitaDividirQuarto; }
-    public Boolean getAceitaFestas() { return aceitaFestas; }
-    public Boolean getComunicativo() { return comunicativo; }
+    public Boolean getAceitaBarulhoDepoisDas22() {
+        return aceitaBarulhoDepoisDas22;
+    }
+
+    public Boolean getFuma() {
+        return fuma;
+    }
+
+    public Boolean getAceitaAnimais() {
+        return aceitaAnimais;
+    }
+
+    public Boolean getGostaReceberVisitas() {
+        return gostaReceberVisitas;
+    }
+
+    public Boolean getGostaCozinhar() {
+        return gostaCozinhar;
+    }
+
+    public Boolean getEstudaEmCasa() {
+        return estudaEmCasa;
+    }
+
+    public Boolean getAceitaDividirTarefas() {
+        return aceitaDividirTarefas;
+    }
+
+    public Boolean getAceitaDividirQuarto() {
+        return aceitaDividirQuarto;
+    }
+
+    public Boolean getAceitaFestas() {
+        return aceitaFestas;
+    }
+
+    public Boolean getComunicativo() {
+        return comunicativo;
+    }
 
     public void marcarEmAnalise() {
         if (status == Status.ATIVA) {
             status = Status.EM_ANALISE;
         }
+    }
+
+    public void atualizarDados(
+            String titulo,
+            String descricao,
+            String endereco,
+            BigDecimal valorAluguel,
+            Integer numeroMoradores,
+            String regrasCasa,
+            BigDecimal latitude,
+            BigDecimal longitude,
+            Status status,
+            Boolean aceitaBarulhoDepoisDas22,
+            Boolean fuma,
+            Boolean aceitaAnimais,
+            Boolean gostaReceberVisitas,
+            Boolean gostaCozinhar,
+            Boolean estudaEmCasa,
+            Boolean aceitaDividirTarefas,
+            Boolean aceitaDividirQuarto,
+            Boolean aceitaFestas,
+            Boolean comunicativo) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.endereco = endereco;
+        this.valorAluguel = valorAluguel;
+        this.numeroMoradores = numeroMoradores;
+        this.regrasCasa = regrasCasa;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.status = status;
+        this.aceitaBarulhoDepoisDas22 = aceitaBarulhoDepoisDas22;
+        this.fuma = fuma;
+        this.aceitaAnimais = aceitaAnimais;
+        this.gostaReceberVisitas = gostaReceberVisitas;
+        this.gostaCozinhar = gostaCozinhar;
+        this.estudaEmCasa = estudaEmCasa;
+        this.aceitaDividirTarefas = aceitaDividirTarefas;
+        this.aceitaDividirQuarto = aceitaDividirQuarto;
+        this.aceitaFestas = aceitaFestas;
+        this.comunicativo = comunicativo;
     }
 
     public LocalDateTime getAtualizadoEm() {

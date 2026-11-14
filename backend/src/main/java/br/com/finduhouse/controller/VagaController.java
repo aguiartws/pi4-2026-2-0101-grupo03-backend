@@ -1,13 +1,5 @@
 package br.com.finduhouse.controller;
 
-import br.com.finduhouse.dto.VagaDtos;
-import br.com.finduhouse.dto.QuestionarioDtos;
-import br.com.finduhouse.service.VagaService;
-import br.com.finduhouse.config.TokenAuthenticationFilter;
-import br.com.finduhouse.service.AuthenticatedUser;
-import br.com.finduhouse.service.CompatibilidadeService;
-import jakarta.validation.Valid;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.com.finduhouse.config.TokenAuthenticationFilter;
+import br.com.finduhouse.dto.QuestionarioDtos;
+import br.com.finduhouse.dto.VagaDtos;
+import br.com.finduhouse.service.AuthenticatedUser;
+import br.com.finduhouse.service.CompatibilidadeService;
+import br.com.finduhouse.service.VagaService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @Validated
 @RestController
@@ -70,6 +71,15 @@ public class VagaController {
         AuthenticatedUser usuario = usuarioAutenticado(httpRequest);
         return ResponseEntity.ok()
                 .body(vagaService.editar(vagaId, request, usuario.usuarioId()));
+    }
+
+    @GetMapping("/responsavel/{responsavelId}")
+    public ResponseEntity<VagaDtos.ListaResponsavelResponse> listarPorResponsavel(
+            @PathVariable long responsavelId,
+            HttpServletRequest httpRequest) {
+        AuthenticatedUser usuario = usuarioAutenticado(httpRequest);
+        return ResponseEntity.ok(
+                vagaService.listarPorResponsavel(responsavelId, usuario.usuarioId()));
     }
 
     @GetMapping("/{vagaId}/compatibilidade")
