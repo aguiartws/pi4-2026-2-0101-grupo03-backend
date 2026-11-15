@@ -111,7 +111,9 @@ public class GlobalExceptionHandler {
                     QUESTIONARIO_INCOMPLETO,
                     RESPOSTA_INVALIDA,
                     MOTIVO_INVALIDO,
-                    DESCRICAO_OBRIGATORIA -> HttpStatus.BAD_REQUEST;
+                    DESCRICAO_OBRIGATORIA,
+                    CODIGO_RECUPERACAO_INVALIDO,
+                    TOKEN_RECUPERACAO_INVALIDO -> HttpStatus.BAD_REQUEST;
             case CREDENCIAIS_INVALIDAS, TOKEN_INVALIDO -> HttpStatus.UNAUTHORIZED;
             case ACESSO_NEGADO -> HttpStatus.FORBIDDEN;
             case RESPONSAVEL_NAO_ENCONTRADO,
