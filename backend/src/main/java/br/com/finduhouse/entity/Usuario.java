@@ -63,4 +63,8 @@ public class Usuario {
     public Perfil getPerfil() {
         return perfil;
     }
+
+    public void atualizarSenhaHash(String novoSenhaHash) {
+        this.senhaHash = novoSenhaHash;
+    }
 }

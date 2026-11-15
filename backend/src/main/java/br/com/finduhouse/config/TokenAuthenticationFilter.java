@@ -2,6 +2,7 @@ package br.com.finduhouse.config;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import br.com.finduhouse.dto.ErrorResponse;
 import br.com.finduhouse.service.AuthenticatedUser;
@@ -20,6 +21,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     public static final String AUTHENTICATED_USER_ATTRIBUTE =
             AuthenticatedUser.class.getName();
+
+    // Quem esqueceu a senha ainda não tem token de login: estas rotas são públicas.
+    private static final Set<String> ROTAS_RECUPERACAO_SENHA = Set.of(
+            "/api/auth/solicitar-recuperacao",
+            "/api/auth/verificar-codigo",
+            "/api/auth/redefinir-senha");
 
     private final TokenService tokenService;
     private final ObjectMapper objectMapper;
@@ -67,6 +74,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 || ("POST".equals(method) && "/api/auth/login".equals(path))
                 || ("POST".equals(method) && "/api/estudantes".equals(path))
                 || ("POST".equals(method) && "/api/proprietarios".equals(path))
+                || ("POST".equals(method) && ROTAS_RECUPERACAO_SENHA.contains(path))
                 || !path.startsWith("/api/");
     }
 
