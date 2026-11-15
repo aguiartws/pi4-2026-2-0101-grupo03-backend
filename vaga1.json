@@ -1,0 +1,23 @@
+﻿{
+  "responsavelId": 18,
+  "titulo": "República Vila Universitária",
+  "descricao": "Quarto individual em república com 4 moradores, a 5 min a pé da PUC.",
+  "endereco": "Rua Roxo Moreira, 1200 - Barão Geraldo, Campinas",
+  "valorAluguel": 850.00,
+  "numeroMoradores": 4,
+  "regrasCasa": "Sem barulho após 22h. Tarefas divididas.",
+  "latitude": -22.8143,
+  "longitude": -47.0698,
+  "regras": {
+    "aceitaBarulhoDepoisDas22": false,
+    "fuma": false,
+    "aceitaAnimais": true,
+    "gostaReceberVisitas": true,
+    "gostaCozinhar": true,
+    "estudaEmCasa": true,
+    "aceitaDividirTarefas": true,
+    "aceitaDividirQuarto": false,
+    "aceitaFestas": false,
+    "comunicativo": true
+  }
+}

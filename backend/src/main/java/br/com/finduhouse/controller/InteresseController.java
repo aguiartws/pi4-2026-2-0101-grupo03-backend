@@ -1,19 +1,21 @@
 package br.com.finduhouse.controller;
 
-import br.com.finduhouse.config.TokenAuthenticationFilter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.finduhouse.config.TokenAuthenticationFilter; // ADICIONE ESTE IMPORT
 import br.com.finduhouse.dto.InteresseDtos;
 import br.com.finduhouse.service.AuthenticatedUser;
 import br.com.finduhouse.service.InteresseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Positive;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @Validated
 @RestController
@@ -35,5 +37,16 @@ public class InteresseController {
                 TokenAuthenticationFilter.AUTHENTICATED_USER_ATTRIBUTE);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 interesseService.solicitar(vagaId, estudanteId, usuario.usuarioId()));
+    }
+
+    // ADICIONE ESTE MÉTODO:
+    @GetMapping("/meus-matches")
+    public ResponseEntity<InteresseDtos.ListaMatchesResponse> listarMeusMatches(
+            @RequestParam @Positive long estudanteId,
+            HttpServletRequest request) {
+        AuthenticatedUser usuario = (AuthenticatedUser) request.getAttribute(
+                TokenAuthenticationFilter.AUTHENTICATED_USER_ATTRIBUTE);
+        return ResponseEntity.ok(
+                interesseService.listarMatches(estudanteId, usuario.usuarioId()));
     }
 }
