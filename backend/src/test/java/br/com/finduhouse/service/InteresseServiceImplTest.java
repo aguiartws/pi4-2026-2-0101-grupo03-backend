@@ -1,6 +1,8 @@
 package br.com.finduhouse.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +22,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import br.com.finduhouse.dto.InteresseDtos;
 import br.com.finduhouse.entity.Estudante;
 import br.com.finduhouse.entity.Interesse;
 import br.com.finduhouse.entity.Usuario;
@@ -149,6 +152,41 @@ class InteresseServiceImplTest {
                 () -> service.solicitar(15L, 42L, 42L));
 
         assertEquals(ErrorCode.INTERESSE_JA_REGISTRADO, exception.getCodigo());
+    }
+
+    @Test
+    void deveListarMatchesRecebidosPeloProprietario() {
+        Estudante estudante = estudante(42L);
+        Vaga vaga = vaga(15L, Vaga.Status.ATIVA);
+        Interesse interesse = new Interesse(estudante, vaga);
+        ReflectionTestUtils.setField(interesse, "id", 10L);
+        ReflectionTestUtils.setField(
+                interesse, "criadoEm", LocalDateTime.parse("2026-11-15T18:30:00"));
+        when(interesseRepository.findByResponsavelId(7L)).thenReturn(List.of(interesse));
+
+        InteresseDtos.ListaProprietarioMatchesResponse response =
+                service.listarMatchesDoProprietario(7L, 7L);
+
+        assertEquals(1, response.matches().size());
+        var match = response.matches().get(0);
+        assertEquals(10L, match.interesseId());
+        assertEquals(15L, match.vagaId());
+        assertEquals("Kitnet", match.tituloVaga());
+        assertEquals("Ana", match.nomeEstudante());
+        assertEquals("Engenharia", match.curso());
+        assertEquals("ana@puccampinas.edu.br", match.email());
+        assertEquals("telefone", match.telefone());
+        assertEquals(LocalDateTime.parse("2026-11-15T18:30:00"), match.criadoEm());
+    }
+
+    @Test
+    void deveImpedirListagemDeMatchesDeOutroProprietario() {
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> service.listarMatchesDoProprietario(7L, 8L));
+
+        assertEquals(ErrorCode.ACESSO_NEGADO, exception.getCodigo());
+        verify(interesseRepository, never()).findByResponsavelId(any(Long.class));
     }
 
     private Estudante estudante(long id) {

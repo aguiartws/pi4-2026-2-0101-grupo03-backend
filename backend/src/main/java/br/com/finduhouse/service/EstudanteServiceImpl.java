@@ -55,6 +55,8 @@ public class EstudanteServiceImpl implements EstudanteService {
                 request.telefone(),
                 passwordService.hash(request.senha()),
                 Usuario.Perfil.ESTUDANTE);
+        usuario.atualizarDadosBasicos(
+                request.nome(), email, request.telefone(), normalizarCidade(request.cidade()));
 
         try {
             Usuario usuarioSalvo = usuarioRepository.save(usuario);
@@ -77,5 +79,10 @@ public class EstudanteServiceImpl implements EstudanteService {
                     ErrorCode.EMAIL_JA_EXISTE,
                     "Já existe um usuário cadastrado com este e-mail");
         }
+
+    }
+
+    private static String normalizarCidade(String cidade) {
+        return cidade == null || cidade.isBlank() ? null : cidade.trim();
     }
 }

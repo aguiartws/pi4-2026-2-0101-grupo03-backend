@@ -30,6 +30,9 @@ public class Usuario {
     @Column(nullable = false)
     private String telefone;
 
+    @Column(length = 100)
+    private String cidade;
+
     @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
 
@@ -56,6 +59,18 @@ public class Usuario {
         return email;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
     public String getSenhaHash() {
         return senhaHash;
     }
@@ -66,5 +81,16 @@ public class Usuario {
 
     public void atualizarSenhaHash(String novoSenhaHash) {
         this.senhaHash = novoSenhaHash;
+    }
+
+    public void atualizarDadosBasicos(
+            String nome,
+            String email,
+            String telefone,
+            String cidade) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.cidade = cidade;
     }
 }

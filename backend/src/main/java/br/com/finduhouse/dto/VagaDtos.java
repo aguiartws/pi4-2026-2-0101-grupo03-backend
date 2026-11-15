@@ -74,7 +74,17 @@ public final class VagaDtos {
             String endereco,
             BigDecimal valorAluguel,
             Status status,
-            LocalDateTime criadoEm) {
+            LocalDateTime criadoEm,
+            String fotoCapa) {
+        public ListaResponsavelItem(
+                long id,
+                String titulo,
+                String endereco,
+                BigDecimal valorAluguel,
+                Status status,
+                LocalDateTime criadoEm) {
+            this(id, titulo, endereco, valorAluguel, status, criadoEm, null);
+        }
 
     }
 
@@ -91,7 +101,19 @@ public final class VagaDtos {
             String descricao,
             String endereco,
             BigDecimal latitude,
-            BigDecimal longitude) {
+            BigDecimal longitude,
+            String fotoCapa) {
+        public BuscaItem(
+                long id,
+                String titulo,
+                BigDecimal valorAluguel,
+                BigDecimal distanciaCampus,
+                String descricao,
+                String endereco,
+                BigDecimal latitude,
+                BigDecimal longitude) {
+            this(id, titulo, valorAluguel, distanciaCampus, descricao, endereco, latitude, longitude, null);
+        }
 
     }
 
@@ -126,8 +148,27 @@ public final class VagaDtos {
             BigDecimal latitude,
             BigDecimal longitude,
             Status status,
-            Regras regrasConvivencia) {
+            Regras regrasConvivencia,
+            List<String> fotos) {
+        public DetalheResponse(
+                long id,
+                String titulo,
+                String descricao,
+                String endereco,
+                BigDecimal valorAluguel,
+                Integer numeroMoradores,
+                String regrasCasa,
+                BigDecimal latitude,
+                BigDecimal longitude,
+                Status status,
+                Regras regrasConvivencia) {
+            this(id, titulo, descricao, endereco, valorAluguel, numeroMoradores, regrasCasa,
+                    latitude, longitude, status, regrasConvivencia, List.of());
+        }
 
+    }
+
+    public record FotosResponse(List<String> fotos) {
     }
 
     public record Regras(

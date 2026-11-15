@@ -44,6 +44,8 @@ public class ProprietarioServiceImpl implements ProprietarioService {
                 request.telefone(),
                 passwordService.hash(request.senha()),
                 Usuario.Perfil.PROPRIETARIO);
+        usuario.atualizarDadosBasicos(
+                request.nome(), email, request.telefone(), normalizarCidade(request.cidade()));
 
         try {
             Usuario usuarioSalvo = usuarioRepository.save(usuario);
@@ -64,5 +66,10 @@ public class ProprietarioServiceImpl implements ProprietarioService {
                     ErrorCode.EMAIL_JA_EXISTE,
                     "Já existe um usuário cadastrado com este e-mail");
         }
+
+    }
+
+    private static String normalizarCidade(String cidade) {
+        return cidade == null || cidade.isBlank() ? null : cidade.trim();
     }
 }

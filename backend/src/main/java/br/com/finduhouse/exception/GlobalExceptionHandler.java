@@ -13,6 +13,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -72,6 +75,31 @@ public class GlobalExceptionHandler {
                 "Parâmetro obrigatório não informado: " + exception.getParameterName());
     }
 
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxUploadSize() {
+        return response(
+                HttpStatus.PAYLOAD_TOO_LARGE,
+                ErrorCode.ARQUIVO_INVALIDO,
+                "A imagem deve ter no máximo 5 MB");
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public ResponseEntity<ErrorResponse> handleMissingPart(
+            MissingServletRequestPartException exception) {
+        return response(
+                HttpStatus.BAD_REQUEST,
+                ErrorCode.DADOS_OBRIGATORIOS,
+                "Parte obrigatória não enviada: " + exception.getRequestPartName());
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<ErrorResponse> handleMultipart() {
+        return response(
+                HttpStatus.BAD_REQUEST,
+                ErrorCode.DADOS_OBRIGATORIOS,
+                "A requisição deve ser multipart");
+    }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleTypeMismatch(
             MethodArgumentTypeMismatchException exception) {
@@ -113,7 +141,9 @@ public class GlobalExceptionHandler {
                     MOTIVO_INVALIDO,
                     DESCRICAO_OBRIGATORIA,
                     CODIGO_RECUPERACAO_INVALIDO,
-                    TOKEN_RECUPERACAO_INVALIDO -> HttpStatus.BAD_REQUEST;
+                    TOKEN_RECUPERACAO_INVALIDO,
+                    ARQUIVO_INVALIDO,
+                    LIMITE_FOTOS_EXCEDIDO -> HttpStatus.BAD_REQUEST;
             case CREDENCIAIS_INVALIDAS, TOKEN_INVALIDO -> HttpStatus.UNAUTHORIZED;
             case ACESSO_NEGADO -> HttpStatus.FORBIDDEN;
             case RESPONSAVEL_NAO_ENCONTRADO,
@@ -126,6 +156,7 @@ public class GlobalExceptionHandler {
                     DENUNCIA_DUPLICADA -> HttpStatus.CONFLICT;
             case FALHA_ENVIO_EMAIL,
                     ERRO_INTERNO -> HttpStatus.INTERNAL_SERVER_ERROR;
+            case FALHA_UPLOAD_IMAGEM -> HttpStatus.BAD_GATEWAY;
         };
     }
 }

@@ -1,6 +1,7 @@
 package br.com.finduhouse.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.finduhouse.config.TokenAuthenticationFilter;
@@ -21,6 +23,8 @@ import br.com.finduhouse.service.CompatibilidadeService;
 import br.com.finduhouse.service.VagaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Validated
 @RestController
@@ -107,6 +111,28 @@ public class VagaController {
 
         vagaService.excluir(vagaId, usuario.usuarioId());
 
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(
+            value = "/{vagaId}/fotos",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<VagaDtos.FotosResponse> adicionarFotos(
+            @PathVariable long vagaId,
+            @RequestPart("fotos") List<MultipartFile> fotos,
+            HttpServletRequest httpRequest) {
+        AuthenticatedUser usuario = usuarioAutenticado(httpRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                vagaService.adicionarFotos(vagaId, fotos, usuario.usuarioId()));
+    }
+
+    @DeleteMapping("/{vagaId}/fotos/{fotoId}")
+    public ResponseEntity<Void> removerFoto(
+            @PathVariable long vagaId,
+            @PathVariable long fotoId,
+            HttpServletRequest httpRequest) {
+        AuthenticatedUser usuario = usuarioAutenticado(httpRequest);
+        vagaService.removerFoto(vagaId, fotoId, usuario.usuarioId());
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,7 @@
 package br.com.finduhouse.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public final class InteresseDtos {
@@ -23,5 +24,21 @@ public final class InteresseDtos {
 
     public record ListaMatchesResponse(
             List<MatchItem> matches) {
+    }
+
+    public record ProprietarioMatchItem(
+            long interesseId,
+            long vagaId,
+            String tituloVaga,
+            String nomeEstudante,
+            String curso,
+            String email,
+            String telefone,
+            String fotoPerfilUrl,
+            LocalDateTime criadoEm) {
+    }
+
+    public record ListaProprietarioMatchesResponse(
+            List<ProprietarioMatchItem> matches) {
     }
 }

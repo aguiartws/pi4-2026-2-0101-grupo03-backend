@@ -11,4 +11,8 @@ public interface InteresseService {
 
     // ADICIONE ESTA LINHA:
     InteresseDtos.ListaMatchesResponse listarMatches(long estudanteId, long estudanteAutenticadoId);
+
+    InteresseDtos.ListaProprietarioMatchesResponse listarMatchesDoProprietario(
+            long responsavelId,
+            long responsavelAutenticadoId);
 }

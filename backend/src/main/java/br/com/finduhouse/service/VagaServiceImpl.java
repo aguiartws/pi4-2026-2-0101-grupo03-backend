@@ -2,10 +2,17 @@ package br.com.finduhouse.service;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+import br.com.finduhouse.entity.VagaFoto;
+import br.com.finduhouse.repository.VagaFotoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Usuario;
@@ -21,14 +28,28 @@ public class VagaServiceImpl implements VagaService {
     private final UsuarioRepository usuarioRepository;
     private final VagaRepository vagaRepository;
     private final CalculadoraDistancia calculadoraDistancia;
+    private final ArmazenamentoImagens armazenamento;
+    private final VagaFotoRepository vagaFotoRepository;
+
+    @Autowired
+    public VagaServiceImpl(
+            UsuarioRepository usuarioRepository,
+            VagaRepository vagaRepository,
+            CalculadoraDistancia calculadoraDistancia,
+            ArmazenamentoImagens armazenamento,
+            VagaFotoRepository vagaFotoRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.vagaRepository = vagaRepository;
+        this.calculadoraDistancia = calculadoraDistancia;
+        this.armazenamento = armazenamento;
+        this.vagaFotoRepository = vagaFotoRepository;
+    }
 
     public VagaServiceImpl(
             UsuarioRepository usuarioRepository,
             VagaRepository vagaRepository,
             CalculadoraDistancia calculadoraDistancia) {
-        this.usuarioRepository = usuarioRepository;
-        this.vagaRepository = vagaRepository;
-        this.calculadoraDistancia = calculadoraDistancia;
+        this(usuarioRepository, vagaRepository, calculadoraDistancia, null, null);
     }
 
     @Override
@@ -150,6 +171,8 @@ public class VagaServiceImpl implements VagaService {
                 .sorted(Comparator.comparing(VagaComDistancia::distancia)
                         .thenComparing(vaga -> vaga.vaga().getId()))
                 .toList();
+        Map<Long, List<String>> fotosPorVaga = fotosPorVaga(
+                vagas.stream().map(vaga -> vaga.vaga().getId()).toList());
 
         return new VagaDtos.BuscaResponse(vagas.stream()
                 .map(vaga -> new VagaDtos.BuscaItem(
@@ -160,7 +183,8 @@ public class VagaServiceImpl implements VagaService {
                         vaga.vaga().getDescricao(),
                         vaga.vaga().getEndereco(),
                         vaga.vaga().getLatitude(),
-                        vaga.vaga().getLongitude()))
+                        vaga.vaga().getLongitude(),
+                        primeiraFoto(fotosPorVaga.get(vaga.vaga().getId()))))
                 .toList());
     }
 
@@ -185,6 +209,10 @@ public class VagaServiceImpl implements VagaService {
                 .orElseThrow(() -> new BusinessException(
                         ErrorCode.VAGA_NAO_ENCONTRADA,
                         "Vaga não encontrada"));
+        List<String> fotos = vagaFotoRepository == null
+                ? List.of()
+                : vagaFotoRepository.findByVagaIdOrderByOrdemAscIdAsc(vagaId)
+                        .stream().map(VagaFoto::getUrl).toList();
         return new VagaDtos.DetalheResponse(
                 vaga.getId(),
                 vaga.getTitulo(),
@@ -196,7 +224,8 @@ public class VagaServiceImpl implements VagaService {
                 vaga.getLatitude(),
                 vaga.getLongitude(),
                 VagaDtos.Status.valueOf(vaga.getStatus().name()),
-                RegrasConverter.regras(vaga));
+                RegrasConverter.regras(vaga),
+                fotos);
     }
 
     @Override
@@ -215,7 +244,10 @@ public class VagaServiceImpl implements VagaService {
                     "Responsável não encontrado");
         }
 
-        List<VagaDtos.ListaResponsavelItem> vagas = vagaRepository.findByResponsavelId(responsavelId)
+        List<Vaga> vagasEncontradas = vagaRepository.findByResponsavelId(responsavelId);
+        Map<Long, List<String>> fotosPorVaga = fotosPorVaga(
+                vagasEncontradas.stream().map(Vaga::getId).toList());
+        List<VagaDtos.ListaResponsavelItem> vagas = vagasEncontradas
                 .stream()
                 .map(vaga -> new VagaDtos.ListaResponsavelItem(
                         vaga.getId(),
@@ -223,7 +255,9 @@ public class VagaServiceImpl implements VagaService {
                         vaga.getEndereco(),
                         vaga.getValorAluguel(),
                         VagaDtos.Status.valueOf(vaga.getStatus().name()),
-                        vaga.getCriadoEm()))
+                        vaga.getCriadoEm(),
+                        primeiraFoto(fotosPorVaga.get(vaga.getId())))
+                )
                 .toList();
         return new VagaDtos.ListaResponsavelResponse(vagas);
     }
@@ -243,6 +277,125 @@ public class VagaServiceImpl implements VagaService {
         }
 
         vagaRepository.delete(vaga);
+    }
+
+    @Override
+    @Transactional
+    public VagaDtos.FotosResponse adicionarFotos(
+            long vagaId,
+            List<MultipartFile> fotos,
+            long usuarioAutenticadoId) {
+        if (armazenamento == null || vagaFotoRepository == null) {
+            throw new IllegalStateException("Armazenamento de fotos não configurado");
+        }
+        Vaga vaga = vagaRepository.findById(vagaId)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.VAGA_NAO_ENCONTRADA, "Vaga não encontrada"));
+        if (!vaga.getResponsavel().getId().equals(usuarioAutenticadoId)) {
+            throw new BusinessException(
+                    ErrorCode.ACESSO_NEGADO,
+                    "A vaga não pertence ao responsável autenticado");
+        }
+
+        List<MultipartFile> arquivos = fotos == null ? List.of() : fotos.stream()
+                .filter(foto -> foto != null && !foto.isEmpty())
+                .toList();
+        if (arquivos.isEmpty()) {
+            throw new BusinessException(
+                    ErrorCode.ARQUIVO_INVALIDO,
+                    "É necessário enviar pelo menos uma foto");
+        }
+        arquivos.forEach(armazenamento::validar);
+        List<VagaFoto> existentes = vagaFotoRepository.findByVagaIdOrderByOrdemAscIdAsc(vagaId);
+        if (existentes.size() + arquivos.size() > 5) {
+            throw new BusinessException(
+                    ErrorCode.LIMITE_FOTOS_EXCEDIDO,
+                    "Cada vaga aceita no máximo 5 fotos");
+        }
+
+        List<String> publicIdsEnviados = new java.util.ArrayList<>();
+        try {
+            int ordem = existentes.stream()
+                    .map(VagaFoto::getOrdem)
+                    .max(Integer::compareTo)
+                    .map(valor -> valor + 1)
+                    .orElse(0);
+            for (MultipartFile arquivo : arquivos) {
+                String publicId = "vagas/vaga-" + vagaId + "/" + UUID.randomUUID();
+                ArmazenamentoImagens.ImagemArmazenada imagem =
+                        armazenamento.salvar(arquivo, publicId, false);
+                publicIdsEnviados.add(imagem.publicId());
+                vagaFotoRepository.save(new VagaFoto(vaga, imagem.url(), ordem++));
+            }
+        } catch (RuntimeException exception) {
+            publicIdsEnviados.forEach(armazenamento::remover);
+            throw exception;
+        }
+
+        return new VagaDtos.FotosResponse(
+                vagaFotoRepository.findByVagaIdOrderByOrdemAscIdAsc(vagaId)
+                        .stream().map(VagaFoto::getUrl).toList());
+    }
+
+    @Override
+    @Transactional
+    public void removerFoto(long vagaId, long fotoId, long usuarioAutenticadoId) {
+        if (armazenamento == null || vagaFotoRepository == null) {
+            throw new IllegalStateException("Armazenamento de fotos não configurado");
+        }
+        Vaga vaga = vagaRepository.findById(vagaId)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.VAGA_NAO_ENCONTRADA, "Vaga não encontrada"));
+        if (!vaga.getResponsavel().getId().equals(usuarioAutenticadoId)) {
+            throw new BusinessException(
+                    ErrorCode.ACESSO_NEGADO,
+                    "A vaga não pertence ao responsável autenticado");
+        }
+        VagaFoto foto = vagaFotoRepository.findById(fotoId)
+                .filter(item -> item.getVaga().getId().equals(vagaId))
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.VAGA_NAO_ENCONTRADA, "Foto não encontrada"));
+        vagaFotoRepository.delete(foto);
+        String publicId = derivarPublicId(foto.getUrl());
+        if (publicId != null) {
+            armazenamento.remover(publicId);
+        }
+    }
+
+    static String derivarPublicId(String url) {
+        if (url == null) {
+            return null;
+        }
+        int upload = url.indexOf("/upload/");
+        if (upload < 0) {
+            return null;
+        }
+        String caminho = url.substring(upload + "/upload/".length());
+        int query = caminho.indexOf('?');
+        if (query >= 0) {
+            caminho = caminho.substring(0, query);
+        }
+        if (caminho.startsWith("v") && caminho.indexOf('/') > 1
+                && caminho.substring(1, caminho.indexOf('/')).chars().allMatch(Character::isDigit)) {
+            caminho = caminho.substring(caminho.indexOf('/') + 1);
+        }
+        int ponto = caminho.lastIndexOf('.');
+        return ponto > caminho.lastIndexOf('/') ? caminho.substring(0, ponto) : caminho;
+    }
+
+    private Map<Long, List<String>> fotosPorVaga(List<Long> vagaIds) {
+        if (vagaFotoRepository == null || vagaIds.isEmpty()) {
+            return Map.of();
+        }
+        Map<Long, List<String>> resultado = new HashMap<>();
+        vagaFotoRepository.findByVagaIdInOrderByOrdemAscIdAsc(vagaIds)
+                .forEach(foto -> resultado.computeIfAbsent(
+                        foto.getVaga().getId(), ignored -> new java.util.ArrayList<>()).add(foto.getUrl()));
+        return resultado;
+    }
+
+    private static String primeiraFoto(List<String> fotos) {
+        return fotos == null || fotos.isEmpty() ? null : fotos.get(0);
     }
 
     private record VagaComDistancia(Vaga vaga, BigDecimal distancia) {

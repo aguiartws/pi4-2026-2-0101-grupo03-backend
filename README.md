@@ -230,6 +230,15 @@ Para trocar para um provedor real (ex.: Gmail, SendGrid), altere o `application.
 docker-compose up -d --build backend
 ```
 
+## 🖼️ Configuração do Cloudinary
+
+O upload de imagens usa as variáveis `CLOUDINARY_CLOUD_NAME`,
+`CLOUDINARY_API_KEY` e `CLOUDINARY_API_SECRET`. Elas estão disponíveis em
+**console.cloudinary.com > Chaves de API**. Copie `.env.example` para `.env` e
+preencha os valores; o arquivo `.env` é ignorado pelo Git e nunca deve conter
+credenciais versionadas. Sem essas variáveis, a aplicação sobe normalmente,
+mas os endpoints de upload retornam HTTP 502 (`FALHA_UPLOAD_IMAGEM`).
+
 ---
 
 ## 🧪 9. Servidor de e-mail de teste
