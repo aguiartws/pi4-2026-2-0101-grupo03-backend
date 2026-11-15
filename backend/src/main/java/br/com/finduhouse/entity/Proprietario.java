@@ -33,6 +33,9 @@ public class Proprietario {
     @Column(nullable = false)
     private String telefone;
 
+    @Column(name = "foto_url", length = 500)
+    private String fotoUrl;
+
     @Column(name = "criado_em", nullable = false)
     private LocalDateTime criadoEm;
 
@@ -75,6 +78,23 @@ public class Proprietario {
 
     public String getTelefone() {
         return telefone;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void atualizarFoto(String url) {
+        fotoUrl = url;
+    }
+
+    public void atualizarDados(
+            String nome,
+            String email,
+            String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
     }
 
     public LocalDateTime getCriadoEm() {

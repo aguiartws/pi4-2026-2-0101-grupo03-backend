@@ -121,6 +121,35 @@ public class InteresseServiceImpl implements InteresseService {
     }
     // ------------------------------
 
+    @Override
+    @Transactional(readOnly = true)
+    public InteresseDtos.ListaProprietarioMatchesResponse listarMatchesDoProprietario(
+            long responsavelId,
+            long responsavelAutenticadoId) {
+        if (responsavelId != responsavelAutenticadoId) {
+            throw new BusinessException(
+                    ErrorCode.ACESSO_NEGADO,
+                    "A operação só pode ser realizada pelo proprietário autenticado");
+        }
+
+        List<InteresseDtos.ProprietarioMatchItem> matches =
+                interesseRepository.findByResponsavelId(responsavelId)
+                        .stream()
+                        .map(interesse -> new InteresseDtos.ProprietarioMatchItem(
+                                interesse.getId(),
+                                interesse.getVaga().getId(),
+                                interesse.getVaga().getTitulo(),
+                                interesse.getEstudante().getNome(),
+                                interesse.getEstudante().getCurso(),
+                                interesse.getEstudante().getEmail(),
+                                interesse.getEstudante().getTelefone(),
+                                interesse.getEstudante().getFotoUrl(),
+                                interesse.getCriadoEm()))
+                        .toList();
+
+        return new InteresseDtos.ListaProprietarioMatchesResponse(matches);
+    }
+
     private BusinessException interesseDuplicado() {
         return new BusinessException(
                 ErrorCode.INTERESSE_JA_REGISTRADO,

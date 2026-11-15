@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.finduhouse.config.TokenAuthenticationFilter; // ADICIONE ESTE IMPORT
+import br.com.finduhouse.config.TokenAuthenticationFilter;
 import br.com.finduhouse.dto.InteresseDtos;
 import br.com.finduhouse.service.AuthenticatedUser;
 import br.com.finduhouse.service.InteresseService;
@@ -48,5 +48,17 @@ public class InteresseController {
                 TokenAuthenticationFilter.AUTHENTICATED_USER_ATTRIBUTE);
         return ResponseEntity.ok(
                 interesseService.listarMatches(estudanteId, usuario.usuarioId()));
+    }
+
+    @GetMapping("/responsavel/{responsavelId}/matches")
+    public ResponseEntity<InteresseDtos.ListaProprietarioMatchesResponse> listarMatchesDoProprietario(
+            @PathVariable @Positive long responsavelId,
+            HttpServletRequest request) {
+        AuthenticatedUser usuario = (AuthenticatedUser) request.getAttribute(
+                TokenAuthenticationFilter.AUTHENTICATED_USER_ATTRIBUTE);
+        return ResponseEntity.ok(
+                interesseService.listarMatchesDoProprietario(
+                        responsavelId,
+                        usuario.usuarioId()));
     }
 }

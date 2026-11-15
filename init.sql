@@ -4,7 +4,8 @@ CREATE TABLE usuario (
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    perfil VARCHAR(50) NOT NULL CHECK (perfil IN ('estudante', 'proprietario'))
+    perfil VARCHAR(50) NOT NULL CHECK (perfil IN ('estudante', 'proprietario')),
+    cidade VARCHAR(100)
 );
 
 CREATE TABLE estudante (
@@ -13,6 +14,7 @@ CREATE TABLE estudante (
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
     curso VARCHAR(255) NOT NULL,
+    foto_url VARCHAR(500),
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -22,6 +24,7 @@ CREATE TABLE proprietario (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
+    foto_url VARCHAR(500),
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -104,4 +107,11 @@ CREATE TABLE interesse (
     status_envio_proprietario VARCHAR(20) NOT NULL DEFAULT 'pendente'
         CHECK (status_envio_proprietario IN ('pendente', 'enviado', 'falhou')),
     UNIQUE (estudante_id, vaga_id)
+);
+
+CREATE TABLE vaga_foto (
+    id BIGSERIAL PRIMARY KEY,
+    vaga_id BIGINT NOT NULL REFERENCES vaga(id) ON DELETE CASCADE,
+    url VARCHAR(500) NOT NULL,
+    ordem INT NOT NULL
 );

@@ -36,6 +36,9 @@ public class Estudante {
     @Column(nullable = false)
     private String curso;
 
+    @Column(name = "foto_url", length = 500)
+    private String fotoUrl;
+
     @Column(name = "criado_em", nullable = false)
     private LocalDateTime criadoEm;
 
@@ -88,6 +91,25 @@ public class Estudante {
 
     public String getCurso() {
         return curso;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void atualizarFoto(String url) {
+        fotoUrl = url;
+    }
+
+    public void atualizarDados(
+            String nome,
+            String email,
+            String telefone,
+            String curso) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.curso = curso;
     }
 
     public LocalDateTime getCriadoEm() {
