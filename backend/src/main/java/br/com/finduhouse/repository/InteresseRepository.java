@@ -1,9 +1,16 @@
 package br.com.finduhouse.repository;
 
-import br.com.finduhouse.entity.Interesse;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import br.com.finduhouse.entity.Interesse;
+
+@Repository
 public interface InteresseRepository extends JpaRepository<Interesse, Long> {
-
-    boolean existsByEstudanteIdAndVagaId(Long estudanteId, Long vagaId);
+    boolean existsByEstudanteIdAndVagaId(long estudanteId, long vagaId);
+    
+    // ADICIONE ESTA LINHA:
+    List<Interesse> findByEstudanteId(long estudanteId);
 }
