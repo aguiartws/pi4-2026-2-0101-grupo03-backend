@@ -1,12 +1,13 @@
 package br.com.finduhouse.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import br.com.finduhouse.dto.AuthDtos;
 import br.com.finduhouse.entity.Usuario;
 import br.com.finduhouse.exception.BusinessException;
 import br.com.finduhouse.exception.ErrorCode;
 import br.com.finduhouse.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {

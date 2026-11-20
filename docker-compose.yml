@@ -12,7 +12,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-${DB_PASSWORD:-finduhouse}}
 
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      
+
       SPRING_MAIL_HOST: smtp.gmail.com
       SPRING_MAIL_PORT: 587
       SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
@@ -23,15 +23,20 @@ services:
       CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
       CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
+
+      # Validador de CEP
+      CEP_VALIDADOR_HOST: validador-cep
+      CEP_VALIDADOR_PORTA: 5000
     depends_on:
       database:
         condition: service_healthy
       servidor-email:
         condition: service_started
+      validador-cep:
+        condition: service_started
     networks:
       - default
       - finduhouse-net
-
 
   servidor-email:
     build:
@@ -40,9 +45,18 @@ services:
     container_name: finduhouse-servidor-email
     ports:
       - "${MAIL_PORT:-2525}:25"
-    networks:              # <--- ADICIONE ESTE BLOCO
-      - default            # <--- ADICIONE ESTA LINHA
-      - finduhouse-net     # <--- ADICIONE ESTA LINHA
+    networks:
+      - default
+      - finduhouse-net
+
+  validador-cep:
+    build:
+      context: ./servidor-endereco
+      dockerfile: Dockerfile
+    container_name: finduhouse-validador-cep
+    networks:
+      - default
+      - finduhouse-net
 
   database:
     image: postgres:16-alpine
@@ -63,7 +77,7 @@ services:
       retries: 10
 
 volumes:
-  postgres-data: 
+  postgres-data:
 
 networks:
   finduhouse-net:
