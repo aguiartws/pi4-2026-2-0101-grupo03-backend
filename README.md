@@ -1,327 +1,183 @@
-# findUhouse
+# 1. FindUHouse
 
-Plataforma web que conecta estudantes universitários a moradias compatíveis — repúblicas, kitnets e apartamentos compartilhados — com base em perfil, hábitos e orçamento, substituindo a busca manual em grupos de WhatsApp e redes sociais.
+Plataforma web que conecta estudantes universitários a moradias compatíveis (repúblicas, kitnets e apartamentos compartilhados) com base em perfil, hábitos e orçamento, substituindo a busca manual em grupos de WhatsApp e redes sociais.
 
-## Integrantes
-- Ana Carolina Ferreira Alves Barcaro — @carolbarcaro
-- Ana Clara Coelho Chaves  — @anachaves26
-- Brenda Maia Bergamasco — @bMaia07
-- Caio Cantarin Marques — @caio0409
-- Luis Filippi Aguiar da Rocha — @aguiartws
-- Maria Júlia Hofstetter Trevisan Pereira — @m7julia
+## 2. Integrantes
 
-## Documentação
-- Visão geral e fluxos (repositório do frontend): https://github.com/aguiartws/pi4-2026-2-0101-grupo03-frontend/tree/main/docs/fluxos
-- Contratos: pasta `docs/contratos` deste repositório
+| Nome                                    | RA       | Responde por       |
+|-----------------------------------------|----------|--------------------|
+| Ana Carolina Ferreira Alves Barcaro     | 25005077 | Frontend           |
+| Ana Clara Coelho Chaves                 | 25003865 | Frontend           |
+| Brenda Maia Bergamasco                  | 25010054 | Banco e Frontend   |
+| Caio Cantarin Marques                   | 25006919 | Banco e Frontend   |
+| Luis Filippi Aguiar da Rocha            | 25020954 | Backend            |
+| Maria Júlia Hofstetter Trevisan Pereira | 25021039 | Backend e Socket   |
+
+
+## 3. Repositórios
+- Front-end: https://github.com/aguiartws/pi4-2026-2-0101-grupo03-frontend.git. O repositório contém o desenvolvimento do frontend da plataforma FindUHouse, responsável pela interface de interação com alunos e proprietários. Desenvolvido com HTML, CSS e JavaScript, apresenta as telas de cadastro, login, gerenciamento de perfis e busca de moradias. Também contempla recursos de visualização e filtragem de vagas, apresentação de informações das moradias e interação com as funcionalidades da plataforma. Conta ainda com configuração do servidor Nginx e Docker Compose para execução da aplicação.
+
+- Back-end:https://github.com/aguiartws/pi4-2026-2-0101-grupo03-backend.git. O repositório contém o desenvolvimento do backend da plataforma FindUHouse, responsável pelo processamento das funcionalidades e pela comunicação com o banco de dados. Desenvolvido em Java com Spring Boot, disponibiliza APIs para cadastro e autenticação de usuários, gerenciamento de vagas de moradia e registro de interesse dos estudantes. Também conta com um banco de dados PostgreSQL, um servidor de e-mail e configuração de containers Docker, que permitem executar os serviços de forma integrada.
+
 
 ---
 
-## 📋 Pré-requisitos
+## 4. Pré-requisitos
 
-Para subir o projeto numa máquina limpa, instale:
+Para executar o projeto em uma máquina limpa, é necessário instalar:
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (inclui `docker` e `docker-compose`)
-- [Git](https://git-scm.com/downloads)
+- **Docker Desktop 4.x ou superior**, com Docker Compose V2.
+- **Git 2.x ou superior**, para clonar os repositórios.
 
-> Não é necessário instalar Java, Maven ou PostgreSQL na máquina — tudo roda em containers.
+Não é necessário instalar Java, Maven, PostgreSQL ou Nginx na máquina, pois esses serviços são executados em containers Docker.
 
-Para verificar:
+Para verificar as instalações, execute:
 
 ```bash
 docker --version
-docker-compose --version
+docker compose version
 git --version
 ```
 
----
+## 5. Como subir o projeto
 
-## 🚀 1. Subir o projeto do zero (ou após desligar o PC)
+### Passo 1 – Clonar os repositórios
 
-Clone o repositório e entre na pasta raiz:
+Abra o terminal e execute:
 
 ```bash
 git clone https://github.com/aguiartws/pi4-2026-2-0101-grupo03-backend.git
+
+git clone https://github.com/aguiartws/pi4-2026-2-0101-grupo03-frontend.git
+```
+
+### Passo 2 – Configurar e subir o backend
+
+Acesse a pasta do backend:
+
+```bash
 cd pi4-2026-2-0101-grupo03-backend
 ```
 
-Suba os containers (banco, servidor de e-mail e backend) em segundo plano:
+Crie o arquivo `.env` a partir do modelo disponibilizado:
 
 ```bash
-docker-compose up -d
+cp .env.example .env
 ```
 
-**O que faz:** sobe o **Banco de Dados**, o **Servidor de E-mail** e o **Backend** em segundo plano.
+Abra o arquivo `.env` e configure as variáveis necessárias para execução do projeto, incluindo as credenciais do servidor de e-mail.
 
-Aguarde ~30s na primeira execução (build das imagens + criação do banco via `init.sql`). Verifique:
+O projeto utiliza PostgreSQL em container Docker como banco de dados local, podendo também ser configurado para utilizar um banco PostgreSQL na nuvem (Neon).
+
+Por questões de segurança, o arquivo `.env` não é versionado no Git. O arquivo `.env.example` disponibiliza apenas o modelo das configurações necessárias.
+
+Após preencher as variáveis, execute:
+
+```bash
+docker compose up -d --build
+```
+
+Esse comando inicia a API, o banco de dados PostgreSQL e o servidor de e-mail.
+
+### Passo 3 – Preparar o frontend
+
+O frontend utiliza uma rede Docker externa chamada `finduhouse-net`. Caso ela ainda não exista, crie-a:
+
+```bash
+docker network create finduhouse-net
+```
+
+Acesse a pasta do frontend:
+
+```bash
+cd ../pi4-2026-2-0101-grupo03-frontend
+```
+
+Suba a aplicação:
+
+```bash
+docker compose up -d
+```
+
+### Passo 4 – Acessar a aplicação
+
+Abra o navegador e acesse:
+
+- **Frontend:** http://localhost:8080
+- **Backend (API):** http://localhost:8081
+
+Para verificar se os containers estão funcionando, execute:
 
 ```bash
 docker ps
 ```
 
-Saída esperada:
-
-```
-CONTAINER ID   IMAGE                                                ...   PORTS                      NAMES
-xxxxxxxxxxxx   pi4-2026-2-0101-grupo03-backend-backend              ...   0.0.0.0:8081->8080/tcp     finduhouse-server
-xxxxxxxxxxxx   pi4-2026-2-0101-grupo03-backend-servidor-email       ...   0.0.0.0:2525->25/tcp       finduhouse-servidor-email
-xxxxxxxxxxxx   postgres:16-alpine                                   ...   0.0.0.0:5432->5432/tcp     finduhouse-database
-```
-
-A API estará disponível em: **http://localhost:8081**
-
-## Usando o banco na nuvem (Neon)
-
-Copie `.env.example` para `.env`, preencha os dados do Neon que o grupo compartilha em canal privado e suba os serviços com:
-
-```bash
-docker-compose up -d --build
-```
-
-Redes que bloqueiam a porta 5432, como algumas redes de faculdade, impedem a conexão com o Neon.
-
----
-
-## 🛠️ 2. Atualizar o código (quando você mudar o Java no VS Code)
-
-Sempre que você alterar qualquer arquivo `.java` (Controller, Service, Entity, etc.) ou o `pom.xml`, você precisa **recompilar o backend**:
-
-```bash
-docker-compose up -d --build backend
-```
-
-**O que faz:** recompila a imagem do backend com o seu código novo e reinicia o container.
-
-> ⚠️ Alterações em `application.properties` também exigem rebuild, pois o arquivo é empacotado dentro do JAR.
-
----
-
-## 📜 3. Ver os logs (para saber o que está acontecendo)
-
-### Ver os e-mails chegando no servidor de teste
-
-```bash
-docker logs -f finduhouse-servidor-email
-```
-
-Aperte **`Ctrl + C`** para sair do modo de leitura.
-
-A cada 10s o servidor imprime o total de e-mails recebidos e, para cada um, **assunto**, **remetente**, **destinatários** e **corpo**. Exemplo:
-
-```
-Total de emails recebidos: 2
-Assunto: Interesse registrado na vaga: Quarto perto da PUC
-Remetente: nao-responda@finduhouse.com
-Destinatários: [maria.estudante@puc-campinas.edu.br]
-Conteúdo:
-Olá Maria Estudante,
-...
-----------------------
-```
-
-### Ver os logs do backend (erros ou inicialização)
-
-```bash
-docker logs finduhouse-server
-```
-
-> 💡 Use `docker logs finduhouse-server -f` para acompanhar em tempo real.
-
----
-
-## 🛑 4. Parar tudo (quando terminar de trabalhar)
-
-```bash
-docker-compose down
-```
-
-**O que faz:** para e remove os containers. **Não apaga os dados do banco** (o volume é preservado).
-
-Para subir de novo depois: `docker-compose up -d`.
-
----
-
-## 💥 5. Limpar tudo e começar do zero (CUIDADO!)
-
-Se você precisar recriar o banco de dados (por exemplo, após mudanças no `init.sql` ou erro de schema) e **apagar todos os dados de teste**:
-
-```bash
-docker-compose down -v
-docker-compose up -d --build
-```
-
-**O que faz:** o `-v` **apaga o volume do banco de dados**. Depois, sobe tudo de novo rodando o `init.sql` do zero.
-
-> ⚠️ **Todos os dados** (usuários, vagas, interesses) serão **perdidos**. Use com cuidado.
-
----
-
-## 🧹 6. Limpar cache do Docker (se o código não atualizar de jeito nenhum)
-
-Se você alterar o código e o Docker insistir em rodar a versão antiga (cache de camadas):
-
-```bash
-docker-compose down
-docker builder prune -f
-docker rmi pi4-2026-2-0101-grupo03-backend-backend
-docker-compose up -d --build
-```
-
-**O que faz:** limpa o cache de build do Docker, remove a imagem antiga do backend e rebuilda do zero.
-
-> 💡 Se persistir, adicione `--no-cache` ao build:
-> ```bash
-> docker-compose build --no-cache backend
-> docker-compose up -d
-> ```
-
----
-
-## 👤 7. Usuários de exemplo
-
-O banco é populado automaticamente pelo `init.sql` na primeira subida (ou após `docker-compose down -v`). Usuários disponíveis:
-
-| Perfil | Nome | E-mail | Telefone (wa.me) |
-|--------|------|--------|------------------|
-| Estudante | Maria Estudante | `maria.estudante@puc-campinas.edu.br` | `11999999999` |
-| Proprietário | Carlos Proprietario | `carlos.proprietario@puc-campinas.edu.br` | `5511999999999` |
-
-> ⚠️ **Senhas:** o `init.sql` armazena apenas o `senha_hash` (BCrypt). Para testar o login, use o **cadastro** (`POST /api/usuarios` ou similar) ou consulte o grupo para a senha em texto dos usuários de exemplo.
->
-> 💡 **Telefone e `wa.me`:** o link `wa.me` espera o telefone no formato **E.164** (`55` + DDD + número, sem espaços). O telefone da Maria no `init.sql` **não tem o `55`** — se for testar o link, ajuste no banco.
-
-### Criar um usuário proprietário manualmente (para testar o H11.4)
-
-```bash
-# 1) criar o usuário (perfil em minúsculas, conforme check constraint)
-docker exec -it finduhouse-database psql -U finduhouse -d finduhouse -c \
-  "INSERT INTO usuario (nome, email, telefone, senha_hash, perfil) VALUES ('Carlos Proprietario', 'carlos.proprietario@puc-campinas.edu.br', '5511999999999', 'senha123', 'proprietario') RETURNING id;"
-
-# 2) criar o registro em proprietario (mesmo id retornado)
-docker exec -it finduhouse-database psql -U finduhouse -d finduhouse -c \
-  "INSERT INTO proprietario (id, nome, email, telefone, criado_em, atualizado_em) VALUES (<ID>, 'Carlos Proprietario', 'carlos.proprietario@puc-campinas.edu.br', '5511999999999', NOW(), NOW());"
-
-# 3) criar uma vaga (status em minúsculas: 'ativa', 'em_analise', 'inativa')
-docker exec -it finduhouse-database psql -U finduhouse -d finduhouse -c \
-  "INSERT INTO vaga (responsavel_id, titulo, descricao, endereco, valor_aluguel, numero_moradores, regras_casa, latitude, longitude, status, aceita_barulho_depois_das_22, fuma, aceita_animais, gosta_receber_visitas, gosta_cozinhar, estuda_em_casa, aceita_dividir_tarefas, aceita_dividir_quarto, aceita_festas, comunicativo) VALUES (<ID>, 'Quarto perto da PUC', 'Quarto individual, 12m²', 'Rua das Flores, 123', 1200.00, 2, 'Sem festas', -22.9056, -47.0608, 'ativa', true, false, true, true, true, true, true, false, false, true) RETURNING id;"
-```
-
----
-
-## 📧 8. Provedor de e-mail
-
-O backend usa **Spring Mail** (`JavaMailSender`), configurado em `backend/src/main/resources/application.properties`:
-
-```properties
-spring.mail.host=finduhouse-servidor-email
-spring.mail.port=25
-spring.mail.properties.mail.smtp.auth=false
-spring.mail.properties.mail.smtp.starttls.enable=false
-```
-
-- **Remetente padrão dos e-mails:** `nao-responda@finduhouse.com`
-- **Autenticação SMTP:** desabilitada (servidor de teste)
-- **STARTTLS:** desabilitado (servidor de teste)
-
-> ⚠️ O host é o **nome do serviço no Docker Compose** (`finduhouse-servidor-email`), não `localhost`. Dentro da rede Docker, `localhost` seria o próprio backend. A porta é a **interna** do container (`25`).
-
-Para trocar para um provedor real (ex.: Gmail, SendGrid), altere o `application.properties` com as credenciais do provedor e rebuild:
-
-```bash
-docker-compose up -d --build backend
-```
-
-## 🖼️ Configuração do Cloudinary
-
-O upload de imagens usa as variáveis `CLOUDINARY_CLOUD_NAME`,
-`CLOUDINARY_API_KEY` e `CLOUDINARY_API_SECRET`. Elas estão disponíveis em
-**console.cloudinary.com > Chaves de API**. Copie `.env.example` para `.env` e
-preencha os valores; o arquivo `.env` é ignorado pelo Git e nunca deve conter
-credenciais versionadas. Sem essas variáveis, a aplicação sobe normalmente,
-mas os endpoints de upload retornam HTTP 502 (`FALHA_UPLOAD_IMAGEM`).
-
----
-
-## 🧪 9. Servidor de e-mail de teste
-
-O **servidor de e-mail de teste** é o [GreenMail](https://greenmail-mail-test.github.io/greenmail/) rodando em `servidor-email/`:
-
-- **SMTP:** porta `25` (interna no container) / `2525` (exposta no host)
-- **Mensagens:** ficam **em memória** (não persistem ao reiniciar o container)
-- **Logs:** a cada 10s imprime o total de e-mails e o conteúdo de cada um
-
-### Como registrar um interesse
-
-Com os containers no ar:
-
-```bash
-# 1) fazer login com um usuário estudante e obter o token
-curl -X POST "http://localhost:8081/api/auth/login" \
-  -H "Content-Type: application/json" \
-  -d '{"email":"estudante@puc-campinas.edu.br","senha":"SENHA"}'
-
-# 2) registrar o interesse usando o token retornado
-curl -X POST "http://localhost:8081/api/vagas/1/interesse?estudanteId=1" \
-  -H "Authorization: Bearer <TOKEN>"
-```
-
-**Resposta esperada (HTTP 201):**
-
-```
-{"sucesso":true,"emailEnviado":false,"mensagem":"Interesse registrado."}
-```
-
-Possíveis erros: `VAGA_NAO_ENCONTRADA`, `ESTUDANTE_NAO_ENCONTRADO`,
-`INTERESSE_JA_REGISTRADO` e `ACESSO_NEGADO`.
-
-> O envio de e-mail após o registro ainda será integrado ao servidor.
-
----
-
-## 🗂️ Estrutura do projeto
-
-```
-pi4-2026-2-0101-grupo03-backend/
-├── backend/                 # API Spring Boot (Java 21)
-│   ├── src/main/java/       # código-fonte
-│   ├── src/main/resources/  # application.properties
-│   └── pom.xml
-├── servidor-email/          # Servidor SMTP de teste (GreenMail)
-│   ├── src/main/java/       # ServidorEmailApplication
-│   └── pom.xml
-├── docs/contratos/          # contratos CTxx
-├── init.sql                 # schema + dados iniciais do banco
-├── docker-compose.yml       # orquestração dos 3 containers
-├── .env                     # variáveis (DB_NAME, DB_USER, DB_PASSWORD)
-└── README.md
-```
-
----
-
-## 🔗 Endpoints principais
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `POST` | `/api/vagas` | Cadastrar vaga |
-| `POST` | `/api/vagas/{vagaId}/interesse?estudanteId={id}` | Solicitar interesse (exige token) |
-| `POST` | `/api/usuarios` | Cadastrar usuário |
-| `POST` | `/api/auth/login` | Autenticar (retorna JWT) |
-
-> Consulte os contratos em `backend/docs/contratos/` para detalhes.
-
----
-
-## ❓ Problemas comuns
-
-| Sintoma | Causa provável | Solução |
-|---------|----------------|---------|
-| `port is already allocated` | Porta 8081/2525/5432 ocupada | Pare o processo na porta ou ajuste no `docker-compose.yml` |
-| E-mails não chegam | `application.properties` com host/porta errados | Confirme `finduhouse-servidor-email:25` e rebuild |
-| Código não atualiza | Cache do Docker | `docker builder prune -f` + `docker-compose up -d --build` |
-| Banco com schema antigo | Volume antigo | `docker-compose down -v` + `docker-compose up -d --build` |
-| `role "postgres" does not exist` | Credenciais erradas | Use `-U finduhouse -d finduhouse` (ver `.env`) |
-
----
-
-## 📄 Licença
-
-Projeto acadêmico — PUC-Campinas, PI4 2026-2. Uso restrito ao grupo e à disciplina.
+## 6. Como usar
+
+### E1 – Cadastro de perfil do aluno
+1. Acesse a tela de cadastro de estudante.
+2. Preencha os dados pessoais solicitados.
+3. Informe o e-mail institucional e os demais dados necessários.
+4. Finalize o cadastro para criar seu perfil.
+
+### E2 – Cadastro de vaga pela moradia
+1. Acesse a plataforma com uma conta de proprietário.
+2. Entre na área de cadastro de vagas.
+3. Preencha as informações da moradia, como título, descrição, endereço, valor do aluguel e características do imóvel.
+4. Salve o cadastro para disponibilizar a vaga na plataforma.
+
+### E3 – Painel "Minhas vagas" do proprietário
+1. Acesse sua conta de proprietário.
+2. Entre na seção "Minhas vagas".
+3. Visualize as vagas cadastradas.
+4. Selecione uma vaga para consultar ou editar suas informações.
+5. Salve as alterações realizadas.
+
+### E4 – Login com e-mail institucional (aluno)
+1. Acesse a tela de login do estudante.
+2. Informe seu e-mail institucional e sua senha.
+3. Clique em entrar para acessar sua conta.
+
+### E5 – Busca com filtros de preço e distância
+1. Acesse a área de busca de moradias.
+2. Informe a faixa de preço desejada.
+3. Defina a distância máxima em relação ao campus.
+4. Aplique os filtros para visualizar as vagas correspondentes.
+
+### E6 – Lista e mapa de vagas
+1. Acesse a área de busca de moradias.
+2. Visualize as vagas disponíveis em formato de lista.
+3. Acesse a visualização em mapa para consultar a localização das moradias.
+4. Selecione uma vaga para visualizar seus detalhes.
+
+### E7 – Favoritos
+1. Acesse a lista de vagas disponíveis.
+2. Selecione o ícone de favorito na vaga desejada.
+3. Acesse a seção "Favoritos" para consultar as moradias salvas.
+
+### E8 – Questionário de convivência
+1. Acesse seu perfil de estudante.
+2. Entre na seção do questionário de convivência.
+3. Responda às perguntas sobre seus hábitos e preferências de moradia.
+4. Salve suas respostas para utilizá-las no cálculo de compatibilidade.
+
+### E9 – Pontuação de compatibilidade estudante × vaga
+1. Acesse a área de busca de moradias.
+2. Certifique-se de que o questionário de convivência foi preenchido.
+3. Selecione uma vaga para consultar sua pontuação de compatibilidade.
+4. Visualize a nota apresentada e os critérios considerados na comparação.
+
+### E10 – Cadastro de perfil do proprietário
+1. Acesse a tela de cadastro de proprietário.
+2. Preencha os dados pessoais solicitados.
+3. Informe seu e-mail pessoal e os demais dados necessários.
+4. Finalize o cadastro para criar seu perfil.
+
+### E11 – Login com e-mail pessoal (proprietário)
+1. Acesse a tela de login do proprietário.
+2. Informe seu e-mail pessoal e sua senha.
+3. Clique em entrar para acessar sua conta e gerenciar suas moradias.
+
+
+## 7. Documentação
+- - [Documentação de Projeto](docs/documento-de-projeto.md)
