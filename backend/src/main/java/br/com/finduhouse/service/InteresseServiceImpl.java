@@ -97,6 +97,18 @@ public class InteresseServiceImpl implements InteresseService {
         return new InteresseDtos.Response(true, false, "Interesse registrado.");
     }
 
+    @Override
+    @Transactional
+    public void desfazer(long vagaId, long estudanteId, long estudanteAutenticadoId) {
+        if (estudanteId != estudanteAutenticadoId) {
+            throw new BusinessException(
+                    ErrorCode.ACESSO_NEGADO,
+                    "A operação só pode ser realizada pelo estudante autenticado");
+        }
+        // idempotente: se já não existir, não faz nada
+        interesseRepository.deleteByEstudanteIdAndVagaId(estudanteId, vagaId);
+    }
+
     // --- MÉTODO ADICIONADO AQUI ---
     @Override
     @Transactional(readOnly = true)
