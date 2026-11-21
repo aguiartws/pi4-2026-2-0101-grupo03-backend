@@ -13,4 +13,6 @@ public interface FavoritoRepository extends JpaRepository<Favorito, FavoritoId> 
     List<Favorito> findByIdEstudanteId(Long estudanteId);
 
     void deleteByIdVagaId(Long vagaId);
+
+    void deleteByIdEstudanteIdAndIdVagaId(Long estudanteId, Long vagaId);
 }

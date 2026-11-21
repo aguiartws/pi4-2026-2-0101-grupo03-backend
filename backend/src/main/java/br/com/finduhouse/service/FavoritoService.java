@@ -9,4 +9,6 @@ public interface FavoritoService {
             long estudanteAutenticadoId);
 
     FavoritoDtos.ListaResponse listar(long estudanteId, long estudanteAutenticadoId);
+
+    void remover(long estudanteId, long vagaId, long estudanteAutenticadoId);
 }

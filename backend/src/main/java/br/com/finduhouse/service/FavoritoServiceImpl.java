@@ -92,6 +92,14 @@ public class FavoritoServiceImpl implements FavoritoService {
         return new FavoritoDtos.ListaResponse(favoritos);
     }
 
+    @Override
+    @Transactional
+    public void remover(long estudanteId, long vagaId, long estudanteAutenticadoId) {
+        validarEstudanteAutenticado(estudanteId, estudanteAutenticadoId);
+        // idempotente: se já não existir, não faz nada
+        favoritoRepository.deleteByIdEstudanteIdAndIdVagaId(estudanteId, vagaId);
+    }
+
     private void validarEstudanteAutenticado(long estudanteId, long estudanteAutenticadoId) {
         if (estudanteId != estudanteAutenticadoId) {
             throw new BusinessException(
