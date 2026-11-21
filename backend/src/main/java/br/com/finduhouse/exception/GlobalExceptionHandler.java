@@ -179,7 +179,6 @@ public class GlobalExceptionHandler {
             case EMAIL_JA_EXISTE,
                     VAGA_JA_FAVORITADA,
                     INTERESSE_JA_REGISTRADO,
-                    DENUNCIA_DUPLICADA,
                     CONFLITO_DADOS -> HttpStatus.CONFLICT;
             case FALHA_ENVIO_EMAIL,
                     ERRO_INTERNO -> HttpStatus.INTERNAL_SERVER_ERROR;
