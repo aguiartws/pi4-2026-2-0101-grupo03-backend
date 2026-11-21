@@ -21,14 +21,17 @@ public class FavoritoServiceImpl implements FavoritoService {
     private final EstudanteRepository estudanteRepository;
     private final VagaRepository vagaRepository;
     private final FavoritoRepository favoritoRepository;
+    private final CalculadoraDistancia calculadoraDistancia;
 
     public FavoritoServiceImpl(
             EstudanteRepository estudanteRepository,
             VagaRepository vagaRepository,
-            FavoritoRepository favoritoRepository) {
+            FavoritoRepository favoritoRepository,
+            CalculadoraDistancia calculadoraDistancia) {
         this.estudanteRepository = estudanteRepository;
         this.vagaRepository = vagaRepository;
         this.favoritoRepository = favoritoRepository;
+        this.calculadoraDistancia = calculadoraDistancia;
     }
 
     @Override
@@ -84,6 +87,7 @@ public class FavoritoServiceImpl implements FavoritoService {
                             vaga.getTitulo(),
                             vaga.getEndereco(),
                             vaga.getValorAluguel(),
+                            calculadoraDistancia.calcular(vaga.getLatitude(), vaga.getLongitude()),
                             vaga.getDescricao(),
                             vaga.getLatitude(),
                             vaga.getLongitude());
