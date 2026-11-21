@@ -1,15 +1,21 @@
 package br.com.finduhouse.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import br.com.finduhouse.dto.FavoritoDtos;
 import br.com.finduhouse.entity.Estudante;
@@ -21,12 +27,6 @@ import br.com.finduhouse.exception.ErrorCode;
 import br.com.finduhouse.repository.EstudanteRepository;
 import br.com.finduhouse.repository.FavoritoRepository;
 import br.com.finduhouse.repository.VagaRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class FavoritoServiceImplTest {
@@ -148,7 +148,8 @@ class FavoritoServiceImplTest {
                         "maria@email.com",
                         "telefone",
                         "hash",
-                        Usuario.Perfil.PROPRIETARIO),
+                        Usuario.Perfil.PROPRIETARIO
+                ),
                 "Kitnet",
                 "Kitnet mobiliada",
                 "Rua das Flores",
@@ -158,8 +159,10 @@ class FavoritoServiceImplTest {
                 new BigDecimal("-22.90"),
                 new BigDecimal("-47.05"),
                 true, false, true, true, true,
-                true, true, false, true, true);
+                true, true, false, true, true
+        );
+
         ReflectionTestUtils.setField(vaga, "id", id);
-        return vaga;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    rrumando bug arruman
+        return vaga;
     }
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+}
