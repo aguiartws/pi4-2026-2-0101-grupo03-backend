@@ -79,6 +79,7 @@ public final class VagaDtos {
             Status status,
             LocalDateTime criadoEm,
             String fotoCapa) {
+
         public ListaResponsavelItem(
                 long id,
                 String titulo,
@@ -106,6 +107,7 @@ public final class VagaDtos {
             BigDecimal latitude,
             BigDecimal longitude,
             String fotoCapa) {
+
         public BuscaItem(
                 long id,
                 String titulo,
@@ -140,6 +142,10 @@ public final class VagaDtos {
 
     }
 
+    public record FotoItem(long id, String url) {
+
+    }
+
     public record DetalheResponse(
             long id,
             String titulo,
@@ -152,7 +158,8 @@ public final class VagaDtos {
             BigDecimal longitude,
             Status status,
             Regras regrasConvivencia,
-            List<String> fotos) {
+            List<FotoItem> fotos) {
+
         public DetalheResponse(
                 long id,
                 String titulo,
@@ -168,10 +175,10 @@ public final class VagaDtos {
             this(id, titulo, descricao, endereco, valorAluguel, numeroMoradores, regrasCasa,
                     latitude, longitude, status, regrasConvivencia, List.of());
         }
-
     }
 
     public record FotosResponse(List<String> fotos) {
+
     }
 
     public record Regras(
