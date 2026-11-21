@@ -22,7 +22,6 @@ public class Vaga {
 
     public enum Status {
         ATIVA,
-        EM_ANALISE,
         INATIVA
     }
 
@@ -234,11 +233,6 @@ public class Vaga {
         return comunicativo;
     }
 
-    public void marcarEmAnalise() {
-        if (status == Status.ATIVA) {
-            status = Status.EM_ANALISE;
-        }
-    }
 
     public void atualizarDados(
             String titulo,

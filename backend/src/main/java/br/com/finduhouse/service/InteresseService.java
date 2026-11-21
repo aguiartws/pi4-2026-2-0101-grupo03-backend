@@ -9,6 +9,8 @@ public interface InteresseService {
             long estudanteId,
             long estudanteAutenticadoId);
 
+    void desfazer(long vagaId, long estudanteId, long estudanteAutenticadoId);
+
     // ADICIONE ESTA LINHA:
     InteresseDtos.ListaMatchesResponse listarMatches(long estudanteId, long estudanteAutenticadoId);
 

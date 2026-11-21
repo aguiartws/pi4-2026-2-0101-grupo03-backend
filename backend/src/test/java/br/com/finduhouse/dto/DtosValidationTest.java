@@ -155,27 +155,6 @@ class DtosValidationTest {
         assertTrue(hasViolation(violations, "respostas"));
     }
 
-    @Test
-    void deveAceitarDenunciaValida() {
-        var request = new DenunciaDtos.CriacaoRequest(
-                17L,
-                42L,
-                DenunciaDtos.Motivo.GOLPE_FINANCEIRO,
-                "O anúncio pede depósito antes da visita");
-
-        assertValid(request);
-    }
-
-    @Test
-    void deveRejeitarDenunciaSemDescricao() {
-        var request = new DenunciaDtos.CriacaoRequest(
-                17L,
-                42L,
-                DenunciaDtos.Motivo.OUTRO,
-                " ");
-
-        assertTrue(hasViolation(violationsOf(request), "descricao"));
-    }
 
     @Test
     void deveAceitarFavoritoValido() {

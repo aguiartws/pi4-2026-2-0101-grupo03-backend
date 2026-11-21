@@ -21,7 +21,7 @@ public class CalculadoraCompatibilidadeImpl implements CalculadoraCompatibilidad
         "Aceita festas",
         "É comunicativo"
     };
-    private static final int[] PESOS = {15, 15, 10, 10, 10, 10, 10, 5, 10, 5};
+    private static final int[] PESOS = {15, 15, 10, 10, 10, 10, 10, 15, 10, 5};
 
     @Override
     public Resultado calcular(Respostas respostas, Regras regras) {
@@ -40,7 +40,12 @@ public class CalculadoraCompatibilidadeImpl implements CalculadoraCompatibilidad
                             ? QuestionarioDtos.Impacto.POSITIVO
                             : QuestionarioDtos.Impacto.NEGATIVO));
         }
-        return new Resultado((int) Math.floor(total + 0.5), dimensoes);
+        int pesoTotal = 0;
+        for (int peso : PESOS) {
+            pesoTotal += peso;
+        }
+        int nota = (int) Math.floor((total / pesoTotal) * 100 + 0.5);
+        return new Resultado(nota, dimensoes);
     }
 
     private boolean[] valores(Respostas respostas) {

@@ -1,0 +1,12 @@
+services:
+  backend:
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/finduhouse
+      SPRING_DATASOURCE_USERNAME: finduhouse
+      SPRING_DATASOURCE_PASSWORD: finduhouse
+      SPRING_MAIL_HOST: finduhouse-servidor-email
+      SPRING_MAIL_PORT: "25"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "false"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "false"
+      SPRING_MAIL_USERNAME: ""
+      SPRING_MAIL_PASSWORD: ""

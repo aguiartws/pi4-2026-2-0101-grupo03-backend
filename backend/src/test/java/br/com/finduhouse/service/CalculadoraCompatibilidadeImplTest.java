@@ -24,10 +24,21 @@ class CalculadoraCompatibilidadeImplTest {
     void deveAplicarPesoDaPerguntaQuandoUmaRespostaForDiferente() {
         var resultado = calculadora.calcular(respostas(true), regras(false, true));
 
-        assertEquals(85, resultado.nota());
+        assertEquals(86, resultado.nota());
         assertEquals(1, resultado.dimensoes().stream()
                 .filter(dimensao -> dimensao.impacto() == QuestionarioDtos.Impacto.NEGATIVO)
                 .count());
+    }
+
+    @Test
+    void deveAplicarPesoDeQuinzeAoAceitarDividirQuarto() {
+        var resultado = calculadora.calcular(respostas(true), new CalculadoraCompatibilidade.Regras(
+                true, true, true, true, true,
+                true, true, false, true, true));
+
+        assertEquals(86, resultado.nota());
+        assertEquals(15, resultado.dimensoes().get(7).peso());
+        assertEquals(QuestionarioDtos.Impacto.NEGATIVO, resultado.dimensoes().get(7).impacto());
     }
 
     private CalculadoraCompatibilidade.Respostas respostas(boolean valor) {

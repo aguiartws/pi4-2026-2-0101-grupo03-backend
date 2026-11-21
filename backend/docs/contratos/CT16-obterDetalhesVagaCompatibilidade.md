@@ -43,7 +43,7 @@ O cálculo da nota de compatibilidade (0 a 100) é feito pelo Backend em 4 etapa
 Cada resposta do questionário (CT15) é comparada diretamente com a resposta equivalente da vaga (CT3). Como todas as respostas são booleanas, a similaridade é `1.0` quando são iguais e `0.0` quando são diferentes.
 
 **2. Definição de Pesos**
-Cada uma das 10 dimensões tem um peso fixo. A soma de todos os pesos é exatamente 100:
+Cada uma das 10 dimensões tem um peso fixo:
    Aceita barulho depois das 22h: 15
    Fuma: 15
    Aceita animais: 10
@@ -51,7 +51,7 @@ Cada uma das 10 dimensões tem um peso fixo. A soma de todos os pesos é exatame
    Gosta de cozinhar: 10
    Estuda em casa: 10
    Aceita dividir tarefas: 10
-   Aceita dividir quarto: 5
+   Aceita dividir quarto: 15
    Aceita festas: 10
    É comunicativo: 5
 
