@@ -3,6 +3,7 @@ package br.com.finduhouse.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public final class InteresseDtos {
 
@@ -39,7 +40,9 @@ public final class InteresseDtos {
             String telefone,
             String fotoPerfilUrl,
             String sobreMim,
-            LocalDateTime criadoEm) {
+            LocalDateTime criadoEm,
+            Long estudanteId,
+            Map<String, Boolean> questionario) {
 
     }
 
