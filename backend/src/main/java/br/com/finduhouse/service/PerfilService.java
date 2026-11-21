@@ -1,7 +1,8 @@
 package br.com.finduhouse.service;
 
-import br.com.finduhouse.dto.PerfilDtos;
 import org.springframework.web.multipart.MultipartFile;
+
+import br.com.finduhouse.dto.PerfilDtos;
 
 public interface PerfilService {
 
@@ -18,4 +19,11 @@ public interface PerfilService {
             String novaSenha,
             boolean removerFoto,
             MultipartFile fotoPerfil);
+
+    PerfilDtos.PerfilResponse atualizarSobreMim(
+            AuthenticatedUser usuario,
+            String sobreMim
+    );
+
+    
 }

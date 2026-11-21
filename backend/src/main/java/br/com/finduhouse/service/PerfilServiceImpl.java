@@ -1,5 +1,11 @@
 package br.com.finduhouse.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import br.com.finduhouse.dto.PerfilDtos;
 import br.com.finduhouse.entity.Estudante;
 import br.com.finduhouse.entity.Proprietario;
@@ -9,11 +15,6 @@ import br.com.finduhouse.exception.ErrorCode;
 import br.com.finduhouse.repository.EstudanteRepository;
 import br.com.finduhouse.repository.ProprietarioRepository;
 import br.com.finduhouse.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class PerfilServiceImpl implements PerfilService {
@@ -31,8 +32,7 @@ public class PerfilServiceImpl implements PerfilService {
             ProprietarioRepository proprietarioRepository,
             PasswordService passwordService,
             ArmazenamentoImagens armazenamento,
-            @Value("${finduhouse.email.institutional-domain:puccampinas.edu.br}")
-            String institutionalDomain) {
+            @Value("${finduhouse.email.institutional-domain:puccampinas.edu.br}") String institutionalDomain) {
         this.usuarioRepository = usuarioRepository;
         this.estudanteRepository = estudanteRepository;
         this.proprietarioRepository = proprietarioRepository;
@@ -181,7 +181,9 @@ public class PerfilServiceImpl implements PerfilService {
         }
     }
 
-    private PerfilDtos.PerfilResponse respostaEstudante(Usuario usuario, Estudante estudante) {
+    private PerfilDtos.PerfilResponse respostaEstudante(
+            Usuario usuario,
+            Estudante estudante) {
         return new PerfilDtos.PerfilResponse(
                 usuario.getId(),
                 "aluno",
@@ -190,7 +192,8 @@ public class PerfilServiceImpl implements PerfilService {
                 usuario.getTelefone(),
                 usuario.getCidade(),
                 estudante.getCurso(),
-                estudante.getFotoUrl());
+                estudante.getFotoUrl(),
+                estudante.getSobreMim());
     }
 
     private PerfilDtos.PerfilResponse respostaProprietario(
@@ -204,7 +207,44 @@ public class PerfilServiceImpl implements PerfilService {
                 usuario.getTelefone(),
                 usuario.getCidade(),
                 null,
-                proprietario.getFotoUrl());
+                proprietario.getFotoUrl(),
+                null);
+    }
+
+    @Override
+    @Transactional
+    public PerfilDtos.PerfilResponse atualizarSobreMim(
+            AuthenticatedUser usuario,
+            String sobreMim) {
+
+        if (!ehEstudante(usuario)) {
+            throw new BusinessException(
+                    ErrorCode.ACESSO_NEGADO,
+                    "Apenas estudantes podem atualizar o campo sobre mim"
+            );
+        }
+
+        if (sobreMim != null && sobreMim.length() > 500) {
+            throw dadosObrigatorios(
+                    "O campo sobre mim deve ter no máximo 500 caracteres"
+            );
+        }
+
+        Estudante estudante = estudanteRepository.findById(usuario.usuarioId())
+                .orElseThrow(() -> estudanteNaoEncontrado());
+
+        estudante.setSobreMim(
+                sobreMim == null || sobreMim.isBlank()
+                ? null
+                : sobreMim.trim()
+        );
+
+        estudanteRepository.save(estudante);
+
+        Usuario entidade = usuarioRepository.findById(usuario.usuarioId())
+                .orElseThrow(() -> usuarioNaoEncontrado(usuario));
+
+        return respostaEstudante(entidade, estudante);
     }
 
     private boolean ehEstudante(AuthenticatedUser usuario) {
@@ -225,8 +265,8 @@ public class PerfilServiceImpl implements PerfilService {
     private BusinessException usuarioNaoEncontrado(AuthenticatedUser usuario) {
         return new BusinessException(
                 ehEstudante(usuario)
-                        ? ErrorCode.ESTUDANTE_NAO_ENCONTRADO
-                        : ErrorCode.RESPONSAVEL_NAO_ENCONTRADO,
+                ? ErrorCode.ESTUDANTE_NAO_ENCONTRADO
+                : ErrorCode.RESPONSAVEL_NAO_ENCONTRADO,
                 "Usuário não encontrado");
     }
 

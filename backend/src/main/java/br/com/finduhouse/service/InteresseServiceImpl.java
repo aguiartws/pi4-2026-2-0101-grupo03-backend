@@ -147,7 +147,7 @@ public class InteresseServiceImpl implements InteresseService {
         List<InteresseDtos.ProprietarioMatchItem> matches =
                 interesseRepository.findByResponsavelId(responsavelId)
                         .stream()
-                        .map(interesse -> new InteresseDtos.ProprietarioMatchItem(
+                                                .map(interesse -> new InteresseDtos.ProprietarioMatchItem(
                                 interesse.getId(),
                                 interesse.getVaga().getId(),
                                 interesse.getVaga().getTitulo(),
@@ -156,6 +156,7 @@ public class InteresseServiceImpl implements InteresseService {
                                 interesse.getEstudante().getEmail(),
                                 interesse.getEstudante().getTelefone(),
                                 interesse.getEstudante().getFotoUrl(),
+                                interesse.getEstudante().getSobreMim(),
                                 interesse.getCriadoEm()))
                         .toList();
 

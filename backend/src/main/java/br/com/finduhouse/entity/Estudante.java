@@ -45,6 +45,9 @@ public class Estudante {
     @Column(name = "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm;
 
+    @Column(name = "sobre_mim", columnDefinition = "TEXT")
+    private String sobreMim;
+
     protected Estudante() {
     }
 
@@ -99,6 +102,14 @@ public class Estudante {
 
     public void atualizarFoto(String url) {
         fotoUrl = url;
+    }
+
+    public String getSobreMim() {
+    return sobreMim;
+}
+
+    public void setSobreMim(String sobreMim) {
+        this.sobreMim = sobreMim;
     }
 
     public void atualizarDados(
