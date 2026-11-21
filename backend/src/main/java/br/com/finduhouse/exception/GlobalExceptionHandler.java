@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -115,6 +116,29 @@ public class GlobalExceptionHandler {
                 "Parâmetro inválido: " + exception.getName());
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrity(
+            DataIntegrityViolationException exception) {
+        LOGGER.warn("Violação de integridade dos dados", exception);
+        return response(
+                HttpStatus.CONFLICT,
+                ErrorCode.CONFLITO_DADOS,
+                "A operação viola uma restrição de integridade dos dados");
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ErrorResponse> handleResponseStatus(
+            ResponseStatusException exception) {
+        HttpStatus status = HttpStatus.resolve(exception.getStatusCode().value());
+        if (status == null) {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        String mensagem = exception.getReason() != null
+                ? exception.getReason()
+                : "Serviço temporariamente indisponível";
+        return response(status, ErrorCode.SERVICO_INDISPONIVEL, mensagem);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception exception) {
         LOGGER.error("Erro inesperado ao processar a requisição", exception);
@@ -122,18 +146,6 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 ErrorCode.ERRO_INTERNO,
                 "Ocorreu um erro interno ao processar a requisição");
-    }
-
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ErrorResponse> handleResponseStatus(ResponseStatusException exception) {
-        HttpStatus status = HttpStatus.valueOf(exception.getStatusCode().value());
-        ErrorCode codigo = status == HttpStatus.BAD_GATEWAY
-                ? ErrorCode.FALHA_UPLOAD_IMAGEM // veja a nota abaixo
-                : ErrorCode.ERRO_INTERNO;
-        LOGGER.warn("Falha em serviço externo: {} - {}", status, exception.getReason());
-        return response(status, codigo, exception.getReason() != null
-                ? exception.getReason()
-                : "Serviço indisponível");
     }
 
     private ResponseEntity<ErrorResponse> response(
@@ -146,20 +158,33 @@ public class GlobalExceptionHandler {
 
     private HttpStatus statusFor(ErrorCode codigo) {
         return switch (codigo) {
-            case DADOS_OBRIGATORIOS, EMAIL_INSTITUCIONAL_INVALIDO, VALOR_INVALIDO, FILTROS_INVALIDOS, QUESTIONARIO_INCOMPLETO, RESPOSTA_INVALIDA, MOTIVO_INVALIDO, DESCRICAO_OBRIGATORIA, CODIGO_RECUPERACAO_INVALIDO, TOKEN_RECUPERACAO_INVALIDO, ARQUIVO_INVALIDO, LIMITE_FOTOS_EXCEDIDO ->
-                HttpStatus.BAD_REQUEST;
-            case CREDENCIAIS_INVALIDAS, TOKEN_INVALIDO ->
-                HttpStatus.UNAUTHORIZED;
-            case ACESSO_NEGADO ->
-                HttpStatus.FORBIDDEN;
-            case RESPONSAVEL_NAO_ENCONTRADO, VAGA_NAO_ENCONTRADA, ESTUDANTE_NAO_ENCONTRADO, QUESTIONARIO_NAO_PREENCHIDO ->
-                HttpStatus.NOT_FOUND;
-            case EMAIL_JA_EXISTE, VAGA_JA_FAVORITADA, INTERESSE_JA_REGISTRADO, DENUNCIA_DUPLICADA ->
-                HttpStatus.CONFLICT;
-            case FALHA_ENVIO_EMAIL, ERRO_INTERNO ->
-                HttpStatus.INTERNAL_SERVER_ERROR;
-            case FALHA_UPLOAD_IMAGEM ->
-                HttpStatus.BAD_GATEWAY;
+            case DADOS_OBRIGATORIOS,
+                    EMAIL_INSTITUCIONAL_INVALIDO,
+                    VALOR_INVALIDO,
+                    FILTROS_INVALIDOS,
+                    QUESTIONARIO_INCOMPLETO,
+                    RESPOSTA_INVALIDA,
+                    MOTIVO_INVALIDO,
+                    DESCRICAO_OBRIGATORIA,
+                    CODIGO_RECUPERACAO_INVALIDO,
+                    TOKEN_RECUPERACAO_INVALIDO,
+                    ARQUIVO_INVALIDO,
+                    LIMITE_FOTOS_EXCEDIDO -> HttpStatus.BAD_REQUEST;
+            case CREDENCIAIS_INVALIDAS, TOKEN_INVALIDO -> HttpStatus.UNAUTHORIZED;
+            case ACESSO_NEGADO -> HttpStatus.FORBIDDEN;
+            case RESPONSAVEL_NAO_ENCONTRADO,
+                    VAGA_NAO_ENCONTRADA,
+                    ESTUDANTE_NAO_ENCONTRADO,
+                    QUESTIONARIO_NAO_PREENCHIDO -> HttpStatus.NOT_FOUND;
+            case EMAIL_JA_EXISTE,
+                    VAGA_JA_FAVORITADA,
+                    INTERESSE_JA_REGISTRADO,
+                    DENUNCIA_DUPLICADA,
+                    CONFLITO_DADOS -> HttpStatus.CONFLICT;
+            case FALHA_ENVIO_EMAIL,
+                    ERRO_INTERNO -> HttpStatus.INTERNAL_SERVER_ERROR;
+            case SERVICO_INDISPONIVEL -> HttpStatus.SERVICE_UNAVAILABLE;
+            case FALHA_UPLOAD_IMAGEM -> HttpStatus.BAD_GATEWAY;
         };
     }
 }

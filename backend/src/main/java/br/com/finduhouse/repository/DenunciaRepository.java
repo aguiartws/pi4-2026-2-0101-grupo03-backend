@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DenunciaRepository extends JpaRepository<Denuncia, Long> {
 
     boolean existsByVagaIdAndEstudanteId(Long vagaId, Long estudanteId);
+
+    void deleteByVagaId(Long vagaId);
 }

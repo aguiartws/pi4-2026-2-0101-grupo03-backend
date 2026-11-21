@@ -11,4 +11,6 @@ public interface FavoritoRepository extends JpaRepository<Favorito, FavoritoId> 
     boolean existsByIdEstudanteIdAndIdVagaId(Long estudanteId, Long vagaId);
 
     List<Favorito> findByIdEstudanteId(Long estudanteId);
+
+    void deleteByIdVagaId(Long vagaId);
 }

@@ -16,6 +16,8 @@ public interface InteresseRepository extends JpaRepository<Interesse, Long> {
     // ADICIONE ESTA LINHA:
     List<Interesse> findByEstudanteId(long estudanteId);
 
+    void deleteByVagaId(Long vagaId);
+
     @Query("""
             SELECT i
             FROM Interesse i
