@@ -19,7 +19,6 @@ import br.com.finduhouse.repository.UsuarioRepository;
 import br.com.finduhouse.repository.VagaRepository;
 import br.com.finduhouse.repository.FavoritoRepository;
 import br.com.finduhouse.repository.InteresseRepository;
-import br.com.finduhouse.repository.DenunciaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,9 +41,6 @@ class VagaServiceImplTest {
     @Mock
     private InteresseRepository interesseRepository;
 
-    @Mock
-    private DenunciaRepository denunciaRepository;
-
     private VagaServiceImpl service;
 
     @BeforeEach
@@ -56,8 +52,7 @@ class VagaServiceImplTest {
                 null,
                 null,
                 favoritoRepository,
-                interesseRepository,
-                denunciaRepository);
+                interesseRepository);
     }
 
     @Test
@@ -184,7 +179,6 @@ class VagaServiceImplTest {
 
         verify(favoritoRepository).deleteByIdVagaId(101L);
         verify(interesseRepository).deleteByVagaId(101L);
-        verify(denunciaRepository).deleteByVagaId(101L);
         verify(vagaRepository).delete(vaga);
     }
 

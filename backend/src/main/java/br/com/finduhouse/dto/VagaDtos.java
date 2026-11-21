@@ -198,8 +198,6 @@ public final class VagaDtos {
     public enum Status {
         @JsonProperty("ativa")
         ATIVA,
-        @JsonProperty("em_analise")
-        EM_ANALISE,
         @JsonProperty("inativa")
         INATIVA
     }
