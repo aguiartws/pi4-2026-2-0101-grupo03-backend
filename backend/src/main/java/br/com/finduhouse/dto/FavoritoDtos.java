@@ -31,6 +31,7 @@ public final class FavoritoDtos {
             String titulo,
             String endereco,
             BigDecimal valorAluguel,
+            BigDecimal distanciaCampus,
             String descricao,
             BigDecimal latitude,
             BigDecimal longitude) {
@@ -40,3 +41,6 @@ public final class FavoritoDtos {
             List<Item> favoritos) {
     }
 }
+
+
+
