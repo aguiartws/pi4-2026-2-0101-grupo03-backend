@@ -13,6 +13,7 @@ public final class InteresseDtos {
             boolean sucesso,
             boolean emailEnviado,
             String mensagem) {
+
     }
 
     public record MatchItem(
@@ -20,10 +21,12 @@ public final class InteresseDtos {
             String titulo,
             String endereco,
             BigDecimal valorAluguel) {
+
     }
 
     public record ListaMatchesResponse(
             List<MatchItem> matches) {
+
     }
 
     public record ProprietarioMatchItem(
@@ -35,10 +38,13 @@ public final class InteresseDtos {
             String email,
             String telefone,
             String fotoPerfilUrl,
+            String sobreMim,
             LocalDateTime criadoEm) {
+
     }
 
     public record ListaProprietarioMatchesResponse(
             List<ProprietarioMatchItem> matches) {
+
     }
 }
