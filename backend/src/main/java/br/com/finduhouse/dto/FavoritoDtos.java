@@ -31,7 +31,9 @@ public final class FavoritoDtos {
             String titulo,
             String endereco,
             BigDecimal valorAluguel,
-            String descricao) {
+            String descricao,
+            BigDecimal latitude,
+            BigDecimal longitude) {
     }
 
     public record ListaResponse(

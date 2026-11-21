@@ -21,6 +21,9 @@ import br.com.finduhouse.exception.BusinessException;
 import br.com.finduhouse.exception.ErrorCode;
 import br.com.finduhouse.repository.UsuarioRepository;
 import br.com.finduhouse.repository.VagaRepository;
+import br.com.finduhouse.repository.FavoritoRepository;
+import br.com.finduhouse.repository.InteresseRepository;
+import br.com.finduhouse.repository.DenunciaRepository;
 
 @Service
 public class VagaServiceImpl implements VagaService {
@@ -30,6 +33,9 @@ public class VagaServiceImpl implements VagaService {
     private final CalculadoraDistancia calculadoraDistancia;
     private final ArmazenamentoImagens armazenamento;
     private final VagaFotoRepository vagaFotoRepository;
+    private final FavoritoRepository favoritoRepository;
+    private final InteresseRepository interesseRepository;
+    private final DenunciaRepository denunciaRepository;
 
     @Autowired
     public VagaServiceImpl(
@@ -37,19 +43,25 @@ public class VagaServiceImpl implements VagaService {
             VagaRepository vagaRepository,
             CalculadoraDistancia calculadoraDistancia,
             ArmazenamentoImagens armazenamento,
-            VagaFotoRepository vagaFotoRepository) {
+            VagaFotoRepository vagaFotoRepository,
+            FavoritoRepository favoritoRepository,
+            InteresseRepository interesseRepository,
+            DenunciaRepository denunciaRepository) {
         this.usuarioRepository = usuarioRepository;
         this.vagaRepository = vagaRepository;
         this.calculadoraDistancia = calculadoraDistancia;
         this.armazenamento = armazenamento;
         this.vagaFotoRepository = vagaFotoRepository;
+        this.favoritoRepository = favoritoRepository;
+        this.interesseRepository = interesseRepository;
+        this.denunciaRepository = denunciaRepository;
     }
 
     public VagaServiceImpl(
             UsuarioRepository usuarioRepository,
             VagaRepository vagaRepository,
             CalculadoraDistancia calculadoraDistancia) {
-        this(usuarioRepository, vagaRepository, calculadoraDistancia, null, null);
+        this(usuarioRepository, vagaRepository, calculadoraDistancia, null, null, null, null, null);
     }
 
     @Override
@@ -276,6 +288,15 @@ public class VagaServiceImpl implements VagaService {
                     "A vaga não pertence ao responsável autenticado");
         }
 
+        if (favoritoRepository != null) {
+            favoritoRepository.deleteByIdVagaId(vagaId);
+        }
+        if (interesseRepository != null) {
+            interesseRepository.deleteByVagaId(vagaId);
+        }
+        if (denunciaRepository != null) {
+            denunciaRepository.deleteByVagaId(vagaId);
+        }
         vagaRepository.delete(vaga);
     }
 

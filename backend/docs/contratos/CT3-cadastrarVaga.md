@@ -16,7 +16,7 @@
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
 | responsavelId | inteiro | sim | 7 |
-| titulo | texto | sim | Quarto individual próximo ao campus |
+| titulo | texto, máximo 255 caracteres | sim | Quarto individual próximo ao campus |
 | descricao | texto | sim | Quarto mobiliado, banheiro compartilhado |
 | endereco | texto | sim | Rua das Acácias, 123 |
 | valorAluguel | decimal | sim | 1200.00 |

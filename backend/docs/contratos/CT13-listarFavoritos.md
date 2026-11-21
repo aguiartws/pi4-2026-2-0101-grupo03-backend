@@ -32,6 +32,8 @@ Cada objeto `vaga` pode conter:
 | `endereco` | texto | Sim | `Rua das Flores, 100, Campinas` |
 | `valorAluguel` | decimal | Sim | `1200.00` |
 | `descricao` | texto | Não | `Kitnet mobiliada para estudante` |
+| `latitude` | decimal | Sim | `-22.90500000` |
+| `longitude` | decimal | Sim | `-47.06000000` |
 
 ## Erros
 

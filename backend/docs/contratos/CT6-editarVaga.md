@@ -17,6 +17,8 @@
 | :--- | :--- | :--- | :--- |
 | vagaId | inteiro | sim | 101 |
 | responsavelId | inteiro | sim | 7 |
+| titulo | texto, máximo 255 caracteres | sim | Quarto individual próximo ao campus |
+| descricao | texto | sim | Descrição atualizada |
 | valorAluguel | decimal | sim | 1300.00 |
 
 ## Saída
