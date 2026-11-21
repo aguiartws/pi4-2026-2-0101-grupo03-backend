@@ -18,21 +18,26 @@
     </properties>
 
     
-<dependencies>
-    <dependency>
-        <groupId>com.icegreen</groupId>
-        <artifactId>greenmail</artifactId>
-        <version>${greenmail.version}</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail</artifactId>
+            <version>${greenmail.version}</version>
+        </dependency>
 
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>2.0.17</version>
-    </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.17</version>
+        </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <version>2.0.3</version>
+        </dependency>
     
-</dependencies>
+    </dependencies>
 
 
     <build>
@@ -44,7 +49,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                           <mainClass>com.finduhouse.servidor_email.ServidorEmailApplication</mainClass>
+                           <mainClass>com.finduhouse.servidor_email.ServidorSmtpSimples</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -56,7 +61,9 @@
                 <executions>
                     <execution>
                         <phase>package</phase>
-                        <goals><goal>shade</goal></goals>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
