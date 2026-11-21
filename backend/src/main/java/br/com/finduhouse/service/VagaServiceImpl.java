@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import br.com.finduhouse.entity.VagaFoto;
-import br.com.finduhouse.repository.VagaFotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +15,15 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.finduhouse.dto.VagaDtos;
 import br.com.finduhouse.entity.Usuario;
 import br.com.finduhouse.entity.Vaga;
+import br.com.finduhouse.entity.VagaFoto;
 import br.com.finduhouse.exception.BusinessException;
 import br.com.finduhouse.exception.ErrorCode;
-import br.com.finduhouse.repository.UsuarioRepository;
-import br.com.finduhouse.repository.VagaRepository;
+import br.com.finduhouse.repository.DenunciaRepository;
 import br.com.finduhouse.repository.FavoritoRepository;
 import br.com.finduhouse.repository.InteresseRepository;
-import br.com.finduhouse.repository.DenunciaRepository;
+import br.com.finduhouse.repository.UsuarioRepository;
+import br.com.finduhouse.repository.VagaFotoRepository;
+import br.com.finduhouse.repository.VagaRepository;
 
 @Service
 public class VagaServiceImpl implements VagaService {
@@ -221,10 +221,12 @@ public class VagaServiceImpl implements VagaService {
                 .orElseThrow(() -> new BusinessException(
                         ErrorCode.VAGA_NAO_ENCONTRADA,
                         "Vaga não encontrada"));
-        List<String> fotos = vagaFotoRepository == null
-                ? List.of()
-                : vagaFotoRepository.findByVagaIdOrderByOrdemAscIdAsc(vagaId)
-                        .stream().map(VagaFoto::getUrl).toList();
+        List<VagaDtos.FotoItem> fotos = vagaFotoRepository == null
+        ? List.of()
+        : vagaFotoRepository.findByVagaIdOrderByOrdemAscIdAsc(vagaId)
+                .stream()
+                .map(f -> new VagaDtos.FotoItem(f.getId(), f.getUrl()))
+                .toList();
         return new VagaDtos.DetalheResponse(
                 vaga.getId(),
                 vaga.getTitulo(),
