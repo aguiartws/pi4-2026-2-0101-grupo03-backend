@@ -17,14 +17,16 @@ public final class EstudanteDtos {
             @NotBlank String telefone,
             @NotBlank String senha,
             @NotBlank String curso,
-            @Size(max = 100) String cidade) {
+            @Size(max = 100) String cidade,
+            @Size(max = 2000) String sobreMim) {
+
         public CadastroRequest(
                 String nome,
                 String email,
                 String telefone,
                 String senha,
                 String curso) {
-            this(nome, email, telefone, senha, curso, null);
+            this(nome, email, telefone, senha, curso, null, null);
         }
     }
 
@@ -34,6 +36,7 @@ public final class EstudanteDtos {
             String email,
             String telefone,
             String curso,
+            String sobreMim,
             LocalDateTime criadoEm) {
     }
 }

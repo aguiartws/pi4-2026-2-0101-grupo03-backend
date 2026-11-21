@@ -1,10 +1,13 @@
+
 CREATE TABLE usuario (
     id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    perfil VARCHAR(50) NOT NULL CHECK (perfil IN ('estudante', 'proprietario')),
+    perfil VARCHAR(50) NOT NULL
+        CHECK (perfil IN ('estudante', 'proprietario')),
+    foto_url VARCHAR(500),
     cidade VARCHAR(100)
 );
 
@@ -15,6 +18,7 @@ CREATE TABLE estudante (
     telefone VARCHAR(20) NOT NULL,
     curso VARCHAR(255) NOT NULL,
     foto_url VARCHAR(500),
+    sobre_mim TEXT,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -25,6 +29,7 @@ CREATE TABLE proprietario (
     email VARCHAR(255) UNIQUE NOT NULL,
     telefone VARCHAR(20) NOT NULL,
     foto_url VARCHAR(500),
+    sobre_mim TEXT,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -40,7 +45,8 @@ CREATE TABLE vaga (
     regras_casa TEXT NOT NULL,
     latitude DECIMAL(10,8) NOT NULL,
     longitude DECIMAL(11,8) NOT NULL,
-    status VARCHAR(50) NOT NULL CHECK (status IN ('ativa', 'em_analise', 'inativa')),
+    status VARCHAR(50) NOT NULL
+        CHECK (status IN ('ativa', 'em_analise', 'inativa')),
 
     aceita_barulho_depois_das_22 BOOLEAN NOT NULL,
     fuma BOOLEAN NOT NULL,
@@ -66,6 +72,7 @@ CREATE TABLE favorito (
 CREATE TABLE questionario_estudante (
     id BIGSERIAL PRIMARY KEY,
     estudante_id BIGINT NOT NULL UNIQUE REFERENCES estudante(id),
+
     aceita_barulho_depois_das_22 BOOLEAN NOT NULL,
     fuma BOOLEAN NOT NULL,
     aceita_animais BOOLEAN NOT NULL,
@@ -76,6 +83,7 @@ CREATE TABLE questionario_estudante (
     aceita_dividir_quarto BOOLEAN NOT NULL,
     aceita_festas BOOLEAN NOT NULL,
     comunicativo BOOLEAN NOT NULL,
+
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -85,9 +93,13 @@ CREATE TABLE denuncia (
     estudante_id BIGINT NOT NULL REFERENCES estudante(id),
     motivo VARCHAR(100) NOT NULL,
     descricao TEXT NOT NULL,
-    status VARCHAR(50) NOT NULL CHECK (status IN ('pendente', 'em_analise', 'revisada')),
+    status VARCHAR(50) NOT NULL
+        CHECK (status IN ('pendente', 'em_analise', 'revisada')),
+
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
     UNIQUE (vaga_id, estudante_id),
+
     CHECK (motivo IN (
         'informacao_falsa',
         'golpe_financeiro',
@@ -101,11 +113,15 @@ CREATE TABLE interesse (
     id BIGSERIAL PRIMARY KEY,
     estudante_id BIGINT NOT NULL REFERENCES estudante(id),
     vaga_id BIGINT NOT NULL REFERENCES vaga(id),
+
     criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
     status_envio_estudante VARCHAR(20) NOT NULL DEFAULT 'pendente'
         CHECK (status_envio_estudante IN ('pendente', 'enviado', 'falhou')),
+
     status_envio_proprietario VARCHAR(20) NOT NULL DEFAULT 'pendente'
         CHECK (status_envio_proprietario IN ('pendente', 'enviado', 'falhou')),
+
     UNIQUE (estudante_id, vaga_id)
 );
 

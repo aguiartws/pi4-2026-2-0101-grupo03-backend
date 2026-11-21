@@ -1,5 +1,10 @@
 package br.com.finduhouse.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.com.finduhouse.dto.EstudanteDtos;
 import br.com.finduhouse.entity.Estudante;
 import br.com.finduhouse.entity.Usuario;
@@ -7,10 +12,6 @@ import br.com.finduhouse.exception.BusinessException;
 import br.com.finduhouse.exception.ErrorCode;
 import br.com.finduhouse.repository.EstudanteRepository;
 import br.com.finduhouse.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EstudanteServiceImpl implements EstudanteService {
@@ -24,8 +25,7 @@ public class EstudanteServiceImpl implements EstudanteService {
             UsuarioRepository usuarioRepository,
             EstudanteRepository estudanteRepository,
             PasswordService passwordService,
-            @Value("${finduhouse.email.institutional-domain:puccampinas.edu.br}")
-            String institutionalDomain) {
+            @Value("${finduhouse.email.institutional-domain:puccampinas.edu.br}") String institutionalDomain) {
         this.usuarioRepository = usuarioRepository;
         this.estudanteRepository = estudanteRepository;
         this.passwordService = passwordService;
@@ -60,12 +60,18 @@ public class EstudanteServiceImpl implements EstudanteService {
 
         try {
             Usuario usuarioSalvo = usuarioRepository.save(usuario);
-            Estudante estudante = estudanteRepository.save(new Estudante(
+
+            Estudante novo = new Estudante(
                     usuarioSalvo,
                     request.nome(),
                     email,
                     request.telefone(),
-                    request.curso()));
+                    request.curso());
+            novo.setSobreMim(normalizarSobreMim(request.sobreMim()));
+
+            Estudante estudante = estudanteRepository.save(novo);
+
+            estudante.setSobreMim(normalizarSobreMim(request.sobreMim()));
 
             return new EstudanteDtos.CadastroResponse(
                     estudante.getId(),
@@ -73,13 +79,21 @@ public class EstudanteServiceImpl implements EstudanteService {
                     estudante.getEmail(),
                     estudante.getTelefone(),
                     estudante.getCurso(),
+                    estudante.getSobreMim(),
                     estudante.getCriadoEm());
+
         } catch (DataIntegrityViolationException exception) {
             throw new BusinessException(
                     ErrorCode.EMAIL_JA_EXISTE,
                     "Já existe um usuário cadastrado com este e-mail");
         }
 
+    }
+
+    private static String normalizarSobreMim(String sobreMim) {
+        return sobreMim == null || sobreMim.isBlank()
+                ? null
+                : sobreMim.trim();
     }
 
     private static String normalizarCidade(String cidade) {

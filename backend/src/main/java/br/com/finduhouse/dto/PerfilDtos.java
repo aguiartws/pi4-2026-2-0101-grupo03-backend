@@ -13,6 +13,7 @@ public final class PerfilDtos {
             String telefone,
             String cidade,
             String curso,
-            String fotoPerfilUrl) {
+            String fotoPerfilUrl,
+            String sobreMim) {
     }
 }
