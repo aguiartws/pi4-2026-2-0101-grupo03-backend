@@ -112,6 +112,8 @@ class FavoritoServiceImplTest {
         assertEquals(15L, response.favoritos().get(0).id());
         assertEquals("Kitnet", response.favoritos().get(0).titulo());
         assertEquals(new BigDecimal("1200.00"), response.favoritos().get(0).valorAluguel());
+        assertEquals(0, new BigDecimal("-22.90").compareTo(response.favoritos().get(0).latitude()));
+        assertEquals(0, new BigDecimal("-47.05").compareTo(response.favoritos().get(0).longitude()));
     }
 
     private Estudante estudante(long id) {

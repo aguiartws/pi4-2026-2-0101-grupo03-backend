@@ -119,6 +119,26 @@ class DtosValidationTest {
     }
 
     @Test
+    void deveRejeitarTituloLongoEPermitirDescricaoLongaNaCriacaoDeVaga() {
+        var request = new VagaDtos.CadastroRequest(
+                7L,
+                "T".repeat(256),
+                "D".repeat(5001),
+                "Endereço",
+                new BigDecimal("1200.00"),
+                2,
+                "Regra",
+                new BigDecimal("-22.905"),
+                new BigDecimal("-47.060"),
+                regrasValidas());
+
+        var violations = violationsOf(request);
+
+        assertTrue(hasViolation(violations, "titulo"));
+        assertFalse(hasViolation(violations, "descricao"));
+    }
+
+    @Test
     void deveAceitarQuestionarioCompleto() {
         var request = new QuestionarioDtos.SalvarRequest(42L, respostasValidas());
 

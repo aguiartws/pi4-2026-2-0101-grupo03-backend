@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -113,6 +115,29 @@ public class GlobalExceptionHandler {
                 "Parâmetro inválido: " + exception.getName());
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrity(
+            DataIntegrityViolationException exception) {
+        LOGGER.warn("Violação de integridade dos dados", exception);
+        return response(
+                HttpStatus.CONFLICT,
+                ErrorCode.CONFLITO_DADOS,
+                "A operação viola uma restrição de integridade dos dados");
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ErrorResponse> handleResponseStatus(
+            ResponseStatusException exception) {
+        HttpStatus status = HttpStatus.resolve(exception.getStatusCode().value());
+        if (status == null) {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        String mensagem = exception.getReason() != null
+                ? exception.getReason()
+                : "Serviço temporariamente indisponível";
+        return response(status, ErrorCode.SERVICO_INDISPONIVEL, mensagem);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception exception) {
         LOGGER.error("Erro inesperado ao processar a requisição", exception);
@@ -153,9 +178,11 @@ public class GlobalExceptionHandler {
             case EMAIL_JA_EXISTE,
                     VAGA_JA_FAVORITADA,
                     INTERESSE_JA_REGISTRADO,
-                    DENUNCIA_DUPLICADA -> HttpStatus.CONFLICT;
+                    DENUNCIA_DUPLICADA,
+                    CONFLITO_DADOS -> HttpStatus.CONFLICT;
             case FALHA_ENVIO_EMAIL,
                     ERRO_INTERNO -> HttpStatus.INTERNAL_SERVER_ERROR;
+            case SERVICO_INDISPONIVEL -> HttpStatus.SERVICE_UNAVAILABLE;
             case FALHA_UPLOAD_IMAGEM -> HttpStatus.BAD_GATEWAY;
         };
     }

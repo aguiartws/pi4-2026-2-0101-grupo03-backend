@@ -84,7 +84,9 @@ public class FavoritoServiceImpl implements FavoritoService {
                             vaga.getTitulo(),
                             vaga.getEndereco(),
                             vaga.getValorAluguel(),
-                            vaga.getDescricao());
+                            vaga.getDescricao(),
+                            vaga.getLatitude(),
+                            vaga.getLongitude());
                 })
                 .toList();
         return new FavoritoDtos.ListaResponse(favoritos);

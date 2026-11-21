@@ -11,6 +11,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public final class VagaDtos {
 
@@ -20,7 +21,8 @@ public final class VagaDtos {
     public record CadastroRequest(
             @NotNull
             @Positive Long responsavelId,
-            @NotBlank String titulo,
+            @NotBlank
+            @Size(max = 255) String titulo,
             @NotBlank String descricao,
             @NotBlank String endereco,
             @NotNull
@@ -45,7 +47,8 @@ public final class VagaDtos {
     public record EdicaoRequest(
             @NotNull
             @Positive Long responsavelId,
-            @NotBlank String titulo,
+            @NotBlank
+            @Size(max = 255) String titulo,
             @NotBlank String descricao,
             @NotBlank String endereco,
             @NotNull

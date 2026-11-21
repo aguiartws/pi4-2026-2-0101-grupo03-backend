@@ -17,6 +17,9 @@ import br.com.finduhouse.exception.BusinessException;
 import br.com.finduhouse.exception.ErrorCode;
 import br.com.finduhouse.repository.UsuarioRepository;
 import br.com.finduhouse.repository.VagaRepository;
+import br.com.finduhouse.repository.FavoritoRepository;
+import br.com.finduhouse.repository.InteresseRepository;
+import br.com.finduhouse.repository.DenunciaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +36,28 @@ class VagaServiceImplTest {
     @Mock
     private VagaRepository vagaRepository;
 
+    @Mock
+    private FavoritoRepository favoritoRepository;
+
+    @Mock
+    private InteresseRepository interesseRepository;
+
+    @Mock
+    private DenunciaRepository denunciaRepository;
+
     private VagaServiceImpl service;
 
     @BeforeEach
     void setUp() {
-        service = new VagaServiceImpl(usuarioRepository, vagaRepository, new CalculadoraDistanciaImpl());
+        service = new VagaServiceImpl(
+                usuarioRepository,
+                vagaRepository,
+                new CalculadoraDistanciaImpl(),
+                null,
+                null,
+                favoritoRepository,
+                interesseRepository,
+                denunciaRepository);
     }
 
     @Test
@@ -135,6 +155,37 @@ class VagaServiceImplTest {
                 () -> service.obterDetalhes(101L));
 
         assertEquals(ErrorCode.VAGA_NAO_ENCONTRADA, exception.getCodigo());
+    }
+
+    @Test
+    void deveRemoverDependentesAntesDeExcluirVaga() {
+        Usuario proprietario = new Usuario(
+                "Carlos",
+                "carlos@email.com",
+                "telefone",
+                "hash",
+                Usuario.Perfil.PROPRIETARIO);
+        ReflectionTestUtils.setField(proprietario, "id", 7L);
+        Vaga vaga = new Vaga(
+                proprietario,
+                "Quarto",
+                "Descricao",
+                "Endereco",
+                new BigDecimal("1200.00"),
+                3,
+                "Sem festas",
+                new BigDecimal("-22.905"),
+                new BigDecimal("-47.060"),
+                true, false, true, true, true,
+                true, true, false, false, true);
+        when(vagaRepository.findById(101L)).thenReturn(Optional.of(vaga));
+
+        service.excluir(101L, 7L);
+
+        verify(favoritoRepository).deleteByIdVagaId(101L);
+        verify(interesseRepository).deleteByVagaId(101L);
+        verify(denunciaRepository).deleteByVagaId(101L);
+        verify(vagaRepository).delete(vaga);
     }
 
     private VagaDtos.CadastroRequest request() {
