@@ -17,6 +17,7 @@
 | :--- | :--- | :--- | :--- |
 | email | texto | sim | aluno@puccampinas.edu.br |
 | senha | texto | sim | MinhaSenha123 |
+| lembrar | booleano | não | false |
 
 ## Saída
 
@@ -24,7 +25,11 @@
 | :--- | :--- | :--- | :--- |
 | token | texto | sim | eyJhbGciOiJIUzI1NiJ9.exemplo |
 | usuarioId | inteiro | sim | 42 |
-| perfil | um de: estudante, responsavel, admin | sim | estudante |
+| perfil | um de: estudante, proprietario | sim | estudante |
+
+**Observação:** os perfis funcionais do sistema são `estudante` e `proprietario`. Existe uma constante residual `ADMIN` no enum do DTO de autenticação, mas ela não corresponde a um perfil suportado pela entidade de usuário nem pelo banco de dados.
+
+A validação de domínio institucional é aplicada ao cadastro/login de estudante; proprietário pode utilizar e-mail pessoal.
 
 ## Erros
 

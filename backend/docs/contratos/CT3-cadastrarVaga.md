@@ -11,6 +11,8 @@
 | **Atende** | E2 |
 | **Como chamar** | POST /api/vagas |
 
+**Autenticação/autorização:** a requisição exige usuário autenticado com perfil de proprietário. O backend usa o ID do usuário autenticado e valida sua correspondência com `responsavelId`.
+
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |
@@ -24,9 +26,9 @@
 | regrasCasa | texto | sim | Não pode festas, silêncio após 22h |
 | latitude | decimal | sim | -22.905 |
 | longitude | decimal | sim | -47.060 |
-| regras | objeto RegrasVaga | sim | (ver objeto abaixo) |
+| regras | objeto Regras | sim | (ver objeto abaixo) |
 
-### Objeto RegrasVaga
+### Objeto Regras
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
@@ -46,13 +48,13 @@
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
 | vagaId | inteiro | sim | 101 |
-| status | um de: ativa, em_analise, inativa | sim | ativa |
+| status | um de: ativa, inativa | sim | ativa |
 | criadoEm | data e hora | sim | 2026-10-13T19:20:00 |
 
 ## Erros
 
 | Quando | O que volta |
 | :--- | :--- |
-| Responsável não encontrado | Erro RESPONSAVEL_NAO_ENCONTRADO |
+| Usuário autenticado não corresponde ao responsável informado ou não tem perfil de proprietário | Erro `ACESSO_NEGADO` |
 | Dados inválidos (campos faltando) | Erro DADOS_INVALIDOS |
 | Valor negativo | Erro VALOR_INVALIDO |

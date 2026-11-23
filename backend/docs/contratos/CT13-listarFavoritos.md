@@ -11,6 +11,8 @@
 | **Atende** | E7 - Favoritos |
 | **Como chamar** | `GET /api/favoritos?estudanteId=42` |
 
+**Autenticação:** exige token válido. O backend verifica se o estudante informado corresponde ao usuário autenticado.
+
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |

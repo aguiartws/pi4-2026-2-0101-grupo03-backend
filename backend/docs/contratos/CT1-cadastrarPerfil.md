@@ -20,6 +20,8 @@
 | telefone | texto | sim | +5519999990000 |
 | senha | texto | sim | MinhaSenha123 |
 | curso | texto | sim | Engenharia de Software |
+| cidade | texto (máximo 100 caracteres) | não | Campinas |
+| sobreMim | texto (máximo 2000 caracteres) | não | Estudante de Engenharia de Software |
 
 
 ## Saída
@@ -31,6 +33,8 @@
 | email | texto | sim | ana@puccampinas.edu.br |
 | telefone | texto | sim | +5519999990000 |
 | curso | texto | sim | Engenharia de Software |
+| cidade | texto (máximo 100 caracteres) | não | Campinas |
+| sobreMim | texto (máximo 2000 caracteres) | não | Estudante de Engenharia de Software |
 | criadoEm | data e hora | sim | 2026-10-13T19:20:00 |
 
 ## Erros

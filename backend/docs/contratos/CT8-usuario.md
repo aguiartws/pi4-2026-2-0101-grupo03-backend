@@ -21,6 +21,10 @@
 | telefone | texto | sim | +5519999990000 |
 | senha_hash | texto | sim | $2b$12$exemploHash |
 | perfil | um de: estudante, proprietario | sim | estudante |
+| foto_url | texto ou nulo | não | https://.../perfil.jpg |
+| cidade | texto ou nulo | não | Campinas |
+
+**Observação:** `usuario` concentra os dados comuns e a autenticação. O banco também mantém `foto_url` e `sobre_mim` nas tabelas específicas `estudante` e `proprietario`; o campo `sobre_mim` não pertence à tabela `usuario`.
 
 ## Erros
 

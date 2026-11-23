@@ -9,7 +9,9 @@
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E3 |
-| **Como chamar** | GET /api/responsaveis/{responsavelId}/vagas |
+| **Como chamar** | `GET /api/vagas/responsavel/{responsavelId}` |
+
+**Autenticação:** requer token de usuário proprietário; o backend verifica se o responsável solicitado é o usuário autenticado.
 
 ## Entrada
 
@@ -31,8 +33,9 @@
 | titulo | texto | sim | Quarto individual próximo ao campus |
 | endereco | texto | sim | Rua das Acácias, 123 |
 | valorAluguel | decimal | sim | 1200.00 |
-| status | um de: ativa, em_analise, inativa | sim | ativa |
+| status | um de: ativa, inativa | sim | ativa |
 | criadoEm | data e hora | sim | 2026-10-13T19:20:00 |
+| fotoCapa | texto ou nulo | não | https://.../capa.jpg |
 
 ## Erros
 

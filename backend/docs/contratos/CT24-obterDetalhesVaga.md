@@ -27,8 +27,11 @@
 | regrasCasa | texto | sim | Não pode festas, silêncio após 22h |
 | latitude | decimal | sim | -22.905 |
 | longitude | decimal | sim | -47.060 |
-| status | um de: ativa, em_analise, inativa | sim | ativa |
-| regrasConvivencia | objeto RegrasVaga | sim | (As 10 regras do CT4) |
+| status | um de: ativa, inativa | sim | ativa |
+| regrasConvivencia | objeto Regras | sim | (As 10 regras do CT3) |
+| fotos | lista de objeto FotoItem | sim | Lista de fotos da vaga |
+
+Cada objeto `FotoItem` contém `id` (inteiro) e `url` (texto).
 
 ## Erros
 | Quando | O que volta |

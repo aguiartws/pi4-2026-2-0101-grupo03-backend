@@ -9,9 +9,9 @@
 | **Quem chama** | Backend |
 | **Quem responde** | Serviço de E-mail (externo) |
 | **Atende** | E10 - Notificação por e-mail com link para o WhatsApp |
-| **Como chamar** | API do SendGrid, via SMTP (https://docs.sendgrid.com/) |
+| **Como chamar** | serviço SMTP configurado no backend (`JavaMailSender`) |
 
-**Observação:** esta operação é chamada duas vezes pelo Backend — uma para o estudante, uma para o responsável — com conteúdos diferentes.
+**Observação:** o backend envia dois e-mails distintos: um ao estudante com os dados de contato do proprietário e outro ao proprietário com os dados de contato do estudante. A implementação utiliza SMTP; não há integração direta com a API SendGrid no código revisado.
 
 ## Entrada
 
@@ -29,8 +29,7 @@
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
-| mensagemId | texto | Sim | msg_8f2a |
-| status | texto | Sim | aceito |
+| resultado | texto | Sim | Envio executado pelo serviço SMTP |
 
 ## Erros
 
