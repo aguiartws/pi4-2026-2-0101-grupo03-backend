@@ -8,7 +8,7 @@
 | **Fronteira** | Banco |
 | **Quem chama** | Backend |
 | **Quem responde** | Banco |
-| **Atende** | E2, E3, E5, E6, E9, E10, E11 |
+| **Atende** | E2, E3, E5, E6, E9, E10 |
 | **Como chamar** | Tabela vaga, chave id |
 
 ## Entrada e Saída (os campos gravados e lidos são os mesmos)
@@ -25,9 +25,11 @@
 | regras_casa | texto | sim | Não pode festas, silêncio após 22h |
 | latitude | decimal | sim | -22.905 |
 | longitude | decimal | sim | -47.060 |
-| status | um de: ativa, em_analise, inativa | sim | ativa |
+| status | um de: ativa, inativa | sim | ativa |
 | criado_em | data e hora | sim | 2026-10-13T19:20:00 |
 | atualizado_em | data e hora | sim | 2026-10-13T19:20:00 |
+
+**Observação:** as dez respostas de convivência enviadas no cadastro são persistidas diretamente como colunas booleanas da tabela `vaga` (não há tabela separada de regras da vaga).
 
 ## Erros
 

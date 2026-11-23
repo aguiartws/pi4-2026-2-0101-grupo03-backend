@@ -11,6 +11,8 @@
 | **Atende** | E13 |
 | **Como chamar** | `POST /api/auth/login` |
 
+**Autenticação:** utiliza o mesmo endpoint de login do CT7. Proprietários podem autenticar-se com e-mail pessoal; a validação de domínio institucional é específica para estudantes.
+
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |

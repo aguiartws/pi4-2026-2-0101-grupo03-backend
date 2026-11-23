@@ -22,6 +22,10 @@
 | curso | texto | sim | Engenharia de Software |
 | criado_em | data e hora | sim | 2026-10-13T19:20:00 |
 | atualizado_em | data e hora | sim | 2026-10-13T19:20:00 |
+| foto_url | texto ou nulo | não | https://.../foto.jpg |
+| sobre_mim | texto ou nulo | não | Estudante de Engenharia de Software |
+
+**Observação:** `cidade` pertence à tabela `usuario`, não à tabela `estudante`. O cadastro de estudante também cria/associa o registro correspondente em `usuario`.
 
 ## Erros
 

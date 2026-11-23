@@ -2,15 +2,16 @@
 
 **Status:** aceito
 
-**Contexto:** O backend em Java com Spring Boot depende de um banco PostgreSQL, e o projeto é desenvolvido por um grupo em máquinas diferentes. Sem padronização, cada integrante precisaria instalar e configurar o Java, o PostgreSQL e suas versões por conta própria, o que gera diferenças de ambiente e o clássico "na minha máquina funciona". O grupo também precisa de uma forma simples de subir o sistema completo para testes e apresentação.
+**Contexto:** O backend em Java com Spring Boot depende de um banco PostgreSQL, e o projeto é desenvolvido por um grupo em máquinas diferentes. Sem padronização, cada integrante precisaria instalar e configurar o Java, o PostgreSQL e suas versões por conta própria, o que gera diferenças de ambiente e o clássico “na minha máquina funciona”. O grupo também precisa de uma forma reproduzível de iniciar os serviços para testes e apresentação.
 
-**Decisão:** Usar o Docker para empacotar e executar o backend e o PostgreSQL em contêineres, orquestrados localmente com Docker Compose.
+**Decisão:** Usar Docker para empacotar e executar o backend e o PostgreSQL em contêineres, orquestrados localmente com Docker Compose. O frontend também é executado em contêiner próprio, em repositório separado, e se integra ao backend pela rede Docker compartilhada configurada para o projeto.
 
 **Alternativas consideradas:**
-- Instalar Java e PostgreSQL diretamente em cada máquina: descartado porque as versões e configurações divergem entre os integrantes e o passo a passo de instalação é longo e propenso a erro.
+- Instalar Java e PostgreSQL diretamente em cada máquina: descartado porque as versões e configurações poderiam divergir entre os integrantes e o passo a passo de instalação seria mais longo.
 - Máquina virtual (por exemplo, VirtualBox): descartada por ser mais pesada, mais lenta para iniciar e mais difícil de versionar do que arquivos de configuração de contêiner.
-- Banco hospedado na nuvem compartilhado entre o grupo: descartado porque todos passariam a depender da mesma instância, com risco de um integrante sobrescrever os dados do outro e de dependência de internet.
+- Banco hospedado na nuvem compartilhado entre o grupo: não adotado como configuração padrão local, pois todos dependeriam da mesma instância e da conexão com a internet.
 
 **Consequências:**
-- Positivas: todos executam o mesmo ambiente (mesma versão de Java e de PostgreSQL) a partir de arquivos versionados no repositório; subir o sistema completo passa a ser um único comando (`docker compose up`); um integrante novo começa a trabalhar sem instalar o banco manualmente.
-- Negativas: todos precisam instalar o Docker, que consome memória e disco e pode dar problemas em máquinas mais fracas ou em alguns sistemas operacionais; o grupo precisa aprender Dockerfile, Compose, volumes e redes; depurar dentro de contêineres é menos direto; é preciso configurar volumes para que os dados do banco não se percam ao recriar o contêiner.
+- **Positivas:** os serviços são executados em ambientes conteinerizados; as configurações de execução ficam versionadas; a inicialização e a integração entre os componentes ficam documentadas e podem ser reproduzidas em outras máquinas.
+- **Negativas:** todos precisam instalar o Docker, que consome memória e disco; o grupo precisa conhecer Dockerfile, Compose, volumes e redes; a depuração dentro de contêineres pode ser menos direta; é necessário configurar volumes para preservar os dados do banco.
+- **Operacionais:** backend e frontend são iniciados em etapas separadas, pois estão em repositórios distintos. Antes de iniciar o frontend, é necessário garantir a existência da rede Docker externa `finduhouse-net`, conforme descrito no README.

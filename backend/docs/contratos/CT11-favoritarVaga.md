@@ -11,6 +11,8 @@
 | **Atende** | E7 - Favoritos |
 | **Como chamar** | `POST /api/favoritos` |
 
+**Autenticação:** exige token válido. O backend verifica se o estudante informado corresponde ao usuário autenticado.
+
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |

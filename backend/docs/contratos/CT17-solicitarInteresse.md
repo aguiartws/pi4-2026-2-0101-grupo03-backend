@@ -9,14 +9,16 @@
 | **Quem chama** | Frontend |
 | **Quem responde** | Backend |
 | **Atende** | E10 |
-| **Como chamar** | POST /api/vagas/{vagaId}/interesse |
+| **Como chamar** | `POST /api/vagas/{vagaId}/interesse?estudanteId={estudanteId}` |
+
+**Autenticação:** exige token válido; o backend valida a correspondência entre o estudante informado e o usuário autenticado.
 
 ## Entrada
 
 | Campo | Tipo | Obrigatório | Exemplo |
 | :--- | :--- | :--- | :--- |
 | vagaId | inteiro | sim | 17 |
-| estudanteId | inteiro | sim | 42 |
+| estudanteId | inteiro | sim | 42 (parâmetro de consulta) |
 
 ## Saída
 
